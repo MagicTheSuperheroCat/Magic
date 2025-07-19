@@ -1,9 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-  <title>Magic Test</title>
+  <meta charset="UTF-8">
+  <title>Magic Portal</title>
+  <style>
+    body {
+      background: black;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: white;
+      font-family: sans-serif;
+      cursor: pointer;
+    }
+    img {
+      width: 300px;
+      transition: transform 0.3s linear;
+    }
+    h1 {
+      margin-top: 20px;
+      font-size: 2em;
+    }
+    .explode {
+      animation: explode 2s forwards;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg);}
+      to { transform: rotate(360deg);}
+    }
+    @keyframes explode {
+      0% { transform: scale(1) rotate(0deg); opacity: 1;}
+      100% { transform: scale(10) rotate(1080deg); opacity: 0; filter: blur(20px);}
+    }
+  </style>
 </head>
 <body>
-  <h1>Hallo Khaladin!</h1>
+  <img src="images/katzenaugen.png" alt="Magische Katzenaugen" id="eyes">
+  <h1>Let the MAGIC happen</h1>
+
+  <script>
+    const eyes = document.getElementById('eyes');
+    let clicked = false;
+
+    eyes.addEventListener('click', () => {
+      if (clicked) return;
+      clicked = true;
+
+      // Drehen starten
+      eyes.style.animation = 'spin 0.3s linear infinite';
+
+      // Nach 2,5 Sekunden Explosion starten
+      setTimeout(() => {
+        eyes.classList.add('explode');
+        setTimeout(() => {
+          window.location.href = 'nextpage.html';
+        }, 2000);
+      }, 2500);
+    });
+  </script>
 </body>
 </html>
