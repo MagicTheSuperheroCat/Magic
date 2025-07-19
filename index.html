@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Magic Portal</title>
+
+  <!-- =========================
+       STYLING: Layout & Aussehen
+  ========================== -->
   <style>
     body {
       margin: 0;
@@ -32,14 +36,28 @@
       position: absolute;
       top: 0;
       left: 0;
+      z-index: 1;
+      pointer-events: none;
     }
   </style>
 </head>
+
 <body>
+  <!-- =========================
+       DESIGN: HTML-Struktur
+  ========================== -->
+  <!-- Hintergrund-Canvas -->
   <canvas id="starCanvas"></canvas>
+
+  <!-- Magische Katzenaugen-Bild -->
   <img src="images/katzenaugen.png" alt="Magische Katzenaugen" id="eyes">
+
+  <!-- Überschrift -->
   <h1>Let the MAGIC happen</h1>
 
+  <!-- =========================
+       SKRIPT: JavaScript Logik
+  ========================== -->
   <script>
     const eyes = document.getElementById('eyes');
     const canvas = document.getElementById('starCanvas');
@@ -52,74 +70,9 @@
       height = canvas.height = window.innerHeight;
     });
 
-    let particles = [];
-    let clicked = false;
-    let rotation = 0;
-    let speed = 0.02;
-    let accelerating = true;
-
-    function createParticles(x, y, count) {
-      particles = [];
-      for (let i = 0; i < count; i++) {
-        particles.push({
-          x: x,
-          y: y,
-          angle: Math.random() * 2 * Math.PI,
-          speed: Math.random() * 5 + 2,
-          size: Math.random() * 2 + 1,
-          finalX: x + Math.cos(Math.random() * 2 * Math.PI) * (Math.random() * width / 2),
-          finalY: y + Math.sin(Math.random() * 2 * Math.PI) * (Math.random() * height / 2)
-        });
-      }
-    }
-
-    function animateParticles() {
-      ctx.clearRect(0, 0, width, height);
-      particles.forEach(p => {
-        // langsames Annähern ans Ziel
-        p.x += (p.finalX - p.x) * 0.02;
-        p.y += (p.finalY - p.y) * 0.02;
-
-        // flackerndes Sternenlicht
-        let opacity = 0.5 + Math.random() * 0.5;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
-        ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
-        ctx.fill();
-      });
-      requestAnimationFrame(animateParticles);
-    }
-
-    function spinAnimation() {
-      if (!clicked) return;
-
-      rotation += speed;
-      eyes.style.transform = `translate(-50%, -50%) rotate(${rotation}rad)`;
-
-      if (accelerating) {
-        speed *= 1.05;
-        if (speed > 1) {
-          accelerating = false;
-          // Starte Explosion
-          eyes.style.display = 'none';
-          createParticles(width / 2, height / 2, 300);
-          animateParticles();
-        } else {
-          requestAnimationFrame(spinAnimation);
-        }
-      }
-    }
-
-    eyes.addEventListener('click', () => {
-      if (clicked) return;
-      clicked = true;
-      // TEST: male einfach einen weißen Kreis in die Mitte
-  ctx.beginPath();
-  ctx.arc(width / 2, height / 2, 20, 0, 2 * Math.PI);
-  ctx.fillStyle = 'white';
-  ctx.fill();
-});
+    // TEST: fülle das Canvas mit rot (soll direkt sichtbar sein)
+    ctx.fillStyle = 'red';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
   </script>
 </body>
 </html>
