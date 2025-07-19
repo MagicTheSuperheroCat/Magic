@@ -129,10 +129,13 @@
     }
 
     eyes.addEventListener('click', () => {
-      if (clicked) return;
-      clicked = true;
-      spinAnimation();
-    });
+  if (clicked) return;
+  clicked = true;
+
+  document.querySelector('h1').style.display = 'none'; // Text ausblenden
+
+  spinAnimation();
+});
   </script>
 </body>
 </html>
