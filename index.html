@@ -21,28 +21,26 @@
       font-family: sans-serif;
     }
     canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1; /* hinten */
-  pointer-events: none; /* Klicks durchlassen */
-}
-
-#eyes {
-  width: 300px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2; /* mittig */
-}
-
-h1 {
-  position: absolute;
-  bottom: 30px;
-  font-size: 2em;
-  z-index: 3; /* vorne */
-}
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1; /* ganz hinten */
+      pointer-events: none;
+    }
+    #eyes {
+      width: 300px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2; /* mittig */
+    }
+    h1 {
+      position: absolute;
+      bottom: 30px;
+      font-size: 2em;
+      z-index: 3; /* ganz vorne */
+    }
   </style>
 </head>
 
@@ -50,13 +48,8 @@ h1 {
   <!-- =========================
        DESIGN: HTML-Struktur
   ========================== -->
-  <!-- Hintergrund-Canvas -->
   <canvas id="starCanvas"></canvas>
-
-  <!-- Magische Katzenaugen-Bild -->
   <img src="images/katzenaugen.png" alt="Magische Katzenaugen" id="eyes">
-
-  <!-- Überschrift -->
   <h1>Let the MAGIC happen</h1>
 
   <!-- =========================
@@ -64,84 +57,82 @@ h1 {
   ========================== -->
   <script>
     const eyes = document.getElementById('eyes');
-const canvas = document.getElementById('starCanvas');
-const ctx = canvas.getContext('2d');
-let width = canvas.width = window.innerWidth;
-let height = canvas.height = window.innerHeight;
+    const canvas = document.getElementById('starCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
 
-window.addEventListener('resize', () => {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-});
-
-// Partikel-Speicher
-let particles = [];
-
-// Klick-Logik
-let clicked = false;
-let rotation = 0;
-let speed = 0.02;
-let accelerating = true;
-
-function createParticles(x, y, count) {
-  particles = [];
-  for (let i = 0; i < count; i++) {
-    particles.push({
-      x: x,
-      y: y,
-      angle: Math.random() * 2 * Math.PI,
-      distance: Math.random() * width / 2,
-      size: Math.random() * 2 + 1,
-      finalX: x + Math.cos(Math.random() * 2 * Math.PI) * (Math.random() * width / 2),
-      finalY: y + Math.sin(Math.random() * 2 * Math.PI) * (Math.random() * height / 2)
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     });
-  }
-}
 
-function animateParticles() {
-  ctx.clearRect(0, 0, width, height);
-  particles.forEach(p => {
-    // Annäherung ans Ziel
-    p.x += (p.finalX - p.x) * 0.02;
-    p.y += (p.finalY - p.y) * 0.02;
+    // Partikel-Speicher
+    let particles = [];
 
-    // Flackern
-    let opacity = 0.5 + Math.random() * 0.5;
+    // Klick-Logik
+    let clicked = false;
+    let rotation = 0;
+    let speed = 0.02;
+    let accelerating = true;
 
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
-    ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
-    ctx.fill();
-  });
-
-  requestAnimationFrame(animateParticles);
-}
-
-function spinAnimation() {
-  if (!clicked) return;
-
-  rotation += speed;
-  eyes.style.transform = `translate(-50%, -50%) rotate(${rotation}rad)`;
-
-  if (accelerating) {
-    speed *= 1.05;
-    if (speed > 1) {
-      accelerating = false;
-      // Start Explosion
-      eyes.style.display = 'none';
-      createParticles(width / 2, height / 2, 300);
-      animateParticles();
-    } else {
-      requestAnimationFrame(spinAnimation);
+    function createParticles(x, y, count) {
+      particles = [];
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: x,
+          y: y,
+          finalX: x + Math.cos(Math.random() * 2 * Math.PI) * (Math.random() * width / 2),
+          finalY: y + Math.sin(Math.random() * 2 * Math.PI) * (Math.random() * height / 2),
+          size: Math.random() * 2 + 1
+        });
+      }
     }
-  }
-}
 
-eyes.addEventListener('click', () => {
-  if (clicked) return;
-  clicked = true;
-  spinAnimation();
-});
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        // Annäherung ans Ziel
+        p.x += (p.finalX - p.x) * 0.02;
+        p.y += (p.finalY - p.y) * 0.02;
+
+        // Flackern
+        let opacity = 0.5 + Math.random() * 0.5;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animateParticles);
+    }
+
+    function spinAnimation() {
+      if (!clicked) return;
+
+      rotation += speed;
+      eyes.style.transform = `translate(-50%, -50%) rotate(${rotation}rad)`;
+
+      if (accelerating) {
+        speed *= 1.05;
+        if (speed > 1) {
+          accelerating = false;
+          // Start Explosion
+          eyes.style.display = 'none';
+          createParticles(width / 2, height / 2, 300);
+          animateParticles();
+        } else {
+          requestAnimationFrame(spinAnimation);
+        }
+      }
+    }
+
+    eyes.addEventListener('click', () => {
+      if (clicked) return;
+      clicked = true;
+      spinAnimation();
+    });
   </script>
 </body>
 </html>
