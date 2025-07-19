@@ -2,31 +2,56 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>welcome to the magic</title>
+  <title>Magic Universe</title>
   <style>
     body {
-      background: radial-gradient(ellipse at center, #111, #000);
-      color: #fff;
-      font-family: sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
-      flex-direction: column;
+      background: black;
+      overflow: hidden;
     }
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-    p {
-      font-size: 1.5rem;
-      opacity: 0.7;
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
     }
   </style>
 </head>
 <body>
-  <h1>🌌 welcome to the magic 🌌</h1>
-  <p>buy, hold and enjoy!</p>
+  <canvas id="starCanvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('starCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    let particles = [];
+    for (let i = 0; i < 300; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 2 + 1
+      });
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        let opacity = 0.5 + Math.random() * 0.5;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+
+    animateParticles();
+  </script>
 </body>
 </html>
