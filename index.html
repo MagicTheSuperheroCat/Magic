@@ -3,93 +3,118 @@
 <head>
   <meta charset="UTF-8">
   <title>Magic Portal</title>
-
-  <!-- =========================
-       STYLING: Layout und Design
-  ========================== -->
   <style>
-    /* Hintergrund und Grundlayout */
     body {
+      margin: 0;
       background: black;
+      overflow: hidden;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
+      flex-direction: column;
       color: white;
       font-family: sans-serif;
-      cursor: pointer;
     }
 
-    /* Bild-Style (Katzenaugen) */
-    img {
+    #eyes {
       width: 300px;
       transition: transform 0.3s linear;
     }
 
-    /* Text-Style */
     h1 {
       margin-top: 20px;
       font-size: 2em;
     }
 
-    /* Wenn die Explosion startet */
-    .explode {
-      animation: explode 2s forwards;
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
     }
-  </style>
-
-  <!-- =========================
-       ANIMATIONEN: CSS-Animationen
-  ========================== -->
-  <style>
-    /* Dreh-Animation */
-    @keyframes spin {
-      from { transform: rotate(0deg);}
-      to { transform: rotate(360deg);}
-    }
-
-    /* Explosion-Animation */
-   @keyframes explode {
-  0% { transform: scale(1) rotate(0deg); opacity: 1; filter: brightness(1);}
-  30% { transform: scale(5) rotate(720deg); opacity: 1; filter: brightness(2);}
-  60% { transform: scale(10) rotate(1440deg); opacity: 0.8; filter: brightness(3);}
-  100% { transform: scale(20) rotate(2160deg); opacity: 0; filter: blur(50px) brightness(5);}
-}
   </style>
 </head>
-
-<!-- =========================
-     DESIGN: HTML-Struktur
-========================= -->
 <body>
+  <!-- Canvas für Partikel -->
+  <canvas id="starCanvas"></canvas>
+
+  <!-- Magische Katzenaugen -->
   <img src="images/katzenaugen.png" alt="Magische Katzenaugen" id="eyes">
   <h1>Let the MAGIC happen</h1>
 
-  <!-- =========================
-       LOGIK: Interaktivität und Animation starten
-  ========================== -->
   <script>
     const eyes = document.getElementById('eyes');
+    const canvas = document.getElementById('starCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    // Partikel-Speicher
+    const particles = [];
+
+    // Klicklogik
     let clicked = false;
+    let rotation = 0;
+    let speed = 0.01;
+
+    function createParticles(x, y, count) {
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: x,
+          y: y,
+          angle: Math.random() * 2 * Math.PI,
+          speed: Math.random() * 5 + 2,
+          size: Math.random() * 2 + 1,
+          opacity: 1
+        });
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        // Bewegung
+        p.x += Math.cos(p.angle) * p.speed;
+        p.y += Math.sin(p.angle) * p.speed;
+        // Langsam anhalten
+        p.speed *= 0.98;
+        // Leicht flackern
+        p.opacity = 0.5 + Math.random() * 0.5;
+
+        // Zeichnen
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, 255, 200, ${p.opacity})`;
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animateParticles);
+    }
+
+    function spinAndExplode() {
+      const spinInterval = setInterval(() => {
+        rotation += speed;
+        eyes.style.transform = `rotate(${rotation}rad)`;
+        speed *= 1.1; // beschleunigen
+
+        if (speed > 1) {
+          clearInterval(spinInterval);
+          eyes.style.display = 'none';
+          createParticles(width / 2, height / 2, 200);
+          animateParticles();
+        }
+      }, 30);
+    }
 
     eyes.addEventListener('click', () => {
       if (clicked) return;
       clicked = true;
-
-      // Startet schnelles Drehen
-      eyes.style.animation = '';
-
-      // Nach 2,5 Sekunden Explosion starten
-      setTimeout(() => {
-        eyes.classList.add('explode');
-
-        // Nach 2 Sekunden Explosion: Weiterleitung
-        setTimeout(() => {
-          window.location.href = 'nextpage.html';
-        }, 4000);
-      }, 2500);
+      spinAndExplode();
     });
   </script>
 </body>
