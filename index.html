@@ -114,8 +114,12 @@
     eyes.addEventListener('click', () => {
       if (clicked) return;
       clicked = true;
-      spinAnimation();
-    });
+      // TEST: male einfach einen weißen Kreis in die Mitte
+  ctx.beginPath();
+  ctx.arc(width / 2, height / 2, 20, 0, 2 * Math.PI);
+  ctx.fillStyle = 'white';
+  ctx.fill();
+});
   </script>
 </body>
 </html>
