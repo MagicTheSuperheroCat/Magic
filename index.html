@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Magic Portal</title>
+
+  <!-- =========================
+       STYLING: Layout und Design
+  ========================== -->
   <style>
+    /* Hintergrund und Grundlayout */
     body {
       background: black;
       display: flex;
@@ -16,31 +21,53 @@
       font-family: sans-serif;
       cursor: pointer;
     }
+
+    /* Bild-Style (Katzenaugen) */
     img {
       width: 300px;
       transition: transform 0.3s linear;
     }
+
+    /* Text-Style */
     h1 {
       margin-top: 20px;
       font-size: 2em;
     }
+
+    /* Wenn die Explosion startet */
     .explode {
       animation: explode 2s forwards;
     }
+  </style>
+
+  <!-- =========================
+       ANIMATIONEN: CSS-Animationen
+  ========================== -->
+  <style>
+    /* Dreh-Animation */
     @keyframes spin {
       from { transform: rotate(0deg);}
       to { transform: rotate(360deg);}
     }
+
+    /* Explosion-Animation */
     @keyframes explode {
       0% { transform: scale(1) rotate(0deg); opacity: 1;}
       100% { transform: scale(10) rotate(1080deg); opacity: 0; filter: blur(20px);}
     }
   </style>
 </head>
+
+<!-- =========================
+     DESIGN: HTML-Struktur
+========================= -->
 <body>
   <img src="images/katzenaugen.png" alt="Magische Katzenaugen" id="eyes">
   <h1>Let the MAGIC happen</h1>
 
+  <!-- =========================
+       LOGIK: Interaktivität und Animation starten
+  ========================== -->
   <script>
     const eyes = document.getElementById('eyes');
     let clicked = false;
@@ -49,12 +76,14 @@
       if (clicked) return;
       clicked = true;
 
-      // Drehen starten
+      // Startet schnelles Drehen
       eyes.style.animation = 'spin 0.3s linear infinite';
 
       // Nach 2,5 Sekunden Explosion starten
       setTimeout(() => {
         eyes.classList.add('explode');
+
+        // Nach 2 Sekunden Explosion: Weiterleitung
         setTimeout(() => {
           window.location.href = 'nextpage.html';
         }, 2000);
