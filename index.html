@@ -51,10 +51,12 @@
     }
 
     /* Explosion-Animation */
-    @keyframes explode {
-      0% { transform: scale(1) rotate(0deg); opacity: 1;}
-      100% { transform: scale(10) rotate(1080deg); opacity: 0; filter: blur(20px);}
-    }
+   @keyframes explode {
+  0% { transform: scale(1) rotate(0deg); opacity: 1; filter: brightness(1);}
+  30% { transform: scale(5) rotate(720deg); opacity: 1; filter: brightness(2);}
+  60% { transform: scale(10) rotate(1440deg); opacity: 0.8; filter: brightness(3);}
+  100% { transform: scale(20) rotate(2160deg); opacity: 0; filter: blur(50px) brightness(5);}
+}
   </style>
 </head>
 
