@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <title>Magic Portal</title>
 
-  <!-- =========================
-       STYLING: Layout & Aussehen
-  ========================== -->
   <style>
     body {
       margin: 0;
@@ -45,17 +42,10 @@
 </head>
 
 <body>
-
-  <!-- =========================
-       DESIGN: HTML-Struktur
-  ========================== -->
   <canvas id="starCanvas"></canvas>
   <img src="images/katzenaugen.png" alt="Magische Katzenaugen" id="eyes">
   <h1>Let the MAGIC happen</h1>
 
-  <!-- =========================
-       SKRIPT: JavaScript Logik
-  ========================== -->
   <script>
     const eyes = document.getElementById('eyes');
     const canvas = document.getElementById('starCanvas');
@@ -113,12 +103,10 @@
         if (speed > 1) {
           accelerating = false;
 
-          // Augen verschwinden, Explosion starten
           eyes.style.display = 'none';
           createParticles(width / 2, height / 2, 300);
           animateParticles();
 
-          // Automatische Weiterleitung nach 5 Sekunden
           setTimeout(() => {
             window.location.href = 'nextpage.html';
           }, 5000);
