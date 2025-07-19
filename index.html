@@ -16,17 +16,18 @@
       color: white;
       font-family: sans-serif;
     }
-
     #eyes {
       width: 300px;
-      transition: transform 0.3s linear;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
-
     h1 {
-      margin-top: 20px;
+      position: absolute;
+      bottom: 30px;
       font-size: 2em;
     }
-
     canvas {
       position: absolute;
       top: 0;
@@ -35,10 +36,7 @@
   </style>
 </head>
 <body>
-  <!-- Canvas für Partikel -->
   <canvas id="starCanvas"></canvas>
-
-  <!-- Magische Katzenaugen -->
   <img src="images/katzenaugen.png" alt="Magische Katzenaugen" id="eyes">
   <h1>Let the MAGIC happen</h1>
 
@@ -54,15 +52,14 @@
       height = canvas.height = window.innerHeight;
     });
 
-    // Partikel-Speicher
-    const particles = [];
-
-    // Klicklogik
+    let particles = [];
     let clicked = false;
     let rotation = 0;
-    let speed = 0.01;
+    let speed = 0.02;
+    let accelerating = true;
 
     function createParticles(x, y, count) {
+      particles = [];
       for (let i = 0; i < count; i++) {
         particles.push({
           x: x,
@@ -70,7 +67,8 @@
           angle: Math.random() * 2 * Math.PI,
           speed: Math.random() * 5 + 2,
           size: Math.random() * 2 + 1,
-          opacity: 1
+          finalX: x + Math.cos(Math.random() * 2 * Math.PI) * (Math.random() * width / 2),
+          finalY: y + Math.sin(Math.random() * 2 * Math.PI) * (Math.random() * height / 2)
         });
       }
     }
@@ -78,43 +76,45 @@
     function animateParticles() {
       ctx.clearRect(0, 0, width, height);
       particles.forEach(p => {
-        // Bewegung
-        p.x += Math.cos(p.angle) * p.speed;
-        p.y += Math.sin(p.angle) * p.speed;
-        // Langsam anhalten
-        p.speed *= 0.98;
-        // Leicht flackern
-        p.opacity = 0.5 + Math.random() * 0.5;
+        // langsames Annähern ans Ziel
+        p.x += (p.finalX - p.x) * 0.02;
+        p.y += (p.finalY - p.y) * 0.02;
 
-        // Zeichnen
+        // flackerndes Sternenlicht
+        let opacity = 0.5 + Math.random() * 0.5;
+
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
-        ctx.fillStyle = `rgba(255, 255, 200, ${p.opacity})`;
+        ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
         ctx.fill();
       });
-
       requestAnimationFrame(animateParticles);
     }
 
-    function spinAndExplode() {
-      const spinInterval = setInterval(() => {
-        rotation += speed;
-        eyes.style.transform = `rotate(${rotation}rad)`;
-        speed *= 1.1; // beschleunigen
+    function spinAnimation() {
+      if (!clicked) return;
 
+      rotation += speed;
+      eyes.style.transform = `translate(-50%, -50%) rotate(${rotation}rad)`;
+
+      if (accelerating) {
+        speed *= 1.05;
         if (speed > 1) {
-          clearInterval(spinInterval);
+          accelerating = false;
+          // Starte Explosion
           eyes.style.display = 'none';
-          createParticles(width / 2, height / 2, 200);
+          createParticles(width / 2, height / 2, 300);
           animateParticles();
+        } else {
+          requestAnimationFrame(spinAnimation);
         }
-      }, 30);
+      }
     }
 
     eyes.addEventListener('click', () => {
       if (clicked) return;
       clicked = true;
-      spinAndExplode();
+      spinAnimation();
     });
   </script>
 </body>
