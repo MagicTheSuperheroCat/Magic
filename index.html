@@ -132,10 +132,17 @@
   if (clicked) return;
   clicked = true;
 
-  document.querySelector('h1').style.display = 'none'; // Text ausblenden
+  const title = document.querySelector('h1');
+  if (title) {
+    title.style.display = 'none';
+    console.log('Titel versteckt');
+  } else {
+    console.log('Kein h1 gefunden');
+  }
 
   spinAnimation();
 });
+
   </script>
 </body>
 </html>
