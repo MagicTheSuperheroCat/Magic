@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Magic Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=Mystery+Quest&display=swap" rel="stylesheet">
+
   <style>
     body {
       margin: 0;
@@ -33,15 +34,15 @@
       z-index: 2;
     }
     h1 {
-      position: absolute;
-      bottom: 120px;
-      font-size: 2.5em;
-      z-index: 3;
-      color: #ffffaa;
-      font-family: 'Mystery Quest', cursive;
-      text-shadow: 0 0 10px #ffffaa, 0 0 20px #ffffaa;
-      transition: opacity 1s ease;
-    }
+  position: absolute;
+  bottom: 120px;
+  font-size: 2.5em;
+  z-index: 3;
+  color: #ffffaa;
+  font-family: 'Mystery Quest', 'Comic Sans MS', cursive;
+  text-shadow: 0 0 10px #ffffaa, 0 0 20px #ffffaa;
+  transition: opacity 1s ease;
+}
   </style>
 </head>
 
@@ -71,11 +72,11 @@
     function createParticles(x, y, count) {
       particles = [];
       for (let i = 0; i < count; i++) {
-        let angle = Math.random() * 2 * Math.PI;
-        let distance = Math.random() * width / 2;
         particles.push({
-          x: x + Math.cos(angle) * distance,
-          y: y + Math.sin(angle) * distance,
+          x: x,
+          y: y,
+          finalX: x + Math.cos(Math.random() * 2 * Math.PI) * (Math.random() * width / 2),
+          finalY: y + Math.sin(Math.random() * 2 * Math.PI) * (Math.random() * height / 2),
           size: Math.random() * 2 + 1
         });
       }
@@ -85,6 +86,9 @@
     function animateParticles() {
       ctx.clearRect(0, 0, width, height);
       particles.forEach(p => {
+        p.x += (p.finalX - p.x) * 0.02;
+        p.y += (p.finalY - p.y) * 0.02;
+
         let opacity = 0.5 + Math.random() * 0.5;
 
         ctx.beginPath();
