@@ -85,6 +85,7 @@
         isComet: isComet,
         dx: isComet ? Math.cos(angle) * (1 + Math.random() * 2) : 0,
         dy: isComet ? Math.sin(angle) * (1 + Math.random() * 2) : 0
+        lifetime: 0
       });
     }
     localStorage.setItem('particles', JSON.stringify(particles));
