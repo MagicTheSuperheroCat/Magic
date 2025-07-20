@@ -34,10 +34,15 @@
 
 if (particles.length === 0) {
   for (let i = 0; i < 300; i++) {
+    let angle = Math.random() * 2 * Math.PI;
+    let isComet = Math.random() < 0.1;
     particles.push({
       x: Math.random() * width,
       y: Math.random() * height,
-      size: Math.random() * 2 + 1
+      size: Math.random() * 2 + 1,
+      isComet: isComet,
+      dx: isComet ? Math.cos(angle) * (1 + Math.random() * 2) : 0,
+      dy: isComet ? Math.sin(angle) * (1 + Math.random() * 2) : 0
     });
   }
 }
