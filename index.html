@@ -78,6 +78,7 @@
           finalX: x + Math.cos(Math.random() * 2 * Math.PI) * (Math.random() * width / 2),
           finalY: y + Math.sin(Math.random() * 2 * Math.PI) * (Math.random() * height / 2),
           size: Math.random() * 2 + 1
+          isComet: Math.random() < 0.1 // 10% werden Kometen
         });
       }
       localStorage.setItem('particles', JSON.stringify(particles));
