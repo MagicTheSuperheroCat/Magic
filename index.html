@@ -95,7 +95,7 @@
   function animateParticles() {
     ctx.clearRect(0, 0, width, height);
     particles.forEach(p => {
-      if (!p.isComet && Math.random() < 0.01) {
+      if (!p.isComet && Math.random() < 0.001) {
     let angle = Math.random() * 2 * Math.PI;
     p.isComet = true;
     p.dx = Math.cos(angle) * (1 + Math.random() * 2);
