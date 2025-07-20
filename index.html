@@ -80,6 +80,7 @@
           size: Math.random() * 2 + 1
         });
       }
+      localStorage.setItem('particles', JSON.stringify(particles));
     }
 
     function animateParticles() {
