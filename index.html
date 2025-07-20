@@ -85,21 +85,32 @@
     }
 
     function animateParticles() {
-      ctx.clearRect(0, 0, width, height);
-      particles.forEach(p => {
-        p.x += (p.finalX - p.x) * 0.02;
-        p.y += (p.finalY - p.y) * 0.02;
-
-        let opacity = 0.5 + Math.random() * 0.5;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
-        ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
-        ctx.fill();
-      });
-
-      requestAnimationFrame(animateParticles);
+  ctx.clearRect(0, 0, width, height);
+  particles.forEach(p => {
+    if (p.isComet) {
+      // Kometen: bewegen sich schnell diagonal
+      p.x += 4;
+      p.y += 2;
+      if (p.x > width || p.y > height) {
+        p.x = Math.random() * width * 0.5;
+        p.y = Math.random() * height * 0.5;
+      }
+    } else {
+      // Normale Sterne: langsames Annähern
+      p.x += (p.finalX - p.x) * 0.02;
+      p.y += (p.finalY - p.y) * 0.02;
     }
+
+    let opacity = 0.5 + Math.random() * 0.5;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
+    ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
+    ctx.fill();
+  });
+
+  requestAnimationFrame(animateParticles);
+}
 
     function spinAnimation() {
       rotation += speed;
