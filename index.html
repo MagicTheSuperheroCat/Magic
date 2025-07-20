@@ -72,13 +72,19 @@
   function createParticles(x, y, count) {
     particles = [];
     for (let i = 0; i < count; i++) {
+      let angle = Math.random() * 2 * Math.PI;
+      let distance = Math.random() * width / 2;
+      let isComet = Math.random() < 0.1; // 10% Kometen
+
       particles.push({
         x: x,
         y: y,
-        finalX: x + Math.cos(Math.random() * 2 * Math.PI) * (Math.random() * width / 2),
-        finalY: y + Math.sin(Math.random() * 2 * Math.PI) * (Math.random() * height / 2),
+        finalX: x + Math.cos(angle) * distance,
+        finalY: y + Math.sin(angle) * distance,
         size: Math.random() * 2 + 1,
-        isComet: Math.random() < 0.1 // 10% Kometen
+        isComet: isComet,
+        dx: isComet ? Math.cos(angle) * (1 + Math.random() * 2) : 0,
+        dy: isComet ? Math.sin(angle) * (1 + Math.random() * 2) : 0
       });
     }
     localStorage.setItem('particles', JSON.stringify(particles));
@@ -88,13 +94,17 @@
     ctx.clearRect(0, 0, width, height);
     particles.forEach(p => {
       if (p.isComet) {
-        p.x += 4;
-        p.y += 2;
-        if (p.x > width || p.y > height) {
-          p.x = Math.random() * width * 0.5;
-          p.y = Math.random() * height * 0.5;
+        // Kometen: bewegen sich frei weiter
+        p.x += p.dx;
+        p.y += p.dy;
+
+        // wenn raus aus Bild → neu reinsetzen
+        if (p.x < 0 || p.x > width || p.y < 0 || p.y > height) {
+          p.x = Math.random() * width;
+          p.y = Math.random() * height;
         }
       } else {
+        // Normale Sterne: langsames Annähern
         p.x += (p.finalX - p.x) * 0.02;
         p.y += (p.finalY - p.y) * 0.02;
       }
