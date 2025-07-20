@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Magic Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -33,11 +34,15 @@
       z-index: 2;
     }
     h1 {
-      position: absolute;
-      bottom: 30px;
-      font-size: 2em;
-      z-index: 3;
-    }
+  position: absolute;
+  bottom: 30px;
+  font-size: 2.5em;
+  z-index: 3;
+  color: #ffffaa;
+  font-family: 'Great Vibes', cursive;
+  text-shadow: 0 0 10px #ffffaa, 0 0 20px #ffffaa;
+  transition: opacity 1s ease;
+}
   </style>
 </head>
 
@@ -121,7 +126,7 @@
       clicked = true;
 
       const title = document.querySelector('h1');
-      if (title) title.style.display = 'none';
+      if (title) title.style.opacity = '0';
 
       spinAnimation();
     });
