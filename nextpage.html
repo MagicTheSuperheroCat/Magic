@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Magic Universe</title>
+  <title>Magic Portal - Katze auf Besen</title>
   <style>
     body {
       margin: 0;
@@ -16,6 +16,7 @@
     }
   </style>
 </head>
+
 <body>
   <canvas id="starCanvas"></canvas>
 
@@ -30,31 +31,90 @@
       height = canvas.height = window.innerHeight;
     });
 
+    // 1️⃣ Gespeicherte Partikel aus Seite 1 laden
     let particles = JSON.parse(localStorage.getItem('particles')) || [];
+    if (particles.length === 0) {
+      for (let i = 0; i < 300; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: Math.random() * 2 + 1
+        });
+      }
+    }
 
-if (particles.length === 0) {
-  for (let i = 0; i < 300; i++) {
-    particles.push({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      size: Math.random() * 2 + 1
-    });
-  }
-}
+    // 2️⃣ Katze-Besen-Bild laden
+    const catImg = new Image();
+    catImg.src = 'images/cat_on_broom.png';
 
-    function animateParticles() {
+    // 3️⃣ Flugpfad (geschätzte Punkte)
+    const path = [
+      {x: 0, y: height * 0.8},
+      {x: width * 0.2, y: height * 0.6},
+      {x: width * 0.4, y: height * 0.7},
+      {x: width * 0.6, y: height * 0.4},
+      {x: width * 0.5, y: height * 0.2} // Mitte
+    ];
+
+    let currentPoint = 0;
+    let catX = path[0].x;
+    let catY = path[0].y;
+    let scale = 0.3;
+    let reachedCenter = false;
+    let angle = 0;
+
+    function animate() {
       ctx.clearRect(0, 0, width, height);
+
+      // 1️⃣ Sterne mit Flackern zeichnen
       particles.forEach(p => {
         let opacity = 0.5 + Math.random() * 0.5;
         ctx.beginPath();
-        ctx.arc(p.finalX || p.x, p.finalY || p.y, p.size, 0, 2 * Math.PI);
+        ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
         ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
         ctx.fill();
       });
-      requestAnimationFrame(animateParticles);
+
+      // 2️⃣ Katze bewegen
+      if (!reachedCenter && currentPoint < path.length - 1) {
+        let target = path[currentPoint + 1];
+        catX += (target.x - catX) * 0.02;
+        catY += (target.y - catY) * 0.02;
+        scale += 0.001; // größer werden
+
+        if (Math.abs(catX - target.x) < 2 && Math.abs(catY - target.y) < 2) {
+          currentPoint++;
+        }
+
+        if (currentPoint === path.length - 1) {
+          reachedCenter = true;
+          scale = 0.6; // Endgröße fixieren
+        }
+      }
+
+      // 3️⃣ In der Mitte schweben
+      let floatY = catY;
+      if (reachedCenter) {
+        floatY += Math.sin(angle) * 3; // sanftes Auf/Ab
+        angle += 0.05;
+      }
+
+      // 4️⃣ Leuchteffekt anwenden
+      ctx.save();
+      ctx.filter = 'drop-shadow(0 0 20px rgba(255, 255, 150, 0.8))';
+      ctx.drawImage(
+        catImg,
+        catX - (catImg.width * scale) / 2,
+        floatY - (catImg.height * scale) / 2,
+        catImg.width * scale,
+        catImg.height * scale
+      );
+      ctx.restore();
+
+      requestAnimationFrame(animate);
     }
 
-    animateParticles();
+    catImg.onload = animate;
   </script>
 </body>
 </html>
