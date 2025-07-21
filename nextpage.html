@@ -52,7 +52,6 @@ let scale = 0.02;
 const maxScale = 0.25;
 let reachedCenter = false;
 let floatAngle = 0;
-let isFlyingToTarget = false;
 
     function animateParticles() {
   ctx.clearRect(0, 0, width, height);
@@ -68,37 +67,25 @@ let isFlyingToTarget = false;
 
   // Katze bewegen
   let catX, catY;
-const targetX = centerX * 0.7;
-const targetY = centerY * 0.6;
 
-if (!reachedCenter) {
-  catX = centerX + radius * Math.cos(angle);
-  catY = centerY + radius * Math.sin(angle);
+  if (!reachedCenter) {
+    catX = centerX + radius * Math.cos(angle);
+    catY = centerY + radius * Math.sin(angle);
 
-  angle += 0.05;
+    radius -= 2;
+    angle += 0.2;
 
-  if (angle >= Math.PI / 4 + 2 * Math.PI) {
-    isFlyingToTarget = true;
-  }
+    if (scale < maxScale) scale += 0.001;
 
-  if (isFlyingToTarget) {
-    let dx = targetX - catX;
-    let dy = targetY - catY;
-    catX += dx * 0.05;
-    catY += dy * 0.05;
-
-    if (Math.abs(dx) < 2 && Math.abs(dy) < 2) {
+    if (radius <= 2) {
       reachedCenter = true;
       scale = maxScale;
     }
+  } else {
+    catX = centerX;
+    catY = centerY + Math.sin(floatAngle) * 5;
+    floatAngle += 0.05;
   }
-
-  if (scale < maxScale) scale += 0.001;
-} else {
-  catX = targetX;
-  catY = targetY + Math.sin(floatAngle) * 5;
-  floatAngle += 0.05;
-}
 
   // Katze mit Glow zeichnen
   ctx.save();
