@@ -51,6 +51,11 @@ let radius = Math.min(width, height) * 0.6;
 let scale = 0.02;
 const maxScale = 0.25;
 let reachedCenter = false;
+let showText = false;
+let textOpacity = 0;
+const textMessage = "Believe in MAGIC and stay tuned";
+const eyeImg = new Image();
+eyeImg.src = 'images/katzenaugen.png'; // <<< Name von deinem Bild
 let floatAngle = 0;
 
     function animateParticles() {
