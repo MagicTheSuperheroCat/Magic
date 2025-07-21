@@ -54,8 +54,6 @@ let reachedCenter = false;
 let showText = false;
 let textOpacity = 0;
 const textMessage = "Believe in MAGIC and stay tuned";
-const eyeImg = new Image();
-eyeImg.src = 'images/katzenaugen.png'; // <<< Name von deinem Bild
 let floatAngle = 0;
 
     function animateParticles() {
@@ -125,11 +123,6 @@ if (showText) {
   ctx.font = "40px 'Mystery Quest', cursive";
   ctx.fillStyle = "yellow";
   ctx.fillText(textMessage, shiftedCenterX + 100, shiftedCenterY);
-
-  // Augenbilder dahinter (zwei nebeneinander)
-  const eyeSize = 50;
-  ctx.drawImage(eyeImg, shiftedCenterX + 100, shiftedCenterY - 60, eyeSize, eyeSize);
-  ctx.drawImage(eyeImg, shiftedCenterX + 160, shiftedCenterY - 60, eyeSize, eyeSize);
 
   ctx.restore();
 }
