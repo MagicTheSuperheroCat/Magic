@@ -52,6 +52,7 @@ let scale = 0.02;
 const maxScale = 0.25;
 let reachedCenter = false;
 let floatAngle = 0;
+let isFlyingToTarget = false;
 
     function animateParticles() {
   ctx.clearRect(0, 0, width, height);
@@ -67,8 +68,8 @@ let floatAngle = 0;
 
   // Katze bewegen
   let catX, catY;
-const targetX = centerX * 0.7; // weiter links
-const targetY = centerY * 0.6; // höher
+const targetX = centerX * 0.7;
+const targetY = centerY * 0.6;
 
 if (!reachedCenter) {
   catX = centerX + radius * Math.cos(angle);
@@ -77,18 +78,15 @@ if (!reachedCenter) {
   angle += 0.05;
 
   if (angle >= Math.PI / 4 + 2 * Math.PI) {
-    // Gerade zu neuem Zielpunkt
-    centerToX = targetX;
-    centerToY = targetY;
+    isFlyingToTarget = true;
+  }
 
-    // Bewege radius-Richtung zum Zielpunkt
-    let dx = centerToX - catX;
-    let dy = centerToY - catY;
-
+  if (isFlyingToTarget) {
+    let dx = targetX - catX;
+    let dy = targetY - catY;
     catX += dx * 0.05;
     catY += dy * 0.05;
 
-    // Wenn nah genug, stoppen
     if (Math.abs(dx) < 2 && Math.abs(dy) < 2) {
       reachedCenter = true;
       scale = maxScale;
