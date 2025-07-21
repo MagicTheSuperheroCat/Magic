@@ -86,8 +86,9 @@ if (!reachedCenter) {
     // Nach vollem Kreis → gerade Richtung Mitte
     radius -= 4; // Geschwindigkeit zur Mitte
     if (radius <= 2) {
-      reachedCenter = true;
-      scale = maxScale;
+  reachedCenter = true;
+  scale = maxScale;
+  showText = true; // <<< NEU: Text anzeigen aktivieren
     }
   }
 
