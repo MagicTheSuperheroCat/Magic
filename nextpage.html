@@ -41,18 +41,66 @@ if (particles.length === 0) {
     });
   }
 }
+    // Katze vorbereiten
+const catImg = new Image();
+catImg.src = 'images/cat_on_broom.png';
+const centerX = width / 2;
+const centerY = height / 2;
+let angle = Math.PI / 4;
+let radius = Math.min(width, height) * 0.6;
+let scale = 0.02;
+const maxScale = 0.25;
+let reachedCenter = false;
+let floatAngle = 0;
 
     function animateParticles() {
-      ctx.clearRect(0, 0, width, height);
-      particles.forEach(p => {
-        let opacity = 0.5 + Math.random() * 0.5;
-        ctx.beginPath();
-        ctx.arc(p.finalX || p.x, p.finalY || p.y, p.size, 0, 2 * Math.PI);
-        ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
-        ctx.fill();
-      });
-      requestAnimationFrame(animateParticles);
+  ctx.clearRect(0, 0, width, height);
+  
+  // Sterne zeichnen
+  particles.forEach(p => {
+    let opacity = 0.5 + Math.random() * 0.5;
+    ctx.beginPath();
+    ctx.arc(p.finalX || p.x, p.finalY || p.y, p.size, 0, 2 * Math.PI);
+    ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
+    ctx.fill();
+  });
+
+  // Katze bewegen
+  let catX, catY;
+
+  if (!reachedCenter) {
+    catX = centerX + radius * Math.cos(angle);
+    catY = centerY + radius * Math.sin(angle);
+
+    radius -= 2;
+    angle += 0.2;
+
+    if (scale < maxScale) scale += 0.001;
+
+    if (radius <= 2) {
+      reachedCenter = true;
+      scale = maxScale;
     }
+  } else {
+    catX = centerX;
+    catY = centerY + Math.sin(floatAngle) * 5;
+    floatAngle += 0.05;
+  }
+
+  // Katze mit Glow zeichnen
+  ctx.save();
+  ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
+  ctx.drawImage(
+    catImg,
+    catX - (catImg.width * scale) / 2,
+    catY - (catImg.height * scale) / 2,
+    catImg.width * scale,
+    catImg.height * scale
+  );
+  ctx.restore();
+
+  requestAnimationFrame(animateParticles);
+}
 
     animateParticles();
   </script>
