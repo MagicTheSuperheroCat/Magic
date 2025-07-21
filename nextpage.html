@@ -66,23 +66,18 @@ let floatAngle = 0;
   });
 
   // Katze bewegen
- let catX, catY;
-const spiralCenterX = centerX * 0.4; // unten links
-const spiralCenterY = centerY * 1.3; // unten links
-const circleRadius = Math.min(width, height) * 0.3; // fester Kreisradius
+  let catX, catY;
 
 if (!reachedCenter) {
-  catX = spiralCenterX + circleRadius * Math.cos(angle);
-  catY = spiralCenterY + circleRadius * Math.sin(angle);
+  catX = centerX + radius * Math.cos(angle);
+  catY = centerY + radius * Math.sin(angle);
 
-  angle += 0.05; // Kreisgeschwindigkeit
+  angle += 0.05; // Geschwindigkeit auf Kreisbahn
 
   if (angle >= Math.PI / 4 + 2 * Math.PI) {
-    // Start weicher Endanflug ins Zentrum
-    catX += (spiralCenterX - catX) * 0.05;
-    catY += (spiralCenterY - catY) * 0.05;
-
-    if (Math.abs(catX - spiralCenterX) < 2 && Math.abs(catY - spiralCenterY) < 2) {
+    // Nach vollem Kreis → gerade Richtung Mitte
+    radius -= 4; // Geschwindigkeit zur Mitte
+    if (radius <= 2) {
       reachedCenter = true;
       scale = maxScale;
     }
@@ -90,8 +85,8 @@ if (!reachedCenter) {
 
   if (scale < maxScale) scale += 0.001;
 } else {
-  catX = spiralCenterX;
-  catY = spiralCenterY + Math.sin(floatAngle) * 5; // sanftes Schweben
+  catX = centerX;
+  catY = centerY + Math.sin(floatAngle) * 5;
   floatAngle += 0.05;
 }
 
