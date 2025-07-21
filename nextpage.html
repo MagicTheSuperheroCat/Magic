@@ -47,26 +47,27 @@
     const catImg = new Image();
     catImg.src = 'images/cat_on_broom.png';
 
-    // 3️⃣ Flugpfad (geschätzte Punkte)
+    // 3️⃣ Flugpfad (angepasst, glatte Kurve)
     const path = [
       {x: 0, y: height * 0.8},
       {x: width * 0.2, y: height * 0.6},
       {x: width * 0.4, y: height * 0.7},
       {x: width * 0.6, y: height * 0.4},
-      {x: width * 0.5, y: height * 0.2} // Mitte
+      {x: width * 0.5, y: height * 0.2}
     ];
 
     let currentPoint = 0;
     let catX = path[0].x;
     let catY = path[0].y;
-    let scale = 0.3;
+    let scale = 0.05; // startet winzig (~Punkt)
+    let maxScale = 0.25; // ca. 5 cm am Ende
     let reachedCenter = false;
     let angle = 0;
 
     function animate() {
       ctx.clearRect(0, 0, width, height);
 
-      // 1️⃣ Sterne mit Flackern zeichnen
+      // 💫 Sternenhimmel IMMER zeichnen
       particles.forEach(p => {
         let opacity = 0.5 + Math.random() * 0.5;
         ctx.beginPath();
@@ -75,12 +76,12 @@
         ctx.fill();
       });
 
-      // 2️⃣ Katze bewegen
+      // 🧹 Katze bewegen
       if (!reachedCenter && currentPoint < path.length - 1) {
         let target = path[currentPoint + 1];
         catX += (target.x - catX) * 0.02;
         catY += (target.y - catY) * 0.02;
-        scale += 0.001; // größer werden
+        if (scale < maxScale) scale += 0.0008; // sehr sanft größer werden
 
         if (Math.abs(catX - target.x) < 2 && Math.abs(catY - target.y) < 2) {
           currentPoint++;
@@ -88,20 +89,20 @@
 
         if (currentPoint === path.length - 1) {
           reachedCenter = true;
-          scale = 0.6; // Endgröße fixieren
+          scale = maxScale; // fixiere Endgröße
         }
       }
 
-      // 3️⃣ In der Mitte schweben
+      // ✨ In der Mitte schweben
       let floatY = catY;
       if (reachedCenter) {
         floatY += Math.sin(angle) * 3; // sanftes Auf/Ab
         angle += 0.05;
       }
 
-      // 4️⃣ Leuchteffekt anwenden
+      // ✨ Leuchteffekt
       ctx.save();
-      ctx.filter = 'drop-shadow(0 0 20px rgba(255, 255, 150, 0.8))';
+      ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.7))';
       ctx.drawImage(
         catImg,
         catX - (catImg.width * scale) / 2,
