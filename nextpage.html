@@ -67,24 +67,19 @@ let floatAngle = 0;
 
   // Katze bewegen
  let catX, catY;
-const spiralCenterX = centerX * 0.6; // unten links
-const spiralCenterY = centerY * 1.3; // unten links
+const spiralCenterX = centerX * 0.4; // deutlich nach links
+const spiralCenterY = centerY * 1.3; // deutlich nach unten
 
 if (!reachedCenter) {
   catX = spiralCenterX + radius * Math.cos(angle);
   catY = spiralCenterY + radius * Math.sin(angle);
 
-  angle += 0.05; // Kreisgeschwindigkeit
+  radius -= 2;    // kontinuierlich reinziehen
+  angle += 0.2;   // Spiraldrehung
 
-  if (angle >= Math.PI / 4 + 2 * Math.PI) {
-    // Weicher Übergang: sanft zum Zentrum fliegen
-    catX += (spiralCenterX - catX) * 0.05;
-    catY += (spiralCenterY - catY) * 0.05;
-
-    if (Math.abs(catX - spiralCenterX) < 1 && Math.abs(catY - spiralCenterY) < 1) {
-      reachedCenter = true;
-      scale = maxScale;
-    }
+  if (radius <= 2) {
+    reachedCenter = true;
+    scale = maxScale;
   }
 
   if (scale < maxScale) scale += 0.001;
