@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -13,26 +14,31 @@
       position: absolute;
       top: 0;
       left: 0;
+      display: block;
     }
   </style>
 </head>
 
 <body>
-  <canvas id="starCanvas"></canvas>
+  <canvas id="backgroundCanvas"></canvas>
+  <canvas id="catCanvas"></canvas>
 
   <script>
-    const canvas = document.getElementById('starCanvas');
-    const ctx = canvas.getContext('2d');
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
+    const bgCanvas = document.getElementById('backgroundCanvas');
+    const bgCtx = bgCanvas.getContext('2d');
+    const catCanvas = document.getElementById('catCanvas');
+    const catCtx = catCanvas.getContext('2d');
+
+    let width = bgCanvas.width = catCanvas.width = window.innerWidth;
+    let height = bgCanvas.height = catCanvas.height = window.innerHeight;
 
     window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      drawStaticStars(); // bei Resize neu zeichnen
+      width = bgCanvas.width = catCanvas.width = window.innerWidth;
+      height = bgCanvas.height = catCanvas.height = window.innerHeight;
+      drawStaticStars();
     });
 
-    // Sternenpartikel laden
+    // Sterne vorbereiten
     let particles = JSON.parse(localStorage.getItem('particles')) || [];
     if (particles.length === 0) {
       for (let i = 0; i < 300; i++) {
@@ -51,26 +57,24 @@
     const centerY = height / 2;
     let angle = Math.PI / 4; // Start oben rechts
     let radius = Math.min(width, height) * 0.6;
-    let scale = 0.02; // sehr klein starten
-    let maxScale = 0.25;
+    let scale = 0.02;
+    const maxScale = 0.25;
     let reachedCenter = false;
     let floatAngle = 0;
 
     function drawStaticStars() {
-      ctx.clearRect(0, 0, width, height);
+      bgCtx.clearRect(0, 0, width, height);
       particles.forEach(p => {
         let opacity = 0.5 + Math.random() * 0.5;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
-        ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
-        ctx.fill();
+        bgCtx.beginPath();
+        bgCtx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
+        bgCtx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
+        bgCtx.fill();
       });
     }
 
-    function animate() {
-      // ❗ Nur den Katzenbereich neu zeichnen:
-      ctx.clearRect(0, 0, width, height);
-      drawStaticStars();
+    function animateCat() {
+      catCtx.clearRect(0, 0, width, height);
 
       let catX, catY;
 
@@ -78,7 +82,7 @@
         catX = centerX + radius * Math.cos(angle);
         catY = centerY + radius * Math.sin(angle);
 
-        radius -= 2; // Geschwindigkeit zur Mitte
+        radius -= 2;
         angle += 0.2;
 
         if (scale < maxScale) scale += 0.001;
@@ -93,23 +97,23 @@
         floatAngle += 0.05;
       }
 
-      ctx.save();
-      ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
-      ctx.drawImage(
+      catCtx.save();
+      catCtx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
+      catCtx.drawImage(
         catImg,
         catX - (catImg.width * scale) / 2,
         catY - (catImg.height * scale) / 2,
         catImg.width * scale,
         catImg.height * scale
       );
-      ctx.restore();
+      catCtx.restore();
 
-      requestAnimationFrame(animate);
+      requestAnimationFrame(animateCat);
     }
 
     catImg.onload = () => {
-      drawStaticStars(); // Initial: einmal Sterne zeichnen
-      animate();
+      drawStaticStars(); // nur einmal!
+      animateCat();
     };
   </script>
 </body>
