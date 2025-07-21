@@ -67,17 +67,24 @@ let floatAngle = 0;
 
   // Katze bewegen
   let catX, catY;
+const targetX = centerX * 1.4; // weiter rechts
+const targetY = centerY * 1.3; // weiter unten
 
 if (!reachedCenter) {
   catX = centerX + radius * Math.cos(angle);
   catY = centerY + radius * Math.sin(angle);
 
-  angle += 0.05; // Geschwindigkeit auf Kreisbahn
+  angle += 0.05;
 
   if (angle >= Math.PI / 4 + 2 * Math.PI) {
-    // Nach vollem Kreis → gerade Richtung Mitte
-    radius -= 4; // Geschwindigkeit zur Mitte
-    if (radius <= 2) {
+    // Gerade Richtung Zielpunkt
+    let dx = targetX - catX;
+    let dy = targetY - catY;
+
+    catX += dx * 0.05;
+    catY += dy * 0.05;
+
+    if (Math.abs(dx) < 2 && Math.abs(dy) < 2) {
       reachedCenter = true;
       scale = maxScale;
     }
@@ -85,8 +92,8 @@ if (!reachedCenter) {
 
   if (scale < maxScale) scale += 0.001;
 } else {
-  catX = centerX;
-  catY = centerY + Math.sin(floatAngle) * 5;
+  catX = targetX;
+  catY = targetY + Math.sin(floatAngle) * 5;
   floatAngle += 0.05;
 }
 
