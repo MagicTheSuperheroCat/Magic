@@ -68,24 +68,27 @@ let floatAngle = 0;
   // Katze bewegen
   let catX, catY;
 
-  if (!reachedCenter) {
-    catX = centerX + radius * Math.cos(angle);
-    catY = centerY + radius * Math.sin(angle);
+if (!reachedCenter) {
+  catX = centerX + radius * Math.cos(angle);
+  catY = centerY + radius * Math.sin(angle);
 
-    radius -= 2;
-    angle += 0.2;
+  angle += 0.05; // Geschwindigkeit auf Kreisbahn
 
-    if (scale < maxScale) scale += 0.001;
-
+  if (angle >= Math.PI / 4 + 2 * Math.PI) {
+    // Nach vollem Kreis → gerade Richtung Mitte
+    radius -= 4; // Geschwindigkeit zur Mitte
     if (radius <= 2) {
       reachedCenter = true;
       scale = maxScale;
     }
-  } else {
-    catX = centerX;
-    catY = centerY + Math.sin(floatAngle) * 5;
-    floatAngle += 0.05;
   }
+
+  if (scale < maxScale) scale += 0.001;
+} else {
+  catX = centerX;
+  catY = centerY + Math.sin(floatAngle) * 5;
+  floatAngle += 0.05;
+}
 
   // Katze mit Glow zeichnen
   ctx.save();
