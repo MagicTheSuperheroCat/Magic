@@ -110,7 +110,29 @@ if (!reachedCenter) {
     catImg.height * scale
   );
   ctx.restore();
+if (showText) {
+  if (textOpacity < 1) {
+    textOpacity += 0.01; // langsam einblenden
+  }
 
+  ctx.save();
+  ctx.globalAlpha = textOpacity;
+
+  // Glow-Effekt
+  ctx.filter = 'drop-shadow(0 0 10px rgba(255, 255, 150, 0.8))';
+
+  // Text zeichnen
+  ctx.font = "40px 'Mystery Quest', cursive";
+  ctx.fillStyle = "yellow";
+  ctx.fillText(textMessage, shiftedCenterX + 100, shiftedCenterY);
+
+  // Augenbilder dahinter (zwei nebeneinander)
+  const eyeSize = 50;
+  ctx.drawImage(eyeImg, shiftedCenterX + 100, shiftedCenterY - 60, eyeSize, eyeSize);
+  ctx.drawImage(eyeImg, shiftedCenterX + 160, shiftedCenterY - 60, eyeSize, eyeSize);
+
+  ctx.restore();
+}
   requestAnimationFrame(animateParticles);
 }
 
