@@ -68,9 +68,12 @@ let floatAngle = 0;
   // Katze bewegen
   let catX, catY;
 
+const shiftedCenterX = centerX - 50; // 5 cm nach links verschoben
+const shiftedCenterY = centerY;
+
 if (!reachedCenter) {
-  catX = centerX + radius * Math.cos(angle);
-  catY = centerY + radius * Math.sin(angle);
+  catX = shiftedCenterX + radius * Math.cos(angle);
+  catY = shiftedCenterY + radius * Math.sin(angle);
 
   angle += 0.05; // Geschwindigkeit auf Kreisbahn
 
@@ -85,8 +88,8 @@ if (!reachedCenter) {
 
   if (scale < maxScale) scale += 0.001;
 } else {
-  catX = centerX;
-  catY = centerY + Math.sin(floatAngle) * 5;
+  catX = shiftedCenterX;
+  catY = shiftedCenterY + Math.sin(floatAngle) * 5;
   floatAngle += 0.05;
 }
 
