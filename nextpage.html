@@ -29,6 +29,7 @@
     window.addEventListener('resize', () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
+      drawStaticStars(); // bei Resize neu zeichnen
     });
 
     // Sternenpartikel laden
@@ -46,20 +47,17 @@
     const catImg = new Image();
     catImg.src = 'images/cat_on_broom.png';
 
-    // Spirale von oben rechts zur Mitte
     const centerX = width / 2;
     const centerY = height / 2;
-    let angle = Math.PI / 4; // 45° Start oben rechts
-    let radius = Math.min(width, height) * 0.6; // großer Start-Radius
+    let angle = Math.PI / 4; // Start oben rechts
+    let radius = Math.min(width, height) * 0.6;
     let scale = 0.02; // sehr klein starten
-    let maxScale = 0.25; // Endgröße
+    let maxScale = 0.25;
     let reachedCenter = false;
     let floatAngle = 0;
 
-    function animate() {
+    function drawStaticStars() {
       ctx.clearRect(0, 0, width, height);
-
-      // 🌟 Sterne zeichnen (immer gleich!)
       particles.forEach(p => {
         let opacity = 0.5 + Math.random() * 0.5;
         ctx.beginPath();
@@ -67,6 +65,12 @@
         ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
         ctx.fill();
       });
+    }
+
+    function animate() {
+      // ❗ Nur den Katzenbereich neu zeichnen:
+      ctx.clearRect(0, 0, width, height);
+      drawStaticStars();
 
       let catX, catY;
 
@@ -74,11 +78,9 @@
         catX = centerX + radius * Math.cos(angle);
         catY = centerY + radius * Math.sin(angle);
 
-        // Spirale kleiner machen
         radius -= 2; // Geschwindigkeit zur Mitte
-        angle += 0.2; // Spiralgeschwindigkeit
+        angle += 0.2;
 
-        // Größer werden
         if (scale < maxScale) scale += 0.001;
 
         if (radius <= 2) {
@@ -86,13 +88,11 @@
           scale = maxScale;
         }
       } else {
-        // Nach Ankunft: schweben
         catX = centerX;
-        catY = centerY + Math.sin(floatAngle) * 5; // sanftes Auf/Ab
+        catY = centerY + Math.sin(floatAngle) * 5;
         floatAngle += 0.05;
       }
 
-      // ✨ Leuchteffekt
       ctx.save();
       ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
       ctx.drawImage(
@@ -107,7 +107,10 @@
       requestAnimationFrame(animate);
     }
 
-    catImg.onload = animate;
+    catImg.onload = () => {
+      drawStaticStars(); // Initial: einmal Sterne zeichnen
+      animate();
+    };
   </script>
 </body>
 </html>
