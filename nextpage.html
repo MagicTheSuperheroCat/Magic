@@ -31,7 +31,7 @@
       height = canvas.height = window.innerHeight;
     });
 
-    // 1️⃣ Gespeicherte Partikel aus Seite 1 laden
+    // Sternenpartikel laden
     let particles = JSON.parse(localStorage.getItem('particles')) || [];
     if (particles.length === 0) {
       for (let i = 0; i < 300; i++) {
@@ -43,31 +43,23 @@
       }
     }
 
-    // 2️⃣ Katze-Besen-Bild laden
     const catImg = new Image();
     catImg.src = 'images/cat_on_broom.png';
 
-    // 3️⃣ Flugpfad (angepasst, glatte Kurve)
-    const path = [
-      {x: 0, y: height * 0.8},
-      {x: width * 0.2, y: height * 0.6},
-      {x: width * 0.4, y: height * 0.7},
-      {x: width * 0.6, y: height * 0.4},
-      {x: width * 0.5, y: height * 0.2}
-    ];
-
-    let currentPoint = 0;
-    let catX = path[0].x;
-    let catY = path[0].y;
-    let scale = 0.05; // startet winzig (~Punkt)
-    let maxScale = 0.25; // ca. 5 cm am Ende
+    // Spirale von oben rechts zur Mitte
+    const centerX = width / 2;
+    const centerY = height / 2;
+    let angle = Math.PI / 4; // 45° Start oben rechts
+    let radius = Math.min(width, height) * 0.6; // großer Start-Radius
+    let scale = 0.02; // sehr klein starten
+    let maxScale = 0.25; // Endgröße
     let reachedCenter = false;
-    let angle = 0;
+    let floatAngle = 0;
 
     function animate() {
       ctx.clearRect(0, 0, width, height);
 
-      // 💫 Sternenhimmel IMMER zeichnen
+      // 🌟 Sterne zeichnen (immer gleich!)
       particles.forEach(p => {
         let opacity = 0.5 + Math.random() * 0.5;
         ctx.beginPath();
@@ -76,37 +68,37 @@
         ctx.fill();
       });
 
-      // 🧹 Katze bewegen
-      if (!reachedCenter && currentPoint < path.length - 1) {
-        let target = path[currentPoint + 1];
-        catX += (target.x - catX) * 0.02;
-        catY += (target.y - catY) * 0.02;
-        if (scale < maxScale) scale += 0.0008; // sehr sanft größer werden
+      let catX, catY;
 
-        if (Math.abs(catX - target.x) < 2 && Math.abs(catY - target.y) < 2) {
-          currentPoint++;
-        }
+      if (!reachedCenter) {
+        catX = centerX + radius * Math.cos(angle);
+        catY = centerY + radius * Math.sin(angle);
 
-        if (currentPoint === path.length - 1) {
+        // Spirale kleiner machen
+        radius -= 2; // Geschwindigkeit zur Mitte
+        angle += 0.2; // Spiralgeschwindigkeit
+
+        // Größer werden
+        if (scale < maxScale) scale += 0.001;
+
+        if (radius <= 2) {
           reachedCenter = true;
-          scale = maxScale; // fixiere Endgröße
+          scale = maxScale;
         }
-      }
-
-      // ✨ In der Mitte schweben
-      let floatY = catY;
-      if (reachedCenter) {
-        floatY += Math.sin(angle) * 3; // sanftes Auf/Ab
-        angle += 0.05;
+      } else {
+        // Nach Ankunft: schweben
+        catX = centerX;
+        catY = centerY + Math.sin(floatAngle) * 5; // sanftes Auf/Ab
+        floatAngle += 0.05;
       }
 
       // ✨ Leuchteffekt
       ctx.save();
-      ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.7))';
+      ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
       ctx.drawImage(
         catImg,
         catX - (catImg.width * scale) / 2,
-        floatY - (catImg.height * scale) / 2,
+        catY - (catImg.height * scale) / 2,
         catImg.width * scale,
         catImg.height * scale
       );
