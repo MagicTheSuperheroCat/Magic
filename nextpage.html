@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Magic Portal - Katze auf Besen</title>
+  <title>Magic Universe</title>
   <style>
     body {
       margin: 0;
@@ -13,107 +13,48 @@
       position: absolute;
       top: 0;
       left: 0;
-      display: block;
     }
   </style>
 </head>
-
 <body>
-  <canvas id="backgroundCanvas"></canvas>
-  <canvas id="catCanvas"></canvas>
+  <canvas id="starCanvas"></canvas>
 
   <script>
-    const bgCanvas = document.getElementById('backgroundCanvas');
-    const bgCtx = bgCanvas.getContext('2d');
-    const catCanvas = document.getElementById('catCanvas');
-    const catCtx = catCanvas.getContext('2d');
-
-    let width = bgCanvas.width = catCanvas.width = window.innerWidth;
-    let height = bgCanvas.height = catCanvas.height = window.innerHeight;
+    const canvas = document.getElementById('starCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
 
     window.addEventListener('resize', () => {
-      width = bgCanvas.width = catCanvas.width = window.innerWidth;
-      height = bgCanvas.height = catCanvas.height = window.innerHeight;
-      drawStaticStars();
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     });
 
-    // Sterne vorbereiten mit festen Opacity-Werten
     let particles = JSON.parse(localStorage.getItem('particles')) || [];
-    if (particles.length === 0) {
-      for (let i = 0; i < 300; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          size: Math.random() * 2 + 1,
-          opacity: 0.5 + Math.random() * 0.5
-        });
-      }
-    }
 
-    const catImg = new Image();
-    catImg.src = 'images/cat_on_broom.png';
+if (particles.length === 0) {
+  for (let i = 0; i < 300; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      size: Math.random() * 2 + 1
+    });
+  }
+}
 
-    const centerX = width / 2;
-    const centerY = height / 2;
-    let angle = Math.PI / 4;
-    let radius = Math.min(width, height) * 0.6;
-    let scale = 0.02;
-    const maxScale = 0.25;
-    let reachedCenter = false;
-    let floatAngle = 0;
-
-    function drawStaticStars() {
-      bgCtx.clearRect(0, 0, width, height);
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
       particles.forEach(p => {
-        bgCtx.beginPath();
-        bgCtx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
-        bgCtx.fillStyle = `rgba(255, 255, 200, ${p.opacity})`;
-        bgCtx.fill();
+        let opacity = 0.5 + Math.random() * 0.5;
+        ctx.beginPath();
+        ctx.arc(p.finalX || p.x, p.finalY || p.y, p.size, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
+        ctx.fill();
       });
+      requestAnimationFrame(animateParticles);
     }
 
-    function animateCat() {
-      catCtx.clearRect(0, 0, width, height);
-
-      let catX, catY;
-
-      if (!reachedCenter) {
-        catX = centerX + radius * Math.cos(angle);
-        catY = centerY + radius * Math.sin(angle);
-
-        radius -= 2;
-        angle += 0.2;
-
-        if (scale < maxScale) scale += 0.001;
-
-        if (radius <= 2) {
-          reachedCenter = true;
-          scale = maxScale;
-        }
-      } else {
-        catX = centerX;
-        catY = centerY + Math.sin(floatAngle) * 5;
-        floatAngle += 0.05;
-      }
-
-      catCtx.save();
-      catCtx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
-      catCtx.drawImage(
-        catImg,
-        catX - (catImg.width * scale) / 2,
-        catY - (catImg.height * scale) / 2,
-        catImg.width * scale,
-        catImg.height * scale
-      );
-      catCtx.restore();
-
-      requestAnimationFrame(animateCat);
-    }
-
-    catImg.onload = () => {
-      drawStaticStars(); // einmalig zeichnen
-      animateCat();
-    };
+    animateParticles();
   </script>
 </body>
 </html>
