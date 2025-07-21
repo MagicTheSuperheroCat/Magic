@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -38,14 +37,15 @@
       drawStaticStars();
     });
 
-    // Sterne vorbereiten
+    // Sterne vorbereiten mit festen Opacity-Werten
     let particles = JSON.parse(localStorage.getItem('particles')) || [];
     if (particles.length === 0) {
       for (let i = 0; i < 300; i++) {
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          size: Math.random() * 2 + 1
+          size: Math.random() * 2 + 1,
+          opacity: 0.5 + Math.random() * 0.5
         });
       }
     }
@@ -55,7 +55,7 @@
 
     const centerX = width / 2;
     const centerY = height / 2;
-    let angle = Math.PI / 4; // Start oben rechts
+    let angle = Math.PI / 4;
     let radius = Math.min(width, height) * 0.6;
     let scale = 0.02;
     const maxScale = 0.25;
@@ -65,10 +65,9 @@
     function drawStaticStars() {
       bgCtx.clearRect(0, 0, width, height);
       particles.forEach(p => {
-        let opacity = 0.5 + Math.random() * 0.5;
         bgCtx.beginPath();
         bgCtx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
-        bgCtx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
+        bgCtx.fillStyle = `rgba(255, 255, 200, ${p.opacity})`;
         bgCtx.fill();
       });
     }
@@ -112,7 +111,7 @@
     }
 
     catImg.onload = () => {
-      drawStaticStars(); // nur einmal!
+      drawStaticStars(); // einmalig zeichnen
       animateCat();
     };
   </script>
