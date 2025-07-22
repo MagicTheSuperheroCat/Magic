@@ -45,7 +45,6 @@
     const catImg = new Image();
     catImg.src = 'images/cat_on_broom.png';
 
-    // Zusätzliche Katzenbilder vorbereiten
     const extraCats = [
       { img: new Image(), src: 'images/cat1.png', scale: 0.2, floatAngle: 0 },
       { img: new Image(), src: 'images/cat2.png', scale: 0.2, floatAngle: 1 },
@@ -68,7 +67,7 @@
     function animateParticles() {
       ctx.clearRect(0, 0, width, height);
 
-      // Sterne zeichnen
+      // Draw stars
       particles.forEach(p => {
         let opacity = 0.5 + Math.random() * 0.5;
         ctx.beginPath();
@@ -77,7 +76,7 @@
         ctx.fill();
       });
 
-      // Besenkatze bewegen
+      // Move broom cat
       let catX, catY;
       const shiftedCenterX = centerX - 150;
       const shiftedCenterY = centerY;
@@ -103,19 +102,21 @@
         floatAngle += 0.05;
       }
 
-      // Besenkatze zeichnen
-      ctx.save();
-      ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
-      ctx.drawImage(
-        catImg,
-        catX - (catImg.width * scale) / 2,
-        catY - (catImg.height * scale) / 2,
-        catImg.width * scale,
-        catImg.height * scale
-      );
-      ctx.restore();
+      // Draw broom cat with glow
+      if (catImg.complete && catImg.naturalWidth !== 0) {
+        ctx.save();
+        ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
+        ctx.drawImage(
+          catImg,
+          catX - (catImg.width * scale) / 2,
+          catY - (catImg.height * scale) / 2,
+          catImg.width * scale,
+          catImg.height * scale
+        );
+        ctx.restore();
+      }
 
-      // Text neben Besenkatze
+      // Text next to broom cat
       if (showText) {
         if (textOpacity < 1) textOpacity += 0.01;
 
@@ -123,21 +124,20 @@
         ctx.globalAlpha = textOpacity;
         ctx.filter = 'drop-shadow(0 0 10px rgba(255, 255, 150, 0.8))';
         ctx.textAlign = "center";
+        ctx.fillStyle = "yellow";
 
         ctx.font = "50px 'Mystery Quest', cursive";
-        ctx.fillStyle = "yellow";
         ctx.fillText("MEET MAGIC", shiftedCenterX + 160, shiftedCenterY - 60);
 
         ctx.font = "28px 'Mystery Quest', cursive";
         ctx.fillText("The mystical black cat", shiftedCenterX + 160, shiftedCenterY);
         ctx.fillText("who guides seekers to extraordinary gains.", shiftedCenterX + 160, shiftedCenterY + 40);
-
         ctx.fillText("Hold Magic, and magic will find you.", shiftedCenterX + 160, shiftedCenterY + 90);
 
         ctx.restore();
       }
 
-      // Extra-Katzen-Bilder zeichnen
+      // Draw extra cat images
       const startX = centerX - 200;
       const startY = centerY + 200;
       const spacingX = 200;
@@ -152,16 +152,20 @@
 
         cat.floatAngle += 0.05;
 
-        ctx.save();
-        ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
-        ctx.drawImage(
-          cat.img,
-          posX - (cat.img.width * cat.scale) / 2,
-          posY - (cat.img.height * cat.scale) / 2,
-          cat.img.width * cat.scale,
-          cat.img.height * cat.scale
-        );
-        ctx.restore();
+        if (cat.img.complete && cat.img.naturalWidth !== 0) {
+          ctx.save();
+          ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
+          ctx.drawImage(
+            cat.img,
+            posX - (cat.img.width * cat.scale) / 2,
+            posY - (cat.img.height * cat.scale) / 2,
+            cat.img.width * cat.scale,
+            cat.img.height * cat.scale
+          );
+          ctx.restore();
+        } else {
+          console.warn(`Bild ${cat.src} nicht geladen oder kaputt.`);
+        }
       });
 
       requestAnimationFrame(animateParticles);
