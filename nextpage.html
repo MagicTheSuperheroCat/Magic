@@ -32,151 +32,111 @@
     });
 
     let particles = JSON.parse(localStorage.getItem('particles')) || [];
-    if (particles.length === 0) {
-      for (let i = 0; i < 300; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          size: Math.random() * 2 + 1
-        });
-      }
-    }
 
-    const catImg = new Image();
-    catImg.src = 'images/cat_on_broom.png';
-
-    const extraCats = [
-      { img: new Image(), src: 'images/cat1.png', scale: 0.2, floatAngle: 0 },
-      { img: new Image(), src: 'images/cat2.png', scale: 0.2, floatAngle: 1 },
-      { img: new Image(), src: 'images/cat3.png', scale: 0.2, floatAngle: 2 },
-      { img: new Image(), src: 'images/cat4.png', scale: 0.2, floatAngle: 3 },
-    ];
-    extraCats.forEach(c => c.img.src = c.src);
-
-    const centerX = width / 2;
-    const centerY = height / 2;
-    let angle = Math.PI / 4;
-    let radius = Math.min(width, height) * 0.6;
-    let scale = 0.02;
-    const maxScale = 0.25;
-    let reachedCenter = false;
-    let showText = false;
-    let textOpacity = 0;
-    let floatAngle = 0;
-    let startExtraCats = false;
+if (particles.length === 0) {
+  for (let i = 0; i < 300; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      size: Math.random() * 2 + 1
+    });
+  }
+}
+    // Katze vorbereiten
+const catImg = new Image();
+catImg.src = 'images/cat_on_broom.png';
+const centerX = width / 2;
+const centerY = height / 2;
+let angle = Math.PI / 4;
+let radius = Math.min(width, height) * 0.6;
+let scale = 0.02;
+const maxScale = 0.25;
+let reachedCenter = false;
+let showText = false;
+let textOpacity = 0;
+let floatAngle = 0;
 
     function animateParticles() {
-      ctx.clearRect(0, 0, width, height);
+  ctx.clearRect(0, 0, width, height);
+  
+  // Sterne zeichnen
+  particles.forEach(p => {
+    let opacity = 0.5 + Math.random() * 0.5;
+    ctx.beginPath();
+    ctx.arc(p.finalX || p.x, p.finalY || p.y, p.size, 0, 2 * Math.PI);
+    ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
+    ctx.fill();
+  });
 
-      // Draw stars
-      particles.forEach(p => {
-        let opacity = 0.5 + Math.random() * 0.5;
-        ctx.beginPath();
-        ctx.arc(p.finalX || p.x, p.finalY || p.y, p.size, 0, 2 * Math.PI);
-        ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
-        ctx.fill();
-      });
+  // Katze bewegen
+  let catX, catY;
 
-      // Move broom cat
-      let catX, catY;
-      const shiftedCenterX = centerX - 150;
-      const shiftedCenterY = centerY;
+const shiftedCenterX = centerX - 150; // 15 cm nach links verschoben
+const shiftedCenterY = centerY;
 
-      if (!reachedCenter) {
-        catX = shiftedCenterX + radius * Math.cos(angle);
-        catY = shiftedCenterY + radius * Math.sin(angle);
+if (!reachedCenter) {
+  catX = shiftedCenterX + radius * Math.cos(angle);
+  catY = shiftedCenterY + radius * Math.sin(angle);
 
-        angle += 0.05;
-        if (angle >= Math.PI / 4 + 2 * Math.PI) {
-          radius -= 4;
-          if (radius <= 2) {
-            reachedCenter = true;
-            scale = maxScale;
-            showText = true;
-            // Start extra cats AFTER 3s delay
-            setTimeout(() => {
-              startExtraCats = true;
-            }, 3000);
-          }
-        }
+  angle += 0.05; // Geschwindigkeit auf Kreisbahn
 
-        if (scale < maxScale) scale += 0.001;
-      } else {
-        catX = shiftedCenterX;
-        catY = shiftedCenterY + Math.sin(floatAngle) * 5;
-        floatAngle += 0.05;
-      }
-
-      // Draw broom cat
-      if (catImg.complete && catImg.naturalWidth !== 0) {
-        ctx.save();
-        ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
-        ctx.drawImage(
-          catImg,
-          catX - (catImg.width * scale) / 2,
-          catY - (catImg.height * scale) / 2,
-          catImg.width * scale,
-          catImg.height * scale
-        );
-        ctx.restore();
-      }
-
-      // Show text next to broom cat
-      if (showText) {
-        if (textOpacity < 1) textOpacity += 0.01;
-
-        ctx.save();
-        ctx.globalAlpha = textOpacity;
-        ctx.filter = 'drop-shadow(0 0 10px rgba(255, 255, 150, 0.8))';
-        ctx.textAlign = "center";
-        ctx.fillStyle = "yellow";
-
-        ctx.font = "50px 'Mystery Quest', cursive";
-        ctx.fillText("MEET MAGIC", shiftedCenterX + 160, shiftedCenterY - 60);
-
-        ctx.font = "28px 'Mystery Quest', cursive";
-        ctx.fillText("The mystical black cat", shiftedCenterX + 160, shiftedCenterY);
-        ctx.fillText("who guides seekers to extraordinary gains.", shiftedCenterX + 160, shiftedCenterY + 40);
-        ctx.fillText("Hold Magic, and magic will find you.", shiftedCenterX + 160, shiftedCenterY + 90);
-
-        ctx.restore();
-      }
-
-      // After delay, show extra cats
-      if (startExtraCats) {
-        const startX = centerX - 200;
-        const startY = centerY + 200;
-        const spacingX = 200;
-        const spacingY = 150;
-
-        extraCats.forEach((cat, index) => {
-          const row = Math.floor(index / 2);
-          const col = index % 2;
-
-          const posX = startX + col * spacingX;
-          const posY = startY + row * spacingY + Math.sin(cat.floatAngle) * 5;
-
-          cat.floatAngle += 0.05;
-
-          if (cat.img.complete && cat.img.naturalWidth !== 0) {
-            ctx.save();
-            ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
-            ctx.drawImage(
-              cat.img,
-              posX - (cat.img.width * cat.scale) / 2,
-              posY - (cat.img.height * cat.scale) / 2,
-              cat.img.width * cat.scale,
-              cat.img.height * cat.scale
-            );
-            ctx.restore();
-          } else {
-            console.warn(`Bild ${cat.src} nicht geladen oder kaputt.`);
-          }
-        });
-      }
-
-      requestAnimationFrame(animateParticles);
+  if (angle >= Math.PI / 4 + 2 * Math.PI) {
+    // Nach vollem Kreis → gerade Richtung Mitte
+    radius -= 4; // Geschwindigkeit zur Mitte
+    if (radius <= 2) {
+  reachedCenter = true;
+  scale = maxScale;
+  showText = true; // <<< NEU: Text anzeigen aktivieren
     }
+  }
+
+  if (scale < maxScale) scale += 0.001;
+} else {
+  catX = shiftedCenterX;
+  catY = shiftedCenterY + Math.sin(floatAngle) * 5;
+  floatAngle += 0.05;
+}
+
+  // Katze mit Glow zeichnen
+  ctx.save();
+  ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
+  ctx.drawImage(
+    catImg,
+    catX - (catImg.width * scale) / 2,
+    catY - (catImg.height * scale) / 2,
+    catImg.width * scale,
+    catImg.height * scale
+  );
+  ctx.restore();
+if (showText) {
+  if (textOpacity < 1) {
+    textOpacity += 0.01; // langsam einblenden
+  }
+
+  ctx.save();
+  ctx.globalAlpha = textOpacity;
+
+  // Glow-Effekt
+  ctx.filter = 'drop-shadow(0 0 10px rgba(255, 255, 150, 0.8))';
+
+  // Text zeichnen
+  ctx.font = "50px 'Mystery Quest', cursive";
+ctx.textAlign = "center";
+ctx.fillStyle = "yellow";
+const textX = shiftedCenterX + 350; // rechts neben der Katze
+
+ctx.fillText("MEET MAGIC", textX, shiftedCenterY - 60);
+
+ctx.font = "28px 'Mystery Quest', cursive";
+ctx.fillText("The mystical black cat", textX, shiftedCenterY);
+ctx.fillText("who guides seekers to extraordinary gains.", textX, shiftedCenterY + 40);
+
+ctx.fillText("Hold Magic, and magic will find you.", textX, shiftedCenterY + 90);
+
+  ctx.restore();
+}
+  requestAnimationFrame(animateParticles);
+}
 
     animateParticles();
   </script>
