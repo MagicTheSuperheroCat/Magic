@@ -17,15 +17,18 @@
       left: 0;
     }
 
-    h1, p, .magic-text {
-      color: #ffffaa;
-      font-family: 'Mystery Quest', cursive;
-      text-shadow: 0 0 10px #ffffaa, 0 0 20px #ffffaa;
-      text-align: center;
-      z-index: 10;
-      position: relative;
-      transform: translateX(200px);
-    }
+   h1, p, .magic-text {
+  color: #ffffaa;
+  font-family: 'Mystery Quest', cursive;
+  text-shadow: 0 0 10px #ffffaa, 0 0 20px #ffffaa;
+  text-align: left;
+  z-index: 10;
+  position: absolute;
+  top: 30%;
+  left: calc(50% + 200px); /* exakt gleiche X-Position wie auf Seite 2 */
+  transform: translateY(-50%);
+  width: 400px;
+}
 
     h1 {
       font-size: 3em;
