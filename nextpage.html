@@ -15,10 +15,35 @@
       top: 0;
       left: 0;
     }
+    /* ✨ Neuer Button-Stil */
+    #beginButton {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 16px 32px;
+  font-size: 24px;
+  font-family: 'Mystery Quest', cursive;
+  color: black;
+  background: linear-gradient(90deg, gold, #ffd700);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 0 20px gold, 0 0 40px gold;
+  cursor: pointer;
+  opacity: 0; /* Unsichtbar am Anfang */
+  transition: opacity 1s ease, transform 0.3s ease;
+  z-index: 10;
+}
+#beginButton:hover {
+  transform: translateX(-50%) scale(1.05);
+  box-shadow: 0 0 30px gold, 0 0 60px gold;
+}
+
   </style>
 </head>
 <body>
   <canvas id="starCanvas"></canvas>
+  <button id="beginButton">The Beginning</button>
 
   <script>
     const canvas = document.getElementById('starCanvas');
@@ -135,10 +160,27 @@ ctx.fillText("Hold Magic, and magic will find you.", textX, shiftedCenterY + 90)
 
   ctx.restore();
 }
+  checkShowButton();
   requestAnimationFrame(animateParticles);
 }
 
     animateParticles();
+    const beginButton = document.getElementById('beginButton');
+let buttonShown = false;
+
+// Weiterleitung bei Klick
+beginButton.addEventListener('click', () => {
+  window.location.href = 'story.html'; // Zielseite hier ggf. anpassen
+});
+
+// Button anzeigen, wenn Text vollständig eingeblendet ist
+function checkShowButton() {
+  if (showText && textOpacity >= 1 && !buttonShown) {
+    beginButton.style.opacity = '1';
+    buttonShown = true;
+  }
+}
+
   </script>
 </body>
 </html>
