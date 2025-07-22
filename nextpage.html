@@ -45,6 +45,15 @@ if (particles.length === 0) {
     // Katze vorbereiten
 const catImg = new Image();
 catImg.src = 'images/cat_on_broom.png';
+
+// Zusätzliche Bilder vorbereiten
+const extraCats = [
+  { img: new Image(), src: 'images/cat1.png', x: 0, y: 0, scale: 0.2, floatAngle: 0 },
+  { img: new Image(), src: 'images/cat2.png', x: 0, y: 0, scale: 0.2, floatAngle: 1 },
+  { img: new Image(), src: 'images/cat3.png', x: 0, y: 0, scale: 0.2, floatAngle: 2 },
+  { img: new Image(), src: 'images/cat4.png', x: 0, y: 0, scale: 0.2, floatAngle: 3 },
+];
+extraCats.forEach(c => c.img.src = c.src);
 const centerX = width / 2;
 const centerY = height / 2;
 let angle = Math.PI / 4;
@@ -135,6 +144,32 @@ ctx.fillText("Hold Magic, and magic will find you.", textX, shiftedCenterY + 90)
 
   ctx.restore();
 }
+      // Extra-Katzen-Bilder zeichnen
+const startX = centerX - 200;
+const startY = centerY + 200;
+const spacingX = 200;
+const spacingY = 150;
+
+extraCats.forEach((cat, index) => {
+  const row = Math.floor(index / 2);
+  const col = index % 2;
+
+  const posX = startX + col * spacingX;
+  const posY = startY + row * spacingY + Math.sin(cat.floatAngle) * 5;
+
+  cat.floatAngle += 0.05;
+
+  ctx.save();
+  ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
+  ctx.drawImage(
+    cat.img,
+    posX - (cat.img.width * cat.scale) / 2,
+    posY - (cat.img.height * cat.scale) / 2,
+    cat.img.width * cat.scale,
+    cat.img.height * cat.scale
+  );
+  ctx.restore();
+});
   requestAnimationFrame(animateParticles);
 }
 
