@@ -25,10 +25,10 @@
   font-size: 24px;
   font-family: 'Mystery Quest', cursive;
   color: black;
-  background: linear-gradient(90deg, gold, #ffd700);
+  background: linear-gradient(90deg, #ffffaa, #ffffcc);
   border: none;
   border-radius: 12px;
-  box-shadow: 0 0 20px gold, 0 0 40px gold;
+  box-shadow: 0 0 10px #ffffaa, 0 0 25px #ffffaa;
   cursor: pointer;
   opacity: 0; /* Unsichtbar am Anfang */
   transition: opacity 1s ease, transform 0.3s ease;
@@ -36,7 +36,7 @@
 }
 #beginButton:hover {
   transform: translateX(-50%) scale(1.05);
-  box-shadow: 0 0 30px gold, 0 0 60px gold;
+  box-shadow: 0 0 20px #ffffaa, 0 0 40px #ffffaa;
 }
 
   </style>
@@ -147,7 +147,7 @@ if (showText) {
   // Text zeichnen
   ctx.font = "50px 'Mystery Quest', cursive";
 ctx.textAlign = "center";
-ctx.fillStyle = "yellow";
+ctx.fillStyle = "#ffffaa";
 const textX = shiftedCenterX + 350; // rechts neben der Katze
 
 ctx.fillText("MEET MAGIC", textX, shiftedCenterY - 60);
