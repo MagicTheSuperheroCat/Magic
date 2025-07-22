@@ -124,13 +124,15 @@ if (showText) {
   ctx.font = "50px 'Mystery Quest', cursive";
 ctx.textAlign = "center";
 ctx.fillStyle = "yellow";
-ctx.fillText("MEET MAGIC", shiftedCenterX, shiftedCenterY - 60);
+const textX = shiftedCenterX + 160; // rechts neben der Katze
+
+ctx.fillText("MEET MAGIC", textX, shiftedCenterY - 60);
 
 ctx.font = "28px 'Mystery Quest', cursive";
-ctx.fillText("The mystical black cat", shiftedCenterX, shiftedCenterY);
-ctx.fillText("who guides seekers to extraordinary gains.", shiftedCenterX, shiftedCenterY + 40);
+ctx.fillText("The mystical black cat", textX, shiftedCenterY);
+ctx.fillText("who guides seekers to extraordinary gains.", textX, shiftedCenterY + 40);
 
-ctx.fillText("Hold Magic, and magic will find you.", shiftedCenterX, shiftedCenterY + 90);
+ctx.fillText("Hold Magic, and magic will find you.", textX, shiftedCenterY + 90);
 
   ctx.restore();
 }
