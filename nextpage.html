@@ -63,6 +63,7 @@
     let showText = false;
     let textOpacity = 0;
     let floatAngle = 0;
+    let startExtraCats = false;
 
     function animateParticles() {
       ctx.clearRect(0, 0, width, height);
@@ -92,6 +93,10 @@
             reachedCenter = true;
             scale = maxScale;
             showText = true;
+            // Start extra cats AFTER 3s delay
+            setTimeout(() => {
+              startExtraCats = true;
+            }, 3000);
           }
         }
 
@@ -102,7 +107,7 @@
         floatAngle += 0.05;
       }
 
-      // Draw broom cat with glow
+      // Draw broom cat
       if (catImg.complete && catImg.naturalWidth !== 0) {
         ctx.save();
         ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
@@ -116,7 +121,7 @@
         ctx.restore();
       }
 
-      // Text next to broom cat
+      // Show text next to broom cat
       if (showText) {
         if (textOpacity < 1) textOpacity += 0.01;
 
@@ -137,36 +142,38 @@
         ctx.restore();
       }
 
-      // Draw extra cat images
-      const startX = centerX - 200;
-      const startY = centerY + 200;
-      const spacingX = 200;
-      const spacingY = 150;
+      // After delay, show extra cats
+      if (startExtraCats) {
+        const startX = centerX - 200;
+        const startY = centerY + 200;
+        const spacingX = 200;
+        const spacingY = 150;
 
-      extraCats.forEach((cat, index) => {
-        const row = Math.floor(index / 2);
-        const col = index % 2;
+        extraCats.forEach((cat, index) => {
+          const row = Math.floor(index / 2);
+          const col = index % 2;
 
-        const posX = startX + col * spacingX;
-        const posY = startY + row * spacingY + Math.sin(cat.floatAngle) * 5;
+          const posX = startX + col * spacingX;
+          const posY = startY + row * spacingY + Math.sin(cat.floatAngle) * 5;
 
-        cat.floatAngle += 0.05;
+          cat.floatAngle += 0.05;
 
-        if (cat.img.complete && cat.img.naturalWidth !== 0) {
-          ctx.save();
-          ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
-          ctx.drawImage(
-            cat.img,
-            posX - (cat.img.width * cat.scale) / 2,
-            posY - (cat.img.height * cat.scale) / 2,
-            cat.img.width * cat.scale,
-            cat.img.height * cat.scale
-          );
-          ctx.restore();
-        } else {
-          console.warn(`Bild ${cat.src} nicht geladen oder kaputt.`);
-        }
-      });
+          if (cat.img.complete && cat.img.naturalWidth !== 0) {
+            ctx.save();
+            ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
+            ctx.drawImage(
+              cat.img,
+              posX - (cat.img.width * cat.scale) / 2,
+              posY - (cat.img.height * cat.scale) / 2,
+              cat.img.width * cat.scale,
+              cat.img.height * cat.scale
+            );
+            ctx.restore();
+          } else {
+            console.warn(`Bild ${cat.src} nicht geladen oder kaputt.`);
+          }
+        });
+      }
 
       requestAnimationFrame(animateParticles);
     }
