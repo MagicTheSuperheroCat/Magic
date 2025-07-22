@@ -48,10 +48,10 @@ catImg.src = 'images/cat_on_broom.png';
 
 // Zusätzliche Bilder vorbereiten
 const extraCats = [
-  { img: new Image(), src: 'images/cat1.png', x: 0, y: 0, scale: 0.2, floatAngle: 0 },
-  { img: new Image(), src: 'images/cat2.png', x: 0, y: 0, scale: 0.2, floatAngle: 1 },
-  { img: new Image(), src: 'images/cat3.png', x: 0, y: 0, scale: 0.2, floatAngle: 2 },
-  { img: new Image(), src: 'images/cat4.png', x: 0, y: 0, scale: 0.2, floatAngle: 3 },
+  { img: new Image(), src: 'images/cat1.png', scale: 0.2, floatAngle: 0 },
+  { img: new Image(), src: 'images/cat2.png', scale: 0.2, floatAngle: 1 },
+  { img: new Image(), src: 'images/cat3.png', scale: 0.2, floatAngle: 2 },
+  { img: new Image(), src: 'images/cat4.png', scale: 0.2, floatAngle: 3 },
 ];
 extraCats.forEach(c => c.img.src = c.src);
 const centerX = width / 2;
