@@ -29,8 +29,12 @@
   transform: translateY(-50%);
   width: 400px;
   line-height: 1.6;
+     opacity: 0;
+  transition: opacity 2s ease-in;
 }
-
+.magic-text.visible {
+  opacity: 1;
+}
 
     h1 {
       font-size: 3em;
@@ -55,42 +59,56 @@
   </div>
 </div>
 
-  <script>
-    const canvas = document.getElementById('starCanvas');
-    const ctx = canvas.getContext('2d');
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
+ <script>
+  // Sternenhimmel
+  const canvas = document.getElementById('starCanvas');
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
 
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+
+  let particles = JSON.parse(localStorage.getItem('particles')) || [];
+
+  if (particles.length === 0) {
+    for (let i = 0; i < 300; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 2 + 1
+      });
+    }
+  }
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, width, height);
+
+    particles.forEach(p => {
+      let opacity = 0.5 + Math.random() * 0.5;
+      ctx.beginPath();
+      ctx.arc(p.finalX || p.x, p.finalY || p.y, p.size, 0, 2 * Math.PI);
+      ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
+      ctx.fill();
     });
 
-    let particles = JSON.parse(localStorage.getItem('particles')) || [];
+    requestAnimationFrame(animateParticles);
+  }
 
-    if (particles.length === 0) {
-      for (let i = 0; i < 300; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          size: Math.random() * 2 + 1
-        });
-      }
+  animateParticles();
+
+  // Text sanft einblenden
+  window.addEventListener('load', () => {
+    const textBlock = document.querySelector('.magic-text');
+    if (textBlock) {
+      setTimeout(() => {
+        textBlock.classList.add('visible');
+      }, 500); // 0,5 Sekunden warten
     }
-
-    function animateParticles() {
-      ctx.clearRect(0, 0, width, height);
-      particles.forEach(p => {
-        let opacity = 0.5 + Math.random() * 0.5;
-        ctx.beginPath();
-        ctx.arc(p.finalX || p.x, p.finalY || p.y, p.size, 0, 2 * Math.PI);
-        ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
-        ctx.fill();
-      });
-      requestAnimationFrame(animateParticles);
-    }
-
-    animateParticles();
-  </script>
+  });
+</script>
+  
 </body>
 </html>
