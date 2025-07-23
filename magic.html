@@ -1,1 +1,123 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Magic Continues</title>
+  <link href="https://fonts.googleapis.com/css2?family=Mystery+Quest&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+      font-family: 'Mystery Quest', cursive;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .magic-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60%;
+      text-align: center;
+      color: #ffffaa;
+      text-shadow: 0 0 10px #ffffaa, 0 0 20px #ffffaa;
+      font-size: 28px;
+      line-height: 1.6;
+      opacity: 0;
+      transition: opacity 2s ease;
+      z-index: 2;
+    }
+
+    .magic-text.visible {
+      opacity: 1;
+    }
+
+    .back-button {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 28px;
+      font-size: 24px;
+      color: #fff8cc;
+      background-color: #333;
+      border: 2px solid #fff8cc;
+      border-radius: 12px;
+      text-decoration: none;
+      box-shadow: 0 0 10px #fff8cc, 0 0 20px #fff8cc;
+      transition: background-color 0.3s, transform 0.3s;
+      z-index: 3;
+    }
+
+    .back-button:hover {
+      background-color: #555;
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="starCanvas"></canvas>
+
+  <div class="magic-text" id="textBlock">
+    The journey continues...<br>
+    Magic is only just beginning to unfold.
+  </div>
+
+  <a href="beginning.html" class="back-button">Back to Beginning</a>
+
+  <script>
+    // Sternenhimmel
+    const canvas = document.getElementById('starCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    let particles = JSON.parse(localStorage.getItem('particles')) || [];
+
+    if (particles.length === 0) {
+      for (let i = 0; i < 300; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: Math.random() * 2 + 1
+        });
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        let opacity = 0.5 + Math.random() * 0.5;
+        ctx.beginPath();
+        ctx.arc(p.finalX || p.x, p.finalY || p.y, p.size, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+
+    animateParticles();
+
+    // Text einblenden nach kurzer Verzögerung
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("textBlock").classList.add("visible");
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
 
