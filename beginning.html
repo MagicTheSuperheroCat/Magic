@@ -154,6 +154,11 @@
       textBlock.classList.add("visible");
     }, images.length * 1000 + 500); // z. B. nach 4 Sekunden + 0.5s
   });
+   // Bild erzeugt Geräusche nach Klick
+   const meow = new Audio("sounds/meow.mp3");
+  document.querySelectorAll(".cat-img")[1].addEventListener("click", () => {
+    meow.play();
+  });
 </script>
   
 </body>
