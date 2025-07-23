@@ -15,7 +15,35 @@
       position: absolute;
       top: 0;
       left: 0;
+      z-index: 0;
+  }
+
+  #cat-gallery {
+    position: absolute;
+    top: 10%;
+    left: calc(50% + 200px);
+    width: 400px;
+    display: grid;
+    grid-template-columns: repeat(2, 200px);
+    gap: 20px;
+    opacity: 0;
+    z-index: 2;
+  }
+
+  .cat-img {
+    width: 100%;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 150, 0.8));
+    opacity: 0;
+    transform: scale(0.95);
+    animation: fadeIn 1s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+      transform: scale(1);
     }
+  }
 
    .magic-text {
   color: #ffffaa;
@@ -51,6 +79,13 @@
 </head>
 <body>
   <canvas id="starCanvas"></canvas>
+
+  <div id="cat-gallery">
+  <img src="images/cat1.png" class="cat-img" style="animation-delay: 0s;">
+  <img src="images/cat2.png" class="cat-img" style="animation-delay: 1s;">
+  <img src="images/cat3.png" class="cat-img" style="animation-delay: 2s;">
+  <img src="images/cat4.png" class="cat-img" style="animation-delay: 3s;">
+</div>
 
  <div class="magic-text">
   <div style="font-size: 50px; margin-bottom: 20px;">🌙 The Beginning</div>
@@ -99,14 +134,25 @@
 
   animateParticles();
 
-  // Text sanft einblenden
-  window.addEventListener('load', () => {
-    const textBlock = document.querySelector('.magic-text');
-    if (textBlock) {
+  // Bilder und Text nacheinander einblenden
+  window.addEventListener("load", () => {
+    const gallery = document.getElementById("cat-gallery");
+    const images = gallery.querySelectorAll(".cat-img");
+    const textBlock = document.querySelector(".magic-text");
+
+    // Galerie sichtbar machen
+    gallery.style.opacity = "1";
+
+    images.forEach((img, index) => {
       setTimeout(() => {
-        textBlock.classList.add('visible');
-      }, 500); // 0,5 Sekunden warten
-    }
+        img.style.opacity = "1";
+      }, index * 1000); // 1 Sekunde Abstand zwischen Bildern
+    });
+
+    // Text nach letztem Bild einblenden
+    setTimeout(() => {
+      textBlock.classList.add("visible");
+    }, images.length * 1000 + 500); // z. B. nach 4 Sekunden + 0.5s
   });
 </script>
   
