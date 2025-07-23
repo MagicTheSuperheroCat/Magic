@@ -126,8 +126,7 @@
   // Magic Button
   <a href="Magic.html" class="magic-button" id="magicButton" style="opacity: 0;">The Magic</a>
 
- <script>
-  // Sternenhimmel
+<script>
   const canvas = document.getElementById('starCanvas');
   const ctx = canvas.getContext('2d');
   let width = canvas.width = window.innerWidth;
@@ -152,7 +151,6 @@
 
   function animateParticles() {
     ctx.clearRect(0, 0, width, height);
-
     particles.forEach(p => {
       let opacity = 0.5 + Math.random() * 0.5;
       ctx.beginPath();
@@ -160,48 +158,36 @@
       ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
       ctx.fill();
     });
-
     requestAnimationFrame(animateParticles);
   }
 
   animateParticles();
 
-  // Bilder und Text nacheinander einblenden
+  // === Einblendung von Bildern und Textblock ===
   window.addEventListener("load", () => {
     const gallery = document.getElementById("cat-gallery");
-    const images = gallery.querySelectorAll(".cat-img");
-    const textBlock = document.querySelector(".magic-text");
+    const images = document.querySelectorAll(".cat-img");
+    const textBlock = document.getElementById("textBlock");
+    const magicButton = document.getElementById("magicButton");
 
-    // Galerie sichtbar machen
-    gallery.style.opacity = "1";
-
-    images.forEach((img, index) => {
+    // Bilder einzeln anzeigen
+    images.forEach((img, i) => {
       setTimeout(() => {
-        img.style.opacity = "1";
-      }, index * 1000); // 1 Sekunde Abstand zwischen Bildern
+        img.style.opacity = 1;
+      }, i * 1000);
     });
 
-    // Text nach letztem Bild einblenden
+    // Text erscheint nach letzter Katze
     setTimeout(() => {
       textBlock.classList.add("visible");
-    }, images.length * 1000 + 500); // z. B. nach 4 Sekunden + 0.5s
-  });
-   
-   // Button erscheint kurz danach
-  setTimeout(() => {
-    document.getElementById("magicButton").classList.add("visible");
-  }, 1500); // Wartezeit nach dem Text
-}, images.length * 1000 + 500);
-   
-   // Bild erzeugt Geräusche nach Klick
-   const meow = new Audio("sounds/meow.mp3");
-  document.querySelectorAll(".cat-img")[1].addEventListener("click", () => {
-    meow.play();
-  });
-   // Bild 4 schnurrt
-   const purr = new Audio("sounds/purr.mp3");
-  document.querySelectorAll(".cat-img")[3].addEventListener("click", () => {
-    purr.play();
+
+      // Button erscheint nach Text
+      setTimeout(() => {
+        if (magicButton) {
+          magicButton.classList.add("visible");
+        }
+      }, 1500);
+    }, images.length * 1000 + 500);
   });
 </script>
   
