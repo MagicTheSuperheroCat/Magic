@@ -57,10 +57,11 @@
 }
 
     .back-button:hover {
-      background-color: #555;
-      transform: scale(1.05);
-      cursor: pointer;
-    }
+  background-color: #eee88a;
+  scale: 1.05;
+  filter: brightness(1.2);
+  cursor: pointer;
+}
   </style>
 </head>
 <body>
@@ -71,7 +72,9 @@
     Magic is only just beginning to unfold.
   </div>
 
+  <div class="button-wrapper" style="opacity: 0; transition: opacity 1.5s;">
   <a href="beginning.html" class="back-button">Back to Beginning</a>
+</div>
 
   <script>
     // Sternenhimmel
@@ -113,10 +116,15 @@
 
     // Text einblenden nach kurzer Verzögerung
     window.addEventListener("load", () => {
-      setTimeout(() => {
-        document.getElementById("textBlock").classList.add("visible");
-      }, 1000);
-    });
+  setTimeout(() => {
+    document.getElementById("textBlock").classList.add("visible");
+    
+    // Nach dem Text: Button sichtbar machen
+    const buttonWrapper = document.querySelector(".button-wrapper");
+    buttonWrapper.style.opacity = "1";
+  }, 1000); // Text nach 1 Sekunde, Button sofort danach
+});
+
   </script>
 </body>
 </html>
