@@ -78,7 +78,7 @@
 
     .magic-button {
   position: absolute;
-  top: 85%;
+  top: 90%;
   left: calc(50% + 200px);
   transform: translateX(-50%);
   padding: 12px 28px;
@@ -90,14 +90,19 @@
   border-radius: 12px;
   text-decoration: none;
   box-shadow: 0 0 10px #fff8cc, 0 0 20px #fff8cc;
-  transition: background-color 0.3s, transform 0.3s;
+  transition: background-color 0.3s, transform 0.3s, opacity 1s ease-in;
   z-index: 4;
+  opacity: 0;
 }
 
 .magic-button:hover {
   background-color: #555;
   transform: scale(1.05);
   cursor: pointer;
+}
+
+.magic-button.visible {
+  opacity: 1;
 }
     
   </style>
@@ -119,8 +124,7 @@
   </div>
 </div>
   // Magic Button
-  <a href="Magic.html" class="magic-button">Magic</a>
-
+  <a href="Magic.html" class="magic-button" id="magicButton" style="opacity: 0;">The Magic</a>
 
  <script>
   // Sternenhimmel
@@ -182,6 +186,13 @@
       textBlock.classList.add("visible");
     }, images.length * 1000 + 500); // z. B. nach 4 Sekunden + 0.5s
   });
+   
+   // Button erscheint kurz danach
+  setTimeout(() => {
+    document.getElementById("magicButton").classList.add("visible");
+  }, 1500); // Wartezeit nach dem Text
+}, images.length * 1000 + 500);
+   
    // Bild erzeugt Geräusche nach Klick
    const meow = new Audio("sounds/meow.mp3");
   document.querySelectorAll(".cat-img")[1].addEventListener("click", () => {
