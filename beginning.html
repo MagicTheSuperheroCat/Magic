@@ -191,6 +191,22 @@
   document.querySelectorAll(".cat-img")[3].addEventListener("click", () => {
     purr.play();
   });
+
+   const beginButton = document.getElementById('beginButton');
+let buttonShown = false;
+
+// Weiterleitung bei Klick
+beginButton.addEventListener('click', () => {
+  window.location.href = 'beginning.html'; // Zielseite hier ggf. anpassen
+});
+
+// Button anzeigen, wenn Text vollständig eingeblendet ist
+function checkShowButton() {
+  if (showText && textOpacity >= 1 && !buttonShown) {
+    beginButton.style.opacity = '1';
+    buttonShown = true;
+  }
+}
 </script>
   
 </body>
