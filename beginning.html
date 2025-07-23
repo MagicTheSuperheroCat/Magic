@@ -117,8 +117,10 @@
     Magic was Suppo's beloved companion, a mystical black cat with golden eyes that seemed to see beyond the veil of reality. When Magic passed, his spirit chose to remain, becoming Suppo's guardian angel in the world of cryptocurrency.
   </div>
 </div>
-  // Magic Button
+  <!-- Magic Button -->
+<div class="button-wrapper" style="opacity: 0; transition: opacity 1.5s;">
   <a href="Magic.html" class="magic-button">The Magic</a>
+</div>
 
 
  <script>
@@ -181,6 +183,15 @@
       textBlock.classList.add("visible");
     }, images.length * 1000 + 500); // z. B. nach 4 Sekunden + 0.5s
   });
+   // Button nach Text einblenden (z. B. bei 6 Sekunden)
+  const buttonWrapper = document.querySelector(".button-wrapper");
+  buttonWrapper.style.opacity = "0";
+  buttonWrapper.style.transition = "opacity 1.5s";
+
+  setTimeout(() => {
+    buttonWrapper.style.opacity = "1";
+  }, 6000);
+
    // Bild erzeugt Geräusche nach Klick
    const meow = new Audio("sounds/meow.mp3");
   document.querySelectorAll(".cat-img")[1].addEventListener("click", () => {
