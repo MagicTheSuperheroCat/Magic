@@ -1,152 +1,86 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Information</title>
-
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Mystery+Quest&display=swap" rel="stylesheet" />
+  
+  <!-- Schriftart -->
+  <link href="https://fonts.googleapis.com/css2?family=Mystery+Quest&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --gold-light: #fff7c2;
-      --gold-mid:   #f6e27a;
-      --gold-deep:  #d4af37;
-      --text-gold:  #ffefb0;
+      --gold: #f9e26d;
+      --gold-soft: #fff7c2;
+      --gold-deep: #d4af37;
     }
 
     html, body {
       margin: 0;
       padding: 0;
-      background: #000;
-      color: var(--text-gold);
+      background: black;
       font-family: 'Mystery Quest', cursive;
-      overflow-y: auto;          /* <- Scrollen erlaubt */
-      scroll-behavior: smooth;
+      color: var(--gold);
+      overflow-y: scroll;
     }
 
-    /* Sternenhimmel liegt fix im Hintergrund */
-    canvas#starCanvas {
+    canvas {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
       z-index: 0;
     }
 
-    /* Inhalt darüber */
     .content {
       position: relative;
       z-index: 2;
-      max-width: 920px;
+      padding: 100px 20px 200px;
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 120px 20px 200px;
-      line-height: 1.6;
     }
 
-    h1, h2, h3 {
-      margin: 0 0 24px;
-      line-height: 1.2;
-      text-shadow: 0 0 10px rgba(255, 255, 200, 0.25);
+    h1 {
+      font-size: 3rem;
+      color: var(--gold-soft);
+      text-align: center;
+      text-shadow: 0 0 10px var(--gold), 0 0 20px var(--gold-soft);
+      margin-bottom: 10px;
     }
 
-    /* Gold-Gradient für Überschriften */
-    .gold-gradient {
-      background: linear-gradient(90deg, var(--gold-light), var(--gold-mid), var(--gold-deep));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
-    }
-
-    p {
-      font-size: 1.25rem;
-      margin: 0 0 20px;
-    }
-
-    section {
-      margin-bottom: 120px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    a {
-      color: var(--gold-light);
-      text-decoration: none;
-      box-shadow: 0 1px 0 var(--gold-mid);
-      transition: filter 0.2s;
-    }
-    a:hover {
-      filter: brightness(1.2);
+    .address {
+      font-size: 1.4rem;
+      text-align: center;
+      color: var(--gold-deep);
+      text-shadow: 0 0 5px var(--gold-soft);
+      word-break: break-word;
     }
   </style>
 </head>
 <body>
-  <!-- Sterne -->
+
+  <!-- Sternenhimmel -->
   <canvas id="starCanvas"></canvas>
 
   <!-- Inhalt -->
-  <main class="content">
-    <header>
-      <h1 class="gold-gradient" style="font-size: 3.2rem;">⭐ Information</h1>
-      <p>Hier sammeln wir alles rund um <strong>$MAGIC</strong>, Utility, Tokenomics, Roadmap & mehr.</p>
-    </header>
-
-    <section id="intro">
-      <h2 class="gold-gradient">The Vision</h2>
-      <p>
-        Magic’s spirit flows through every believer. Auf dieser Seite findest du alle Details,
-        um die Magie zu verstehen – und sie zu nutzen.
-      </p>
-    </section>
-
-    <section id="tokenomics">
-      <h2 class="gold-gradient">Tokenomics</h2>
-      <p>Supply, Allocation, Vesting – Platzhalter für deine Zahlen & Grafiken.</p>
-    </section>
-
-    <section id="utility">
-      <h2 class="gold-gradient">Utility</h2>
-      <p>Welche Utility bietet $MAGIC? Access, Rewards, Community-Perks …</p>
-    </section>
-
-    <section id="roadmap">
-      <h2 class="gold-gradient">Roadmap</h2>
-      <p>Q3, Q4, 2026+ – Bausteine deiner magischen Reise.</p>
-    </section>
-
-    <section id="how-to-buy">
-      <h2 class="gold-gradient">How to Buy</h2>
-      <p>Step-by-step: Wallet, Netzwerk, Swap – alles, was Neulinge brauchen.</p>
-    </section>
-
-    <section id="faq">
-      <h2 class="gold-gradient">FAQ</h2>
-      <p>Häufige Fragen – klare, kurze Antworten.</p>
-    </section>
-  </main>
+  <div class="content">
+    <h1>CA</h1>
+    <div class="address">2gYkp3damM1fA6D9agCYTRK2pXojebgH3sdoQ2jwpump</div>
+  </div>
 
   <script>
-    /***************
-     * Sterne
-     ***************/
+    // Sternenhimmel
     const canvas = document.getElementById('starCanvas');
     const ctx = canvas.getContext('2d');
-    let width, height, particles = [];
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
 
-    function resize() {
-      width  = canvas.width  = window.innerWidth;
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
+    });
 
-    // Falls du die gleichen Partikel behalten willst wie auf den anderen Seiten:
-    particles = JSON.parse(localStorage.getItem('particles')) || [];
+    let particles = JSON.parse(localStorage.getItem('particles')) || [];
+
     if (particles.length === 0) {
       for (let i = 0; i < 300; i++) {
         particles.push({
@@ -169,20 +103,8 @@
       });
       requestAnimationFrame(animateParticles);
     }
+
     animateParticles();
-
-    /***************
-     * Fade-in on scroll
-     ***************/
-    const sections = document.querySelectorAll('section');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.15 });
-
-    sections.forEach(sec => io.observe(sec));
   </script>
 </body>
 </html>
-
