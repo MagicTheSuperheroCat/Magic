@@ -20,20 +20,20 @@
     }
 
     .magic-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 60%;
-      text-align: center;
-      color: #ffffaa;
-      text-shadow: 0 0 10px #ffffaa, 0 0 20px #ffffaa;
-      font-size: 28px;
-      line-height: 1.6;
-      opacity: 0;
-      transition: opacity 2s ease;
-      z-index: 2;
-    }
+  color: #ffffaa;
+  font-family: 'Mystery Quest', cursive;
+  text-shadow: 0 0 10px #ffffaa, 0 0 20px #ffffaa;
+  text-align: left;
+  z-index: 10;
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 130px);
+  transform: translateY(-50%);
+  width: 400px;
+  line-height: 1.6;
+  opacity: 0;
+  transition: opacity 2s ease-in;
+}
 
     .magic-text.visible {
       opacity: 1;
