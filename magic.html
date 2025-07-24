@@ -139,14 +139,17 @@
     animateParticles();
 
     // Text einblenden nach kurzer Verzögerung
-    window.addEventListener("load", () => {
+   window.addEventListener("load", () => {
+  // Text erscheint nach 1 Sekunde
   setTimeout(() => {
     document.getElementById("textBlock").classList.add("visible");
-    
-    // Nach dem Text: Button sichtbar machen
+  }, 1000);
+
+  // Button erscheint separat nach 2 Sekunden
+  setTimeout(() => {
     const buttonWrapper = document.querySelector(".button-wrapper");
     buttonWrapper.style.opacity = "1";
-  }, 2000); // Text nach 1 Sekunde, Button  danach
+  }, 2000);
 
      // Bild animiert heranzoomen
 const heroImage = document.querySelector(".hero-image");
