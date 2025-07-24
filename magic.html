@@ -60,10 +60,29 @@
   transform: translateX(-50%) scale(1.05);
   box-shadow: 0 0 20px #ffffaa, 0 0 40px #ffffaa;
 }
+
+    .hero-image {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  width: 100px;
+  opacity: 0;
+  transform: scale(0.2) translateY(-50%);
+  transition: transform 3s ease-out, opacity 2s ease-in;
+  z-index: 3;
+}
+
+.hero-image.visible {
+  transform: scale(1) translateY(-50%);
+  opacity: 1;
+}
+
   </style>
 </head>
 <body>
   <canvas id="starCanvas"></canvas>
+
+  <img src="images/suppo_cat.png" class="hero-image" alt="Suppo and Magic">
 
  <div class="magic-text" id="textBlock">
   <div style="font-size: 50px; margin-bottom: 20px;">⭐ The Magic</div>
@@ -128,6 +147,13 @@
     const buttonWrapper = document.querySelector(".button-wrapper");
     buttonWrapper.style.opacity = "1";
   }, 1000); // Text nach 1 Sekunde, Button sofort danach
+
+     // Bild animiert heranzoomen
+const heroImage = document.querySelector(".hero-image");
+
+setTimeout(() => {
+  heroImage.classList.add("visible");
+}, 500); // nach 0.5 Sekunden einblenden 
 });
 
   </script>
