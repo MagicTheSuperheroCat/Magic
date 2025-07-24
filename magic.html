@@ -40,10 +40,6 @@
     }
 
     .back-button {
-  position: absolute;
-  bottom: 40px;
-  left: calc(50% + 150px);
-  transform: translateX(-50%);
   padding: 12px 28px;
   font-size: 24px;
   color: #000; /* schwarzer Text für Kontrast */
@@ -59,6 +55,15 @@
     .back-button:hover {
   transform: translateX(-50%) scale(1.05);
   box-shadow: 0 0 20px #ffffaa, 0 0 40px #ffffaa;
+}
+    .button-wrapper {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  gap: 20px;
 }
 
     .hero-image {
@@ -97,6 +102,7 @@
 </div>
 
   <div class="button-wrapper" style="opacity: 0; transition: opacity 1.5s;">
+  <a href="index.html" class="back-button">Back to Story</a>
   <a href="information.html" class="back-button">I want MAGIC</a>
 </div>
 
