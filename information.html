@@ -394,9 +394,13 @@
   left: 10px;
   width: 350px;
   z-index: 1000;
-  pointer-events: none;
+  pointer-events: auto; /* jetzt darf der Cursor reagieren */
   animation: cat-float 4s ease-in-out infinite;
   opacity: 0.95;
+  transition: transform 0.4s ease; /* Reaktionszeit: 0.4s < 0.5s */
+}
+    .floating-cat:hover {
+  transform: rotate(360deg);
 }
 
 /* Magische Schwebebewegung */
