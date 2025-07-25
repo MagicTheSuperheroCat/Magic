@@ -403,16 +403,19 @@
   100% { transform: translateY(0px); }
 }
 
-.floating-cat {
-  width: 350px;
-  opacity: 0.95;
-  pointer-events: auto;
-  transition: transform 0.4s ease;
+@keyframes cat-rotate {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-/* Zustand nach Drehung */
-.floating-cat.rotated {
-  transform: rotate(360deg);
+.floating-cat {
+  width: 220px;
+  opacity: 0.95;
+  pointer-events: auto;
+}
+
+.floating-cat.rotate-once {
+  animation: cat-rotate 0.4s ease forwards;
 }
     
   </style>
@@ -584,18 +587,22 @@
 
   <!-- Magische Katze -->
 <div class="cat-wrapper">
-  <img src="images/ghost.png" alt="Magic Cat" class="floating-cat" id="magicCat">
+  <img src="images/ghost.png" alt="Magic Cat" class="floating-cat">
 </div>
   
 <script>
-  const cat = document.getElementById("magicCat");
+  const cat = document.querySelector(".floating-cat");
 
   cat.addEventListener("mouseenter", () => {
-    if (!cat.classList.contains("rotated")) {
-      cat.classList.add("rotated");
-    }
+    cat.classList.remove("rotate-once"); // zurücksetzen, falls noch aktiv
+
+    // kurz warten, um Neuanwendung der Animation zu erzwingen
+    void cat.offsetWidth;
+
+    cat.classList.add("rotate-once");
   });
 </script>
+
 
 </body>
 </html>
