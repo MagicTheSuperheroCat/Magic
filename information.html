@@ -264,6 +264,26 @@
   color: var(--gold-soft);
 }
 
+   .video-section {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.video-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.video-container video {
+  width: 480px;
+  max-width: 100%;
+  border: 2px solid var(--gold-soft);
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(255, 255, 200, 0.3);
+}
+
   </style>
 </head>
 <body>
@@ -349,6 +369,13 @@
       <h3>Moon Guidance</h3>
       <p>Navigate to astronomical gains</p>
     </div>
+  </div>
+</section>
+
+  <section class="video-section">
+  <div class="video-container">
+    <video src="videos/video1.mp4" controls></video>
+    <video src="videos/video2.mp4" controls></video>
   </div>
 </section>
 
