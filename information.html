@@ -81,7 +81,9 @@
 }
 
 .nav-left {
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .nav-center {
@@ -89,12 +91,10 @@
   gap: 32px;
 }
 
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.nav-right.buy-button {
+  font-weight: bold;
 }
-
+  
 .nav-logo {
   height: 32px;
   width: auto;
@@ -105,8 +105,12 @@
 </head>
 <body>
   <!-- Magische Navigationsleiste -->
+<!-- Magische Navigationsleiste -->
 <nav class="magic-nav">
-  <a href="https://jup.ag/tokens/2gYkp3damM1fA6D9agCYTRK2pXojebgH3sdoQ2jwpump" class="nav-left">Buy MAGIC</a>
+  <div class="nav-left">
+    <span class="magic-label">Magic</span>
+    <img src="images/logo.png" alt="Magic Logo" class="nav-logo">
+  </div>
 
   <div class="nav-center">
     <a href="index.html">Story</a>
@@ -114,10 +118,7 @@
     <a href="#community">Community</a>
   </div>
 
-  <div class="nav-right">
-    <span class="magic-label">Magic</span>
-    <img src="images/logo.png" alt="Magic Logo" class="nav-logo">
-  </div>
+  <a href="https://jup.ag/tokens/2gYkp3damM1fA6D9agCYTRK2pXojebgH3sdoQ2jwpump" class="nav-right buy-button">Buy MAGIC</a>
 </nav>
 
   <!-- Sternenhimmel -->
