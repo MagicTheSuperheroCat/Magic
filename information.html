@@ -212,28 +212,31 @@
   width: 80px;
   height: auto;
   margin-bottom: 20px;
-  animation: float-rotate 1s infinite ease-in-out;
+  animation: float 3s ease-in-out infinite, rotate-pause 6s linear infinite;
   filter: drop-shadow(0 0 10px var(--gold-soft));
 }
 
-/* Animation kombiniert Wippen + Rotation */
-@keyframes float-rotate {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-  25% {
-    transform: translateY(-5px) rotate(90deg);
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
   }
   50% {
-    transform: translateY(0) rotate(180deg);
-  }
-  75% {
-    transform: translateY(5px) rotate(270deg);
-  }
-  100% {
-    transform: translateY(0) rotate(360deg);
+    transform: translateY(-8px);
   }
 }
+
+@keyframes rotate-pause {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
   </style>
 </head>
 <body>
