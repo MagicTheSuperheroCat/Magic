@@ -281,7 +281,11 @@
   max-width: 100%;
   border: 2px solid var(--gold-soft);
   border-radius: 12px;
-  box-shadow: 0 0 12px rgba(255, 255, 200, 0.3);
+  box-shadow: 
+    0 0 10px var(--gold),
+    0 0 20px var(--gold-soft),
+    0 0 30px rgba(249, 226, 109, 0.7);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
     .video-heading {
   font-size: 32px;
