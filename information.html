@@ -130,6 +130,75 @@
   width: auto;
   display: inline-block;
 }
+    .tokenomics-section {
+  text-align: center;
+  color: var(--gold);
+  padding: 100px 20px 60px;
+  background: transparent;
+}
+
+.tokenomics-title {
+  font-size: 42px;
+  margin-bottom: 10px;
+  text-shadow: 0 0 12px var(--gold-soft), 0 0 24px var(--gold);
+}
+
+.tokenomics-subtitle {
+  font-size: 18px;
+  color: var(--gold-soft);
+  margin-bottom: 50px;
+}
+
+.tokenomics-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.tokenomics-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--gold-soft);
+  border-radius: 16px;
+  padding: 30px 20px;
+  width: 260px;
+  box-shadow: 0 0 12px rgba(255, 255, 200, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.tokenomics-card:hover {
+  transform: scale(1.05);
+}
+
+.tokenomics-card .icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.tokenomics-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: var(--gold);
+}
+
+.tokenomics-card .value {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+}
+
+.tokenomics-card .note {
+  font-size: 14px;
+  color: var(--gold-soft);
+}
+
+.magic-formula {
+  font-size: 16px;
+  color: var(--gold-soft);
+  text-align: center;
+  line-height: 1.6;
+}
 
   </style>
 </head>
@@ -155,10 +224,37 @@
   <canvas id="starCanvas"></canvas>
 
   <!-- Inhalt -->
-  <div class="content">
-    <h1>CA</h1>
-    <div class="address">2gYkp3damM1fA6D9agCYTRK2pXojebgH3sdoQ2jwpump</div>
+  <section id="tokenomics" class="tokenomics-section">
+  <h2 class="tokenomics-title">MAGICAL TOKENOMICS</h2>
+  <p class="tokenomics-subtitle">
+    Designed with mystical precision to reward holders and create sustainable magic
+  </p>
+
+  <div class="tokenomics-cards">
+    <div class="tokenomics-card">
+      <div class="icon">💰</div>
+      <h3>Total Supply</h3>
+      <p class="value">999.99M</p>
+      <p class="note">$MAGIC Tokens</p>
+    </div>
+
+    <div class="tokenomics-card">
+      <div class="icon">🔥</div>
+      <h3>LP tokens are burnt</h3>
+    </div>
+
+    <div class="tokenomics-card">
+      <div class="icon">✨</div>
+      <h3>Holders 430</h3>
+      <p class="note">and no transaction taxes</p>
+    </div>
   </div>
+
+  <div class="magic-formula">
+    🧪 <strong>The Magic Formula</strong><br>
+    Hold $MAGIC → Earn Reflections → Watch Your Balance Grow → Experience the Magic of 100x+ Potential
+  </div>
+</section>
 
   <script>
   // Sternenhimmel – identisch wie auf den anderen Seiten
