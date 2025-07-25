@@ -387,6 +387,24 @@
   color: var(--gold);
   text-decoration: underline;
 }
+
+    .floating-cat {
+  position: fixed;
+  top: 120px;
+  left: 40px;
+  width: 140px;
+  z-index: 1000;
+  pointer-events: none;
+  animation: cat-float 4s ease-in-out infinite;
+  opacity: 0.95;
+}
+
+/* Magische Schwebebewegung */
+@keyframes cat-float {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
     
   </style>
 </head>
@@ -554,6 +572,9 @@
 
   animateParticles();
 </script>
+
+  <!-- Magische Katze -->
+<img src="images/ghost.png" alt="Magic Cat" class="floating-cat">
 
 </body>
 </html>
