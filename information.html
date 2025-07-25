@@ -14,15 +14,30 @@
       --gold-soft: #fff7c2;
       --gold-deep: #d4af37;
     }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: black;
-      font-family: 'Mystery Quest', cursive;
-      color: var(--gold);
-      overflow-y: scroll;
+     /* ✨ Hier kommt die Animation */
+  @keyframes pulse-glow {
+    0% {
+      box-shadow: 0 0 10px #fff89c, 0 0 20px #fff89c;
+      scale: 1;
     }
+    50% {
+      box-shadow: 0 0 20px #fff5a0, 0 0 40px #ffeb7a;
+      scale: 1.05;
+    }
+    100% {
+      box-shadow: 0 0 10px #fff89c, 0 0 20px #fff89c;
+      scale: 1;
+    }
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    font-family: 'Mystery Quest', cursive;
+    color: var(--gold);
+    overflow-y: scroll;
+  }
 
     canvas {
       position: fixed;
@@ -70,7 +85,19 @@
 .nav-right.buy-button {
   font-weight: bold;
   margin-right: 50px;
+  padding: 10px 20px;
+  border: 2px solid #fff89c;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px #fff89c, 0 0 20px #fff89c;
+  animation: pulse-glow 2.5s infinite ease-in-out;
+  text-decoration: none;
 }
+    .nav-right.buy-button:hover {
+  filter: brightness(1.2);
+  cursor: pointer;
+}
+    
 .magic-nav a, .magic-nav span {
   color: #f9e26d;
   text-decoration: none;
