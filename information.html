@@ -208,6 +208,60 @@
   margin-bottom: 15px;
   text-shadow: 0 0 10px var(--gold-soft);
 }
+    .powers-section {
+  padding: 100px 20px 60px;
+  text-align: center;
+  color: var(--gold);
+}
+
+.powers-title {
+  font-size: 42px;
+  margin-bottom: 10px;
+  text-shadow: 0 0 12px var(--gold-soft), 0 0 24px var(--gold);
+}
+
+.powers-subtitle {
+  font-size: 18px;
+  color: var(--gold-soft);
+  margin-bottom: 60px;
+}
+
+.powers-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+
+.power-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--gold-soft);
+  border-radius: 16px;
+  padding: 30px 20px;
+  width: 220px;
+  box-shadow: 0 0 12px rgba(255, 255, 200, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.power-card:hover {
+  transform: scale(1.05);
+}
+
+.power-card .icon {
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+
+.power-card h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: var(--gold);
+}
+
+.power-card p {
+  font-size: 14px;
+  color: var(--gold-soft);
+}
 
   </style>
 </head>
@@ -264,6 +318,36 @@
   <div class="magic-formula">
     🧪 <strong>The Magic Formula</strong><br>
     Hold $MAGIC → Earn Reflections → Watch Your Balance Grow → Experience the Magic of 100x+ Potential
+  </div>
+</section>
+
+  <section id="powers" class="powers-section">
+  <h2 class="powers-title">MAGIC’S POWERS</h2>
+  <p class="powers-subtitle">
+    The mystical abilities that flow to $MAGIC holders
+  </p>
+
+  <div class="powers-grid">
+    <div class="power-card">
+      <div class="icon">🔮</div>
+      <h3>Fortune Vision</h3>
+      <p>See opportunities others miss</p>
+    </div>
+    <div class="power-card">
+      <div class="icon">🌟</div>
+      <h3>Luck Amplifier</h3>
+      <p>Multiply your trading success</p>
+    </div>
+    <div class="power-card">
+      <div class="icon">💎</div>
+      <h3>Diamond Hands</h3>
+      <p>Strength to hold through volatility</p>
+    </div>
+    <div class="power-card">
+      <div class="icon">🚀</div>
+      <h3>Moon Guidance</h3>
+      <p>Navigate to astronomical gains</p>
+    </div>
   </div>
 </section>
 
