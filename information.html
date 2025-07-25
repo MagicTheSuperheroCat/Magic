@@ -208,7 +208,32 @@
   margin-bottom: 15px;
   text-shadow: 0 0 10px var(--gold-soft);
 }
+    .ghost-icon {
+  width: 80px;
+  height: auto;
+  margin-bottom: 20px;
+  animation: float-rotate 1s infinite ease-in-out;
+  filter: drop-shadow(0 0 10px var(--gold-soft));
+}
 
+/* Animation kombiniert Wippen + Rotation */
+@keyframes float-rotate {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-5px) rotate(90deg);
+  }
+  50% {
+    transform: translateY(0) rotate(180deg);
+  }
+  75% {
+    transform: translateY(5px) rotate(270deg);
+  }
+  100% {
+    transform: translateY(0) rotate(360deg);
+  }
+}
   </style>
 </head>
 <body>
@@ -235,6 +260,7 @@
   <!-- Inhalt -->
   <section id="tokenomics" class="tokenomics-section">
   <h2 class="tokenomics-title">MAGICAL TOKENOMICS</h2>
+  <img src="images/ghost.png" alt="ghost" class="ghost-icon">
   <p class="tokenomics-subtitle">
     Designed with mystical precision to reward holders and create sustainable magic
   </p>
