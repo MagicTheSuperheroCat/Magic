@@ -406,11 +406,12 @@
 .floating-cat {
   width: 220px;
   opacity: 0.95;
-  transition: transform 0.4s ease; /* für Hover-Drehung */
-  pointer-events: auto;           /* Hover aktivieren */
+  pointer-events: auto;
+  transition: transform 0.4s ease;
 }
 
-.floating-cat:hover {
+/* Zustand nach Drehung */
+.floating-cat.rotated {
   transform: rotate(360deg);
 }
     
@@ -583,8 +584,18 @@
 
   <!-- Magische Katze -->
 <div class="cat-wrapper">
-  <img src="images/ghost.png" alt="Magic Cat" class="floating-cat">
+  <img src="images/ghost.png" alt="Magic Cat" class="floating-cat" id="magicCat">
 </div>
+  
+<script>
+  const cat = document.getElementById("magicCat");
+
+  cat.addEventListener("mouseenter", () => {
+    if (!cat.classList.contains("rotated")) {
+      cat.classList.add("rotated");
+    }
+  });
+</script>
 
 </body>
 </html>
