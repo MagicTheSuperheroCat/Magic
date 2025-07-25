@@ -294,6 +294,51 @@
   margin-bottom: 30px;
   margin-top: 0;
 }
+
+    .community-section {
+  padding: 100px 20px 80px;
+  text-align: center;
+  background: transparent;
+}
+
+.community-title {
+  font-size: 42px;
+  color: var(--gold);
+  text-shadow: 0 0 12px var(--gold-soft), 0 0 24px var(--gold);
+  margin-bottom: 12px;
+}
+
+.community-subtitle {
+  font-size: 18px;
+  color: var(--gold-soft);
+  margin-bottom: 40px;
+}
+
+.community-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.community-button {
+  background-color: #000;
+  border: 1px solid var(--gold-soft);
+  border-radius: 16px;
+  padding: 14px 28px;
+  color: white;
+  font-size: 16px;
+  text-decoration: none;
+  box-shadow: 0 0 12px rgba(255, 255, 200, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.community-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px var(--gold);
+  background-color: #111;
+  filter: brightness(1.2);
+}
     
   </style>
 </head>
@@ -389,6 +434,19 @@
   <div class="video-container">
     <video src="videos/video1.mp4" controls></video>
     <video src="videos/video2.mp4" controls></video>
+  </div>
+</section>
+
+  <section id="community" class="community-section">
+  <h2 class="community-title">Join the Magic Circle</h2>
+  <p class="community-subtitle">
+    Connect with fellow believers and experience the collective power of Magic
+  </p>
+
+  <div class="community-buttons">
+    <a href="https://t.me/MagicSuppoCatPortal" target="_blank" class="community-button">💬 Telegram</a>
+    <a href="https://x.com/magic_suppocat" target="_blank" class="community-button">🪶 X</a>
+    <a href="https://x.com/i/communities/1938418362696274117" target="_blank" class="community-button">👑 X Community</a>
   </div>
 </section>
 
