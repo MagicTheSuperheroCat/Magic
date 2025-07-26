@@ -277,31 +277,25 @@
   flex-wrap: wrap;
 }
 
-.media-box {
+.video-container video {
   width: 480px;
-  aspect-ratio: 16 / 9;
-  background-color: #0a0a0a; /* ✅ Vollständig deckend */
+  max-width: 100%;
   border: 2px solid var(--gold-soft);
-  border-radius: 14px;
-  box-shadow:
+  border-radius: 12px;
+  box-shadow: 
     0 0 10px var(--gold),
     0 0 20px var(--gold-soft),
     0 0 30px rgba(249, 226, 109, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden; /* ✅ Verhindert Überlauf & Lücken */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+    .video-heading {
+  font-size: 32px;
+  color: var(--gold);
+  text-shadow: 0 0 10px var(--gold-soft);
+  margin-bottom: 30px;
+  margin-top: 0;
 }
 
-.video-container video,
-.video-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* ✅ Füllt den gesamten Container */
-  border-radius: 12px;
-  display: block;
-}
- 
     .community-section {
   padding: 100px 20px 80px;
   text-align: center;
@@ -516,14 +510,9 @@
     <h2 class="video-heading">Magic runs through Suppo's veins</h2>
 
   <div class="video-container">
-  <div class="media-box">
-    <img src="images/post1.png" alt="Post 1">
-  </div>
-  <div class="media-box">
     <video src="videos/video1.mp4" controls></video>
+    <video src="videos/video2.mp4" controls></video>
   </div>
-</div>
-
 </section>
 
   <section id="community" class="community-section">
