@@ -16,201 +16,192 @@
       top: 0;
       left: 0;
       z-index: 0;
-  }
-
-  #cat-gallery {
-    position: absolute;
-    top: 30%;
-    left: calc(50% - 480px);
-    width: 400px;
-    display: grid;
-    grid-template-columns: repeat(2, 200px);
-    gap: 20px;
-    opacity: 0;
-    z-index: 2;
-  }
-
-  .cat-img {
-    width: 100%;
-    filter: drop-shadow(0 0 15px rgba(255, 255, 150, 0.8));
-    opacity: 0;
-    transform: scale(0.95);
-    animation: fadeIn 1s ease forwards;
-  }
-
-  @keyframes fadeIn {
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-   .magic-text {
-  color: #ffffaa;
-  font-family: 'Mystery Quest', cursive;
-  text-shadow: 0 0 10px #ffffaa, 0 0 20px #ffffaa;
-  text-align: left;
-  z-index: 10;
-  position: absolute;
-  top: 50%;
-  left: calc(50% + 130px);
-  transform: translateY(-50%);
-  width: 400px;
-  line-height: 1.6;
-     opacity: 0;
-  transition: opacity 0,8s ease-in;
-}
-.magic-text.visible {
-  opacity: 1;
-}
-
-    h1 {
-      font-size: 3em;
-      margin-top: 10vh;
     }
 
-    p {
-      font-size: 1.5em;
-      max-width: 800px;
-      margin: 20px auto;
+    #cat-gallery {
+      position: absolute;
+      top: 30%;
+      left: calc(50% - 480px);
+      width: 400px;
+      display: grid;
+      grid-template-columns: repeat(2, 200px);
+      gap: 20px;
+      opacity: 0;
+      z-index: 2;
+    }
+
+    .cat-img {
+      width: 100%;
+      filter: drop-shadow(0 0 15px rgba(255, 255, 150, 0.8));
+      opacity: 0;
+      transform: scale(0.95);
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .magic-text {
+      color: #ffffaa;
+      font-family: 'Mystery Quest', cursive;
+      text-shadow: 0 0 10px #ffffaa, 0 0 20px #ffffaa;
+      text-align: left;
+      z-index: 10;
+      position: absolute;
+      top: 50%;
+      left: calc(50% + 130px);
+      transform: translateY(-50%);
+      width: 400px;
       line-height: 1.6;
+      opacity: 0;
+    }
+
+    .magic-text.visible {
+      animation: fadeInMagic 2s ease-out forwards;
+    }
+
+    @keyframes fadeInMagic {
+      0% {
+        opacity: 0;
+        transform: translateY(-50%) scale(0.95);
+      }
+      90% {
+        opacity: 0.9;
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+      }
     }
 
     .magic-button {
-  position: absolute;
-  top: 85%;
-  left: calc(50% + 50px);
-  transform: translateX(-50%);
-  padding: 12px 28px;
-  font-size: 28px;
-  font-family: 'Mystery Quest', cursive;
-  color: #000;
-  background-color: #ffffaa;
-  border: 2px solid #ffffaa;
-  border-radius: 12px;
-  text-decoration: none;
-  box-shadow: 0 0 10px #ffffaa, 0 0 20px #ffffaa;
-  transition: background-color 0.3s, transform 0.3s;
-  z-index: 4;
-}
+      position: absolute;
+      top: 85%;
+      left: calc(50% + 50px);
+      transform: translateX(-50%);
+      padding: 12px 28px;
+      font-size: 28px;
+      font-family: 'Mystery Quest', cursive;
+      color: #000;
+      background-color: #ffffaa;
+      border: 2px solid #ffffaa;
+      border-radius: 12px;
+      text-decoration: none;
+      box-shadow: 0 0 10px #ffffaa, 0 0 20px #ffffaa;
+      transition: background-color 0.3s, transform 0.3s;
+      z-index: 4;
+    }
 
-.magic-button:hover {
-  transform: translateX(-50%) scale(1.05);
-  box-shadow: 0 0 20px #ffffaa, 0 0 40px #ffffaa;
-}
-    
+    .magic-button:hover {
+      transform: translateX(-50%) scale(1.05);
+      box-shadow: 0 0 20px #ffffaa, 0 0 40px #ffffaa;
+    }
+
+    .button-wrapper {
+      opacity: 0;
+      transition: opacity 1.5s;
+    }
   </style>
 </head>
 <body>
   <canvas id="starCanvas"></canvas>
 
   <div id="cat-gallery">
-  <img src="images/cat1.png" class="cat-img" style="animation-delay: 0s;">
-  <img src="images/cat2.png" class="cat-img" style="animation-delay: 1s;">
-  <img src="images/cat3.png" class="cat-img" style="animation-delay: 2s;">
-  <img src="images/cat4.png" class="cat-img" style="animation-delay: 3s;">
-</div>
-
- <div class="magic-text">
-  <div style="font-size: 50px; margin-bottom: 20px;">🌙 The Beginning</div>
-  <div style="font-size: 28px; line-height: 1.6;">
-    Magic was Suppo's beloved companion, a mystical black cat with golden eyes that seemed to see beyond the veil of reality. When Magic passed, his spirit chose to remain, becoming Suppo's guardian angel in the world of cryptocurrency.
+    <img src="images/cat1.png" class="cat-img" style="animation-delay: 0s;">
+    <img src="images/cat2.png" class="cat-img" style="animation-delay: 0.3s;">
+    <img src="images/cat3.png" class="cat-img" style="animation-delay: 0.6s;">
+    <img src="images/cat4.png" class="cat-img" style="animation-delay: 0.9s;">
   </div>
-</div>
-  <!-- Magic Button -->
-<div class="button-wrapper" style="opacity: 0; transition: opacity 1.5s;">
-  <a href="magic.html" class="magic-button">The Magic</a>
-</div>
 
+  <div class="magic-text">
+    <div style="font-size: 50px; margin-bottom: 20px;">🌙 The Beginning</div>
+    <div style="font-size: 28px; line-height: 1.6;">
+      Magic was Suppo's beloved companion, a mystical black cat with golden eyes that seemed to see beyond the veil of reality. When Magic passed, his spirit chose to remain, becoming Suppo's guardian angel in the world of cryptocurrency.
+    </div>
+  </div>
 
- <script>
-  // Sternenhimmel
-  const canvas = document.getElementById('starCanvas');
-  const ctx = canvas.getContext('2d');
-  let width = canvas.width = window.innerWidth;
-  let height = canvas.height = window.innerHeight;
+  <div class="button-wrapper">
+    <a href="magic.html" class="magic-button">The Magic</a>
+  </div>
 
-  window.addEventListener('resize', () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  });
+  <script>
+    // Sternenhimmel
+    const canvas = document.getElementById('starCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
 
-  let particles = JSON.parse(localStorage.getItem('particles')) || [];
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
 
-  if (particles.length === 0) {
-    for (let i = 0; i < 300; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        size: Math.random() * 2 + 1
-      });
+    let particles = JSON.parse(localStorage.getItem('particles')) || [];
+
+    if (particles.length === 0) {
+      for (let i = 0; i < 300; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: Math.random() * 2 + 1
+        });
+      }
     }
-  }
 
-  function animateParticles() {
-    ctx.clearRect(0, 0, width, height);
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        let opacity = 0.5 + Math.random() * 0.5;
+        ctx.beginPath();
+        ctx.arc(p.finalX || p.x, p.finalY || p.y, p.size, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(animateParticles);
+    }
 
-    particles.forEach(p => {
-      let opacity = 0.5 + Math.random() * 0.5;
-      ctx.beginPath();
-      ctx.arc(p.finalX || p.x, p.finalY || p.y, p.size, 0, 2 * Math.PI);
-      ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
-      ctx.fill();
-    });
+    animateParticles();
 
-    requestAnimationFrame(animateParticles);
-  }
+    // Bilder und Text nacheinander einblenden
+    window.addEventListener("load", () => {
+      const gallery = document.getElementById("cat-gallery");
+      const images = gallery.querySelectorAll(".cat-img");
+      const textBlock = document.querySelector(".magic-text");
+      const buttonWrapper = document.querySelector(".button-wrapper");
 
-  animateParticles();
+      gallery.style.opacity = "1";
 
-  // Bilder und Text nacheinander einblenden
-  window.addEventListener("load", () => {
-    const gallery = document.getElementById("cat-gallery");
-    const images = gallery.querySelectorAll(".cat-img");
-    const textBlock = document.querySelector(".magic-text");
+      images.forEach((img, index) => {
+        setTimeout(() => {
+          img.style.opacity = "1";
+        }, index * 300); // 0.3 Sekunden Abstand
+      });
 
-    // Galerie sichtbar machen
-    gallery.style.opacity = "1";
-
-    images.forEach((img, index) => {
+      // Text nach Bild 3 (Index 2)
       setTimeout(() => {
-        img.style.opacity = "1";
-      }, index * 400); // Bilder erscheinen schneller nacheinander
+        textBlock.classList.add("visible");
+
+        // Button nach 1 Sekunde → ca. 90 % Text sichtbar
+        setTimeout(() => {
+          buttonWrapper.style.opacity = "1";
+        }, 1000);
+      }, 2 * 300 + 500); // = 1100 ms nach Start
     });
 
-    // Text nach vorletztem Bild einblenden
-    setTimeout(() => {
-      textBlock.classList.add("visible");
-      
-    setTimeout(() => {
-  const buttonWrapper = document.querySelector(".button-wrapper");
-  buttonWrapper.style.opacity = "1";
-}, 1000); // 1 Sekunde nach Text-Einblendung
+    // Sound-Effekte
+    const meow = new Audio("sounds/meow.mp3");
+    document.querySelectorAll(".cat-img")[1].addEventListener("click", () => {
+      meow.play();
+    });
 
-    }, 2 * 400 + 500); // nach Bild 3 (Index 2) + 0.5s
-  });
-   // Button nach 90% des Texts einblenden 
-   let buttonShown = false;
-
-function checkShowButton() {
-  if (textOpacity >= 0.9 && !buttonShown) {
-    const buttonWrapper = document.querySelector(".button-wrapper");
-    buttonWrapper.style.opacity = "1";
-    buttonShown = true;
-  }
-}
-
-   // Bild erzeugt Geräusche nach Klick
-   const meow = new Audio("sounds/meow.mp3");
-  document.querySelectorAll(".cat-img")[1].addEventListener("click", () => {
-    meow.play();
-  });
-   // Bild 4 schnurrt
-   const purr = new Audio("sounds/purr.mp3");
-  document.querySelectorAll(".cat-img")[3].addEventListener("click", () => {
-    purr.play();
-  });
-</script>
-  
+    const purr = new Audio("sounds/purr.mp3");
+    document.querySelectorAll(".cat-img")[3].addEventListener("click", () => {
+      purr.play();
+    });
+  </script>
 </body>
 </html>
