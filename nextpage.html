@@ -103,9 +103,9 @@ if (!reachedCenter) {
   catX = shiftedCenterX + radius * Math.cos(angle);
   catY = shiftedCenterY + radius * Math.sin(angle);
 
-  angle += 0.03; // Geschwindigkeit auf Kreisbahn
+  angle += 0.04; // Geschwindigkeit auf Kreisbahn
 
-  if (angle >= Math.PI / 4 + Math.PI * 2) {
+  if (angle >= Math.PI / 4 + Math.PI ) {  // halbe Runde (180°)
     
     radius -= 4; // Geschwindigkeit zur Mitte
     if (radius <= 2) {
