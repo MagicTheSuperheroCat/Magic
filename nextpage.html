@@ -136,6 +136,7 @@ if (!reachedCenter) {
 if (showText) {
   if (textOpacity < 1) {
     textOpacity += 0.03; // langsam einblenden
+    checkShowButton(); // ← Button sofort nach Text einblenden
   }
 
   ctx.save();
