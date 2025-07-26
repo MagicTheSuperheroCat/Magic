@@ -292,7 +292,7 @@
   margin-top: 0;
 }
 
-/* Bild zwischen Überschrift und erstem Medienpaar */
+/* Bild zwischen Titel und Medien (post0) */
 .post0-image {
   display: block;
   margin: 20px auto 40px;
@@ -308,7 +308,7 @@
   opacity: 0.95;
 }
 
-/* Layout für je ein Bild + Video nebeneinander */
+/* Container für je 1 Bild + 1 Video */
 .video-container {
   display: flex;
   justify-content: center;
@@ -317,18 +317,18 @@
   margin-bottom: 60px;
 }
 
-/* Abstand zwischen zwei .video-container-Blocks */
+/* Abstand zwischen mehreren Reihen */
 .video-container + .video-container {
   margin-top: 60px;
 }
 
-/* Einheitliches Styling für alle Medieninhalte */
-.media-box {
-  width: 480px;
+/* Medienbox für alle Bilder und Videos */
+.video-container .media-box {
+  width: 480px !important;
   max-width: 100%;
-  height: auto;
-  border: 2px solid var(--gold-soft);
+  height: auto !important;
   border-radius: 12px;
+  border: 2px solid var(--gold-soft);
   background-color: black;
   box-shadow:
     0 0 10px var(--gold),
