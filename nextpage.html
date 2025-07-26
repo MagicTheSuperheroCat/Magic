@@ -110,7 +110,6 @@ if (!reachedCenter) {
     radius -= 6; // Geschwindigkeit zur Mitte
     if (radius <= 2) {
   reachedCenter = true;
-  scale = maxScale;
   showText = true; // <<< NEU: Text anzeigen aktivieren
     }
   }
@@ -120,6 +119,8 @@ if (!reachedCenter) {
   catX = shiftedCenterX;
   catY = shiftedCenterY + Math.sin(floatAngle) * 5;
   floatAngle += 0.05;
+  if (scale < maxScale) scale += 0.002; // langsam weiter wachsen
+
 }
 
   // Katze mit Glow zeichnen
