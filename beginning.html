@@ -175,13 +175,13 @@
     images.forEach((img, index) => {
       setTimeout(() => {
         img.style.opacity = "1";
-      }, index * 1000); // 1 Sekunde Abstand zwischen Bildern
+      }, index * 400); // Bilder erscheinen schneller nacheinander
     });
 
-    // Text nach letztem Bild einblenden
+    // Text nach vorletztem Bild einblenden
     setTimeout(() => {
       textBlock.classList.add("visible");
-    }, images.length * 1000 + 500); // z. B. nach 4 Sekunden + 0.5s
+    }, 2 * 400 + 500); // nach Bild 3 (Index 2) + 0.5s
   });
    // Button nach Text einblenden (z. B. bei 6 Sekunden)
   const buttonWrapper = document.querySelector(".button-wrapper");
