@@ -284,34 +284,59 @@
   text-align: center;
 }
 
-.video-container {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-}
-  .video-container + .video-container {
-  margin-top: 60px;
-}  
-
-.video-container video,
-.video-container img {
-  width: 480px;
-  max-width: 100%;
-  border: 2px solid var(--gold-soft);
-  border-radius: 12px;
-  box-shadow: 
-    0 0 10px var(--gold),
-    0 0 20px var(--gold-soft),
-    0 0 30px rgba(249, 226, 109, 0.7);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-    .video-heading {
+.video-heading {
   font-size: 32px;
   color: var(--gold);
   text-shadow: 0 0 10px var(--gold-soft);
   margin-bottom: 30px;
   margin-top: 0;
+}
+
+/* Bild zwischen Überschrift und erstem Medienpaar */
+.post0-image {
+  display: block;
+  margin: 20px auto 40px;
+  max-width: 480px;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 2px solid var(--gold-soft);
+  background-color: black;
+  filter:
+    drop-shadow(0 0 10px var(--gold))
+    drop-shadow(0 0 20px var(--gold-soft));
+  opacity: 0.95;
+}
+
+/* Layout für je ein Bild + Video nebeneinander */
+.video-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 60px;
+}
+
+/* Abstand zwischen zwei .video-container-Blocks */
+.video-container + .video-container {
+  margin-top: 60px;
+}
+
+/* Einheitliches Styling für alle Medieninhalte */
+.media-box {
+  width: 480px;
+  max-width: 100%;
+  height: auto;
+  border: 2px solid var(--gold-soft);
+  border-radius: 12px;
+  background-color: black;
+  box-shadow:
+    0 0 10px var(--gold),
+    0 0 20px var(--gold-soft),
+    0 0 30px rgba(249, 226, 109, 0.7);
+  display: block;
+  object-fit: cover;
+  opacity: 0.95;
 }
 
     .community-section {
