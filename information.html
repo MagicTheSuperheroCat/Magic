@@ -277,27 +277,34 @@
   flex-wrap: wrap;
 }
 
+.media-box {
+  background-color: #0a0a0a; /* undurchsichtig schwarz */
+  padding: 12px;
+  border-radius: 14px;
+  box-shadow: 
+    0 0 10px var(--gold),
+    0 0 20px var(--gold-soft),
+    0 0 30px rgba(249, 226, 109, 0.7);
+}
+
+/* Nur Bild und Video selbst – kein eigener Glow, keine Transparenz */
 .video-container video,
 .video-container img {
   width: 480px;
   max-width: 100%;
   border: 2px solid var(--gold-soft);
   border-radius: 12px;
-  background-color: #0a0a0a;
-  box-shadow: 
-    0 0 10px var(--gold),
-    0 0 20px var(--gold-soft),
-    0 0 30px rgba(249, 226, 109, 0.7);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-    .video-heading {
+
+.video-heading {
   font-size: 32px;
   color: var(--gold);
   text-shadow: 0 0 10px var(--gold-soft);
   margin-bottom: 30px;
   margin-top: 0;
 }
-
+ 
     .community-section {
   padding: 100px 20px 80px;
   text-align: center;
@@ -512,9 +519,14 @@
     <h2 class="video-heading">Magic runs through Suppo's veins</h2>
 
   <div class="video-container">
-    <img src="images/post1.png" alt="Post 1" class="media-box">
-    <video src="videos/video1.mp4" controls class="media-box"></video>
+  <div class="media-box">
+    <img src="images/post1.png" alt="Post 1">
   </div>
+  <div class="media-box">
+    <video controls src="videos/video1.mp4"></video>
+  </div>
+</div>
+
 </section>
 
   <section id="community" class="community-section">
