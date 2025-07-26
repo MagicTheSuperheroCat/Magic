@@ -266,12 +266,19 @@
 }
     .post0-image {
   display: block;
-  margin: 20px auto 40px; /* Abstand oben & unten */
-  max-width: 300px;
+  margin: 20px auto 40px;
+  max-width: 480px;           /* gleiche Breite wie post1 */
+  width: 100%;
   height: auto;
-  filter: drop-shadow(0 0 10px var(--gold)) drop-shadow(0 0 20px var(--gold-soft));
+  border-radius: 12px;        /* Abrundung wie post1 */
+  border: 2px solid var(--gold-soft);
+  background-color: black;
+  filter:
+    drop-shadow(0 0 10px var(--gold))
+    drop-shadow(0 0 20px var(--gold-soft));
   opacity: 0.95;
 }
+
    .video-section {
   padding: 20px 20px 60px;
   text-align: center;
