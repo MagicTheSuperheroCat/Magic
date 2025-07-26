@@ -181,16 +181,24 @@
     // Text nach vorletztem Bild einblenden
     setTimeout(() => {
       textBlock.classList.add("visible");
+      
+    setTimeout(() => {
+  const buttonWrapper = document.querySelector(".button-wrapper");
+  buttonWrapper.style.opacity = "1";
+}, 1000); // 1 Sekunde nach Text-Einblendung
+
     }, 2 * 400 + 500); // nach Bild 3 (Index 2) + 0.5s
   });
-   // Button nach Text einblenden (z. B. bei 6 Sekunden)
-  const buttonWrapper = document.querySelector(".button-wrapper");
-  buttonWrapper.style.opacity = "0";
-  buttonWrapper.style.transition = "opacity 1.5s";
+   // Button nach 90% des Texts einblenden 
+   let buttonShown = false;
 
-  setTimeout(() => {
+function checkShowButton() {
+  if (textOpacity >= 0.9 && !buttonShown) {
+    const buttonWrapper = document.querySelector(".button-wrapper");
     buttonWrapper.style.opacity = "1";
-  }, 6000);
+    buttonShown = true;
+  }
+}
 
    // Bild erzeugt Geräusche nach Klick
    const meow = new Audio("sounds/meow.mp3");
