@@ -46,18 +46,27 @@
   text-shadow: 0 0 10px #ffffaa, 0 0 20px #ffffaa;
   transition: opacity 1s ease;
 }
+    #clickHint {
+  position: absolute;
+  bottom: 80px;
+  font-size: 1.25em;
+  z-index: 3;
+  color: #ffffaa;
+  font-family: 'Mystery Quest', 'Comic Sans MS', cursive;
+  text-shadow: 0 0 10px #ffffaa;
+  transition: opacity 1s ease;
+}
+
   </style>
 </head>
 
 <body>
   <canvas id="starCanvas"></canvas>
   <img src="images/katzenaugen.png" alt="Magische Katzenaugen" id="eyes">
-  <h1>Let the MAGIC happen</h1>
-  
-<div style="font-size: 1.25em; color: #ffffaa; font-family: 'Mystery Quest', cursive; text-shadow: 0 0 10px #ffffaa; position: absolute; bottom: 80px; z-index: 3;">
+  <h1 id="magicText">Let the MAGIC happen</h1>
+<div id="clickHint" style="font-size: 1.25em; color: #ffffaa; font-family: 'Mystery Quest', cursive; text-shadow: 0 0 10px #ffffaa; margin-top: 10px;">
   click on eyes
 </div>
-
 
   <script>
     const eyes = document.getElementById('eyes');
@@ -136,6 +145,10 @@
 
       const title = document.querySelector('h1');
       if (title) title.style.opacity = '0';
+
+      const hint = document.getElementById('clickHint');
+      if (hint) hint.style.opacity = '0';
+
 
       spinAnimation();
     });
