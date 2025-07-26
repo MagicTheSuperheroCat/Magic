@@ -290,6 +290,9 @@
   gap: 40px;
   flex-wrap: wrap;
 }
+  .video-container + .video-container {
+  margin-top: 60px;
+}  
 
 .video-container video,
 .video-container img {
@@ -530,6 +533,11 @@
     <img src="images/post1.png" alt="Post 1" class="media-box">
     <video src="videos/video1.mp4" controls class="media-box"></video>
   </div>
+  <div class="video-container">
+    <img src="images/post1.jpg" alt="Post 1">
+    <video src="videos/video1.mp4" controls></video>
+  </div>
+
 </section>
 
   <section id="community" class="community-section">
