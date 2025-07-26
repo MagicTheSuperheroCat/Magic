@@ -114,12 +114,11 @@ if (!reachedCenter) {
     }
   }
 
-  scale += (maxScale - scale) * 0.03;
+  scale = Math.min(maxScale, scale + 0.002);
 } else {
   catX = shiftedCenterX;
   catY = shiftedCenterY + Math.sin(floatAngle) * 5;
   floatAngle += 0.05;
-  if (scale < maxScale) scale += 0.002; // langsam weiter wachsen
 
 }
 
