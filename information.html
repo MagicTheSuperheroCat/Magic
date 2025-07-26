@@ -460,6 +460,77 @@
 .floating-cat.rotate-once {
   animation: cat-rotate 0.4s ease forwards;
 }
+
+    @media (max-width: 768px) {
+  .magic-nav {
+    flex-direction: column;
+    padding: 10px;
+    height: auto;
+    gap: 10px;
+  }
+
+  .nav-center {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cat-wrapper {
+    left: 10px;
+    top: 10px;
+    transform: scale(0.8);
+  }
+
+  .tokenomics-cards,
+  .powers-grid,
+  .video-container,
+  .community-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tokenomics-card,
+  .power-card,
+  .media-box {
+    width: 90% !important;
+  }
+
+  .post0-image {
+    max-width: 90%;
+  }
+
+  .buy-steps li {
+    font-size: 1rem;
+    padding: 14px;
+  }
+
+  .magic-formula {
+    font-size: 16px;
+  }
+
+  .tokenomics-title,
+  .powers-title,
+  .community-title,
+  .buy-title {
+    font-size: 36px;
+  }
+
+  .video-heading {
+    font-size: 24px;
+  }
+
+  .magic-nav a, .magic-nav span {
+    font-size: 1.1rem;
+  }
+
+  .nav-logo {
+    height: 30px;
+  }
+
+  .nav-right.buy-button {
+    font-size: 1rem;
+    padding: 8px 16px;
+  }
+}
     
   </style>
 </head>
