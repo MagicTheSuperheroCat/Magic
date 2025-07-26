@@ -103,10 +103,10 @@ if (!reachedCenter) {
   catX = shiftedCenterX + radius * Math.cos(angle);
   catY = shiftedCenterY + radius * Math.sin(angle);
 
-  angle += 0.05; // Geschwindigkeit auf Kreisbahn
+  angle += 0.03; // Geschwindigkeit auf Kreisbahn
 
-  if (angle >= Math.PI / 4 + 2 * Math.PI) {
-    // Nach vollem Kreis → gerade Richtung Mitte
+  if (angle >= Math.PI / 4 + Math.PI * 2) {
+    
     radius -= 4; // Geschwindigkeit zur Mitte
     if (radius <= 2) {
   reachedCenter = true;
