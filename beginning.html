@@ -178,7 +178,7 @@
       images.forEach((img, index) => {
         setTimeout(() => {
           img.style.opacity = "1";
-        }, index * 600); // 0.3 Sekunden Abstand
+        }, index * 600); // 0.6 Sekunden Abstand
       });
 
       // Text nach Bild 3 (Index 2)
@@ -188,7 +188,7 @@
         // Button nach 1 Sekunde → ca. 90 % Text sichtbar
         setTimeout(() => {
           buttonWrapper.style.opacity = "1";
-        }, 1000);
+        }, 600);
       }, 2 * 300 + 500); // = 1100 ms nach Start
     });
 
