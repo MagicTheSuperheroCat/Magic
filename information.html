@@ -278,23 +278,27 @@
 }
 
 .media-box {
-  background-color: #0a0a0a; /* undurchsichtig schwarz */
-  padding: 12px;
+  width: 480px;
+  aspect-ratio: 16 / 9; /* hält Bild & Video exakt gleich hoch */
+  background-color: #0a0a0a;
+  border: 2px solid var(--gold-soft);
   border-radius: 14px;
   box-shadow: 
     0 0 10px var(--gold),
     0 0 20px var(--gold-soft),
     0 0 30px rgba(249, 226, 109, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Nur Bild und Video selbst – kein eigener Glow, keine Transparenz */
 .video-container video,
 .video-container img {
-  width: 480px;
-  max-width: 100%;
-  border: 2px solid var(--gold-soft);
+  width: 100%;
+  height: auto;
+  display: block;
   border-radius: 12px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none; /* ✅ Optional: Kein gelber Rahmen doppelt */
 }
 
 .video-heading {
