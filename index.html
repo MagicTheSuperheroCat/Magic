@@ -122,8 +122,8 @@
       eyes.style.transform = `translate(-50%, -50%) rotate(${rotation}rad)`;
 
       if (accelerating) {
-        speed *= 1.01;
-        if (speed > 6) {
+        speed *= 1.02;
+        if (speed > 3) {
           accelerating = false;
 
           eyes.style.display = 'none';
