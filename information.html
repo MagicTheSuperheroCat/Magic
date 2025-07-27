@@ -460,6 +460,10 @@
 .floating-cat.rotate-once {
   animation: cat-rotate 0.4s ease forwards;
 }
+    canvas {
+  width: 100vw !important;
+  height: 100vh !important;
+}
 
     @media (max-width: 768px) {
   .magic-nav {
@@ -687,6 +691,11 @@
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
   });
+    // Optional: neue Positionen zufällig setzen, wenn Fenstergröße sich stark ändert
+particles.forEach(p => {
+  p.finalX = undefined;
+  p.finalY = undefined;
+});
 
   let particles = JSON.parse(localStorage.getItem('particles')) || [];
 
