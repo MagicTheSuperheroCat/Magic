@@ -463,11 +463,15 @@
 
     @media (max-width: 768px) {
   .magic-nav {
-    flex-direction: column;
-    padding: 10px;
-    height: auto;
-    gap: 10px;
-  }
+  flex-direction: column;
+  padding: 10px 20px;
+  height: auto;
+  display: none; /* Anfangszustand: versteckt */
+}
+
+.magic-nav.show {
+  display: flex; /* wird angezeigt, wenn oben */
+}
 
   .nav-center {
     flex-direction: column;
@@ -726,6 +730,17 @@
   });
 </script>
 
+  <script>
+  const nav = document.querySelector(".magic-nav");
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY <= 5) {
+      nav.classList.add("show");
+    } else {
+      nav.classList.remove("show");
+    }
+  });
+</script>
 
 </body>
 </html>
