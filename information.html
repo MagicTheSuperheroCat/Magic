@@ -40,12 +40,15 @@
   }
 
     canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
 
     .content {
       position: relative;
@@ -681,51 +684,53 @@
 </section>
 
   <script>
-  // Sternenhimmel – identisch wie auf den anderen Seiten
   const canvas = document.getElementById('starCanvas');
   const ctx = canvas.getContext('2d');
-  let width = canvas.width = window.innerWidth;
-  let height = canvas.height = window.innerHeight;
+
+  function resizeCanvas() {
+    const ratio = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * ratio;
+    canvas.height = window.innerHeight * ratio;
+    canvas.style.width = window.innerWidth + "px";
+    canvas.style.height = window.innerHeight + "px";
+    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
+    ctx.scale(ratio, ratio);
+  }
+
+  resizeCanvas();
 
   window.addEventListener('resize', () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
+    resizeCanvas();
   });
-    // Optional: neue Positionen zufällig setzen, wenn Fenstergröße sich stark ändert
-particles.forEach(p => {
-  p.finalX = undefined;
-  p.finalY = undefined;
-});
 
-  let particles = JSON.parse(localStorage.getItem('particles')) || [];
+  const particleCount = 300;
+  const particles = [];
 
-  if (particles.length === 0) {
-    for (let i = 0; i < 300; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        size: Math.random() * 2 + 1
-      });
-    }
-    localStorage.setItem('particles', JSON.stringify(particles));
+  for (let i = 0; i < particleCount; i++) {
+    particles.push({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      size: Math.random() * 2 + 1
+    });
   }
 
   function animateParticles() {
-    ctx.clearRect(0, 0, width, height);
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-    particles.forEach(p => {
-      let opacity = 0.5 + Math.random() * 0.5;
+    for (let p of particles) {
+      const opacity = 0.5 + Math.random() * 0.5;
       ctx.beginPath();
-      ctx.arc(p.finalX || p.x, p.finalY || p.y, p.size, 0, 2 * Math.PI);
+      ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
       ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
       ctx.fill();
-    });
+    }
 
     requestAnimationFrame(animateParticles);
   }
 
   animateParticles();
 </script>
+
 
   <!-- Magische Katze -->
 <div class="cat-wrapper">
