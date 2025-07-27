@@ -105,9 +105,124 @@
       opacity: 0;
       transition: opacity 1.5s;
     }
+    .magic-nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 64px;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 60px;
+  z-index: 999;
+  font-family: 'Mystery Quest', cursive;
+}
+
+.magic-nav a, .magic-nav span {
+  color: #f9e26d;
+  text-decoration: none;
+  font-size: 1.4rem;
+  transition: filter 0.2s;
+  text-shadow: 0 0 10px #f9e26d;
+}
+
+.magic-nav a:hover {
+  filter: brightness(1.2);
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-center {
+  display: flex;
+  gap: 32px;
+}
+
+.nav-right.buy-button {
+  font-weight: bold;
+  margin-right: 50px;
+  padding: 10px 20px;
+  border: 2px solid #fff89c;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px #fff89c, 0 0 20px #fff89c;
+  animation: pulse-glow 2.5s infinite ease-in-out;
+  text-decoration: none;
+}
+
+.nav-right.buy-button:hover {
+  filter: brightness(1.2);
+  cursor: pointer;
+}
+
+.nav-logo {
+  height: 40px;
+  width: auto;
+  display: inline-block;
+}
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 10px #fff89c, 0 0 20px #fff89c; scale: 1; }
+  50% { box-shadow: 0 0 20px #fff5a0, 0 0 40px #ffeb7a; scale: 1.05; }
+  100% { box-shadow: 0 0 10px #fff89c, 0 0 20px #fff89c; scale: 1; }
+}
+
+@media (max-width: 768px) {
+  .magic-nav {
+    flex-direction: column;
+    padding: 10px 20px;
+    height: auto;
+    display: none; /* Standard: versteckt */
+  }
+
+  .magic-nav.show {
+    display: flex; /* nur ganz oben sichtbar */
+  }
+
+  .nav-center {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav-logo {
+    height: 30px;
+  }
+
+  .nav-right.buy-button {
+    font-size: 1rem;
+    padding: 8px 16px;
+  }
+
+  .magic-nav a, .magic-nav span {
+    font-size: 1.1rem;
+  }
+}
+
   </style>
 </head>
 <body>
+
+  <nav class="magic-nav">
+  <div class="nav-left">
+    <span class="magic-label">Magic</span>
+    <img src="images/logo.png" alt="Magic Logo" class="nav-logo">
+  </div>
+
+  <div class="nav-center">
+    <a href="index.html">Story</a>
+    <a href="information.html#tokenomics">Tokenomics</a>
+    <a href="information.html#powers">Magic’s Powers</a>
+    <a href="information.html#community">Community</a>
+    <a href="information.html#howtobuy">How to buy</a>
+  </div>
+
+  <a href="https://jup.ag/tokens/2gYkp3damM1fA6D9agCYTRK2pXojebgH3sdoQ2jwpump" class="nav-right buy-button">Buy MAGIC</a>
+</nav>
+
   <canvas id="starCanvas"></canvas>
 
   <div id="cat-gallery">
@@ -203,5 +318,18 @@
       purr.play();
     });
   </script>
+  
+  <script>
+  const nav = document.querySelector(".magic-nav");
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY <= 5) {
+      nav.classList.add("show");
+    } else {
+      nav.classList.remove("show");
+    }
+  });
+</script>
+
 </body>
 </html>
