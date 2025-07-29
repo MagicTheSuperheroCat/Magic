@@ -484,20 +484,34 @@
 }
 
     @media (max-width: 768px) {
+  
   .magic-nav {
-  flex-direction: column;
-  padding: 10px 20px;
-  height: auto;
-  display: none; /* Anfangszustand: versteckt */
-}
+    flex-direction: column;
+    padding: 10px 20px;
+    height: auto;
+    display: none; /* Standard: versteckt */
+  }
 
-.magic-nav.show {
-  display: flex; /* wird angezeigt, wenn oben */
-}
+  .magic-nav.show {
+    display: flex; /* nur ganz oben sichtbar */
+  }
 
   .nav-center {
     flex-direction: column;
     gap: 10px;
+  }
+
+  .nav-logo {
+    height: 30px;
+  }
+
+  .nav-right.buy-button {
+    font-size: 1rem;
+    padding: 8px 16px;
+  }
+
+  .magic-nav a, .magic-nav span {
+    font-size: 1.1rem;
   }
 
   .cat-wrapper {
