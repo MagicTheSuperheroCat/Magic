@@ -39,6 +39,15 @@
       transform: translateX(-50%) scale(1.05);
       box-shadow: 0 0 20px #ffffaa, 0 0 40px #ffffaa;
     }
+
+    /* 🔹 Nur Mobile: Button größer & näher an den Inhalt */
+    @media (max-width: 768px) {
+      #beginButton {
+        font-size: 28px;
+        padding: 18px 28px;
+        bottom: 60px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -67,6 +76,9 @@
       }
     }
 
+    // 🔹 Mobile-Erkennung
+    const isMobile = window.innerWidth <= 768;
+
     // Katze vorbereiten
     const catImg = new Image();
     catImg.src = 'images/cat_on_broom.png';
@@ -75,7 +87,7 @@
     let angle = Math.PI / 4;
     let radius = Math.min(width, height) * 0.6;
     let scale = 0.02;
-    const maxScale = 0.25;
+    let maxScale = isMobile ? 0.35 : 0.25; // 👉 Mobile: größer
     let reachedCenter = false;
     let showText = false;
     let textOpacity = 0;
@@ -84,7 +96,7 @@
     function animateParticles() {
       ctx.clearRect(0, 0, width, height);
 
-      // Sterne zeichnen
+      // Sterne zeichnen (unverändert)
       particles.forEach(p => {
         let opacity = 0.5 + Math.random() * 0.5;
         ctx.beginPath();
@@ -93,9 +105,9 @@
         ctx.fill();
       });
 
-      // Katze bewegen
+      // Katze bewegen – Mobile: mittig, Desktop: leicht nach links
       let catX, catY;
-      const shiftedCenterX = centerX - 150;
+      const shiftedCenterX = isMobile ? centerX : centerX - 150;
       const shiftedCenterY = centerY;
 
       if (!reachedCenter) {
@@ -111,8 +123,10 @@
           }
         }
 
-        scale = Math.min(maxScale, scale + 0.002); // wächst während Flug
+        // Wachstum der Katze während des Flugs
+        scale = Math.min(maxScale, scale + 0.002);
       } else {
+        // sanftes „Schweben“, wenn zentriert
         catX = shiftedCenterX;
         catY = shiftedCenterY + Math.sin(floatAngle) * 5;
         floatAngle += 0.05;
@@ -121,37 +135,52 @@
       // Katze mit Glow zeichnen
       ctx.save();
       ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
-      ctx.drawImage(
-        catImg,
-        catX - (catImg.width * scale) / 2,
-        catY - (catImg.height * scale) / 2,
-        catImg.width * scale,
-        catImg.height * scale
-      );
+      if (catImg.complete) {
+        ctx.drawImage(
+          catImg,
+          catX - (catImg.width * scale) / 2,
+          catY - (catImg.height * scale) / 2,
+          catImg.width * scale,
+          catImg.height * scale
+        );
+      }
       ctx.restore();
 
-      // Text einblenden
+      // Text einblenden – Mobile: unter der Katze, Desktop: rechts daneben
       if (showText) {
-        if (textOpacity < 1) {
-          textOpacity += 0.08; // schneller
-        }
+        if (textOpacity < 1) textOpacity += 0.08;
         checkShowButton();
 
         ctx.save();
         ctx.globalAlpha = textOpacity;
         ctx.filter = 'drop-shadow(0 0 10px rgba(255, 255, 150, 0.8))';
-        ctx.font = "50px 'Mystery Quest', cursive";
         ctx.textAlign = "center";
         ctx.fillStyle = "#ffffaa";
 
-        const textX = shiftedCenterX + 350;
+        if (isMobile) {
+          const textX = centerX;
+          let y = shiftedCenterY + Math.max(140, (catImg.height * scale) / 2 + 80);
 
-        ctx.fillText("MEET MAGIC", textX, shiftedCenterY - 60);
+          ctx.font = "42px 'Mystery Quest', cursive";   // Überschrift größer
+          ctx.fillText("MEET MAGIC", textX, y);
+          y += 46;
 
-        ctx.font = "28px 'Mystery Quest', cursive";
-        ctx.fillText("The mystical black cat", textX, shiftedCenterY);
-        ctx.fillText("who guides seekers to extraordinary gains.", textX, shiftedCenterY + 40);
-        ctx.fillText("Hold Magic, and magic will find you.", textX, shiftedCenterY + 90);
+          ctx.font = "24px 'Mystery Quest', cursive";   // Fließtext größer
+          ctx.fillText("The mystical black cat", textX, y);
+          y += 34;
+          ctx.fillText("who guides seekers to extraordinary gains.", textX, y);
+          y += 34;
+          ctx.fillText("Hold Magic, and magic will find you.", textX, y);
+        } else {
+          const textX = shiftedCenterX + 350;
+          ctx.font = "50px 'Mystery Quest', cursive";
+          ctx.fillText("MEET MAGIC", textX, shiftedCenterY - 60);
+
+          ctx.font = "28px 'Mystery Quest', cursive";
+          ctx.fillText("The mystical black cat", textX, shiftedCenterY);
+          ctx.fillText("who guides seekers to extraordinary gains.", textX, shiftedCenterY + 40);
+          ctx.fillText("Hold Magic, and magic will find you.", textX, shiftedCenterY + 90);
+        }
 
         ctx.restore();
       }
