@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- wichtig für Mobile -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Magic Universe</title>
   <link href="https://fonts.googleapis.com/css2?family=Mystery+Quest&display=swap" rel="stylesheet">
   <style>
@@ -10,86 +10,85 @@
     html, body {
       margin: 0;
       height: 100%;
-      background: black;
+      background: #000;
       font-family: 'Mystery Quest', cursive;
       color: var(--gold);
       overflow: hidden;
     }
 
-    /* 🌌 Sternenhimmel: fix im Hintergrund, ohne DPR-Skalierung */
+    /* 🌌 Sternenhimmel fix im Hintergrund */
     #starCanvas {
       position: fixed;
       inset: 0;
       z-index: 0;
-      pointer-events: none;
       display: block;
+      pointer-events: none;
     }
 
-    /* 🖥️ Desktop-Button (unten mittig) */
+    /* 🖥️ Desktop-Button – immer sichtbar */
     #beginButtonDesktop {
       position: fixed;
-      bottom: 100px;
+      bottom: 80px;
       left: 50%;
       transform: translateX(-50%);
-      padding: 16px 32px;
-      font-size: 24px;
-      color: black;
+      padding: 14px 26px;
+      font-size: 22px;
+      font-family: 'Mystery Quest', cursive;
+      color: #000;
       background: linear-gradient(90deg, #ffffaa, #ffffcc);
       border: none;
       border-radius: 12px;
       box-shadow: 0 0 10px #ffffaa, 0 0 25px #ffffaa;
       cursor: pointer;
-      opacity: 0; /* wird eingeblendet, wenn der Canvas-Text erscheint */
-      transition: opacity 1s ease, transform 0.3s ease;
-      z-index: 10;
+      z-index: 5;
     }
     #beginButtonDesktop:hover {
       transform: translateX(-50%) scale(1.05);
-      box-shadow: 0 0 20px #ffffaa, 0 0 40px #ffffaa;
     }
 
     /* 📱 Mobile-Stack (Katze → Text → Button) */
     .mobile-stack {
       position: relative;
-      z-index: 5;
+      z-index: 4;
       width: 100%;
       height: 100vh;
       box-sizing: border-box;
-      padding: 24px 20px;
-      display: none;              /* per Media Query sichtbar */
+      padding: 24px 18px;
+      display: none;             /* per Media Query ein */
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      text-align: center;
       gap: 12px;
+      text-align: center;
     }
     .mobile-cat {
       width: 56vw;
       max-width: 300px;
       height: auto;
-      filter: drop-shadow(0 0 10px rgba(255,255,170,0.6));
+      filter: drop-shadow(0 0 10px rgba(255,255,170,.6));
     }
     .mobile-title {
-      font-size: 34px;
+      font-size: 32px;
       margin-top: 6px;
-      text-shadow: 0 0 6px rgba(255,255,170,0.6);
+      text-shadow: 0 0 6px rgba(255,255,170,.5);
     }
     .mobile-line {
       font-size: 18px;
       line-height: 1.4;
       margin: 2px 0;
       max-width: 340px;
-      text-shadow: 0 0 4px rgba(255,255,170,0.5);
+      text-shadow: 0 0 4px rgba(255,255,170,.4);
     }
     .mobile-button {
       font-size: 20px;
       padding: 12px 22px;
       margin-top: 8px;
-      color: black;
+      font-family: 'Mystery Quest', cursive;
+      color: #000;
       background: linear-gradient(90deg, #ffffaa, #ffffcc);
       border: none;
       border-radius: 12px;
-      box-shadow: 0 0 10px rgba(255,255,170,0.7);
+      box-shadow: 0 0 10px rgba(255,255,170,.7);
       cursor: pointer;
     }
     .mobile-button:active { transform: scale(0.98); }
@@ -97,15 +96,15 @@
     /* 📱 Umschaltung */
     @media (max-width: 768px) {
       #beginButtonDesktop { display: none; }  /* Desktop-Button aus */
-      .mobile-stack { display: flex; }        /* Stack an */
+      .mobile-stack { display: flex; }        /* Stack sichtbar */
     }
   </style>
 </head>
 <body>
-  <!-- 🌌 Sternenhimmel -->
+  <!-- 🌌 Sterne -->
   <canvas id="starCanvas"></canvas>
 
-  <!-- 🖥️ Desktop-Button -->
+  <!-- 🖥️ Desktop: Button unten -->
   <button id="beginButtonDesktop">The Beginning</button>
 
   <!-- 📱 Mobile: Katze → Text → Button -->
@@ -119,17 +118,20 @@
   </div>
 
   <script>
-    /* ========= Sternenhimmel: nicht skaliert (kein devicePixelRatio) ========= */
+    // ===== Canvas Setup (kein DPR-Scaling) =====
     const canvas = document.getElementById('starCanvas');
     const ctx = canvas.getContext('2d');
-
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      // Stern-Positionen nicht neu generieren, nur weiterzeichnen
+    });
 
+    // ===== Sterne =====
     let particles = JSON.parse(localStorage.getItem('particles')) || [];
     if (particles.length === 0) {
       for (let i = 0; i < 300; i++) {
@@ -139,53 +141,45 @@
           size: Math.random() * 2 + 1
         });
       }
-      // optional: localStorage.setItem('particles', JSON.stringify(particles));
+      // localStorage.setItem('particles', JSON.stringify(particles));
     }
 
-    function drawStars() {
+    // ===== Mobile / Desktop Erkennung =====
+    function isMobile() {
+      return window.matchMedia('(max-width: 768px)').matches;
+    }
+
+    // ===== Desktop: Katzenflug + Text =====
+    const catImg = new Image();
+    catImg.src = 'images/cat_on_broom.png';
+
+    let angle = Math.PI / 4;
+    let radius = Math.min(canvas.width, canvas.height) * 0.6;
+    let scale = 0.02;
+    const maxScale = 0.25;
+    let reachedCenter = false;
+    let showText = false;
+    let textOpacity = 0;
+    let floatAngle = 0;
+
+    function animate() {
+      // Hintergrund
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
+      // Sterne
+      for (const p of particles) {
         const opacity = 0.5 + Math.random() * 0.5;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
-        ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,200,${opacity})`;
         ctx.fill();
-      });
-      requestAnimationFrame(drawStars);
-    }
-    drawStars();
+      }
 
-    /* ========= Buttons: gemeinsames Ziel ========= */
-    const beginButtonDesktop = document.getElementById('beginButtonDesktop');
-    const beginButtonMobile  = document.getElementById('beginButtonMobile');
-
-    function goToBeginning(){ window.location.href = 'beginning.html'; }
-    if (beginButtonDesktop) beginButtonDesktop.addEventListener('click', goToBeginning);
-    if (beginButtonMobile)  beginButtonMobile.addEventListener('click',  goToBeginning);
-
-    /* ========= Desktop-Animation (Katze + Canvas-Text) ========= */
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-
-    if (!isMobile) {
-      const centerX = () => canvas.width / 2;
-      const centerY = () => canvas.height / 2;
-
-      const catImg = new Image();
-      catImg.src = 'images/cat_on_broom.png';
-
-      let angle = Math.PI / 4;
-      let radius = Math.min(canvas.width, canvas.height) * 0.6;
-      let scale = 0.02;
-      const maxScale = 0.25;
-      let reachedCenter = false;
-      let showText = false;
-      let textOpacity = 0;
-      let floatAngle = 0;
-
-      function animateDesktop() {
-        // Katze & Text über die Sterne zeichnen
-        const shiftedCenterX = centerX() - 150;
-        const shiftedCenterY = centerY();
+      if (!isMobile()) {
+        // ---- Desktop: Katze + Text auf dem Canvas ----
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const shiftedCenterX = centerX - 150;
+        const shiftedCenterY = centerY;
 
         let catX, catY;
         if (!reachedCenter) {
@@ -209,7 +203,7 @@
 
         if (catImg.complete) {
           ctx.save();
-          ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
+          ctx.filter = 'drop-shadow(0 0 15px rgba(255,255,150,0.8))';
           ctx.drawImage(
             catImg,
             catX - (catImg.width * scale) / 2,
@@ -222,37 +216,39 @@
 
         if (showText) {
           if (textOpacity < 1) textOpacity += 0.08;
-
           ctx.save();
           ctx.globalAlpha = textOpacity;
-          ctx.filter = 'drop-shadow(0 0 10px rgba(255, 255, 150, 0.8))';
-          ctx.textAlign = "center";
-          ctx.fillStyle = "#ffffaa";
+          ctx.filter = 'drop-shadow(0 0 10px rgba(255,255,150,0.8))';
+          ctx.textAlign = 'center';
+          ctx.fillStyle = '#ffffaa';
 
           const textX = shiftedCenterX + 350;
           ctx.font = "50px 'Mystery Quest', cursive";
-          ctx.fillText("MEET MAGIC", textX, shiftedCenterY - 60);
+          ctx.fillText('MEET MAGIC', textX, shiftedCenterY - 60);
 
           ctx.font = "28px 'Mystery Quest', cursive";
-          ctx.fillText("The mystical black cat", textX, shiftedCenterY);
-          ctx.fillText("who guides seekers to extraordinary gains.", textX, shiftedCenterY + 40);
-          ctx.fillText("Hold Magic, and magic will find you.", textX, shiftedCenterY + 90);
+          ctx.fillText('The mystical black cat', textX, shiftedCenterY);
+          ctx.fillText('who guides seekers to extraordinary gains.', textX, shiftedCenterY + 40);
+          ctx.fillText('Hold Magic, and magic will find you.', textX, shiftedCenterY + 90);
 
           ctx.restore();
-
-          // Desktop-Button einblenden, wenn Text da ist
-          beginButtonDesktop.style.opacity = '1';
         }
-
-        requestAnimationFrame(animateDesktop);
       }
-      animateDesktop();
-
-      // Bei Resize die Flugbahn anpassen
-      window.addEventListener('resize', () => {
-        radius = Math.min(canvas.width, canvas.height) * 0.6;
-      });
+      requestAnimationFrame(animate);
     }
+    animate();
+
+    // Buttons (Desktop & Mobile) → Beginning
+    const btnDesktop = document.getElementById('beginButtonDesktop');
+    const btnMobile  = document.getElementById('beginButtonMobile');
+    function goToBeginning() { window.location.href = 'beginning.html'; }
+    if (btnDesktop) btnDesktop.addEventListener('click', goToBeginning);
+    if (btnMobile)  btnMobile.addEventListener('click',  goToBeginning);
+
+    // Bei Resize Desktop-Parameter anpassen
+    window.addEventListener('resize', () => {
+      radius = Math.min(canvas.width, canvas.height) * 0.6;
+    });
   </script>
 </body>
 </html>
