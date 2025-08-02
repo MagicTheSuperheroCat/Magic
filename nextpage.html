@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- wichtig für Mobile -->
   <title>Magic Universe</title>
   <link href="https://fonts.googleapis.com/css2?family=Mystery+Quest&display=swap" rel="stylesheet">
   <style>
@@ -15,7 +16,7 @@
       overflow: hidden;
     }
 
-    /* 🌌 Sternenhimmel: fix, im Hintergrund, ohne DPR-Skalierung */
+    /* 🌌 Sternenhimmel: fix im Hintergrund, ohne DPR-Skalierung */
     #starCanvas {
       position: fixed;
       inset: 0;
@@ -24,7 +25,7 @@
       display: block;
     }
 
-    /* 🖥️ Desktop-Button (unten mittig, über Canvas) */
+    /* 🖥️ Desktop-Button (unten mittig) */
     #beginButtonDesktop {
       position: fixed;
       bottom: 100px;
@@ -38,7 +39,7 @@
       border-radius: 12px;
       box-shadow: 0 0 10px #ffffaa, 0 0 25px #ffffaa;
       cursor: pointer;
-      opacity: 0; /* erscheint, wenn Text rechts eingeblendet ist */
+      opacity: 0; /* wird eingeblendet, wenn der Canvas-Text erscheint */
       transition: opacity 1s ease, transform 0.3s ease;
       z-index: 10;
     }
@@ -47,7 +48,7 @@
       box-shadow: 0 0 20px #ffffaa, 0 0 40px #ffffaa;
     }
 
-    /* 📱 Mobile-Stack: Katze → Text → Button (zentriert, über Canvas) */
+    /* 📱 Mobile-Stack (Katze → Text → Button) */
     .mobile-stack {
       position: relative;
       z-index: 5;
@@ -55,7 +56,7 @@
       height: 100vh;
       box-sizing: border-box;
       padding: 24px 20px;
-      display: none;              /* per Media Query ein */
+      display: none;              /* per Media Query sichtbar */
       flex-direction: column;
       justify-content: center;
       align-items: center;
@@ -93,10 +94,10 @@
     }
     .mobile-button:active { transform: scale(0.98); }
 
-    /* 📱 Mobile-Umschaltung */
+    /* 📱 Umschaltung */
     @media (max-width: 768px) {
       #beginButtonDesktop { display: none; }  /* Desktop-Button aus */
-      .mobile-stack { display: flex; }        /* Stack ein */
+      .mobile-stack { display: flex; }        /* Stack an */
     }
   </style>
 </head>
@@ -118,12 +119,11 @@
   </div>
 
   <script>
-    /* ========= Sternenhimmel: nicht skaliert (kein DPR) ========= */
+    /* ========= Sternenhimmel: nicht skaliert (kein devicePixelRatio) ========= */
     const canvas = document.getElementById('starCanvas');
     const ctx = canvas.getContext('2d');
 
     function resizeCanvas() {
-      // Keine devicePixelRatio-Skalierung – exakt so gewünscht
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
