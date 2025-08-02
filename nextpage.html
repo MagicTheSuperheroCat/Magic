@@ -2,159 +2,78 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Magic Universe</title>
   <link href="https://fonts.googleapis.com/css2?family=Mystery+Quest&display=swap" rel="stylesheet">
   <style>
-    :root { --gold: #ffffaa; }
-    html, body {
+    body {
       margin: 0;
-      height: 100%;
-      background: #000;
-      font-family: 'Mystery Quest', cursive;
-      color: var(--gold);
+      background: black;
       overflow: hidden;
     }
-
-    /* 🌌 Sternenhimmel fix im Hintergrund */
-    #starCanvas {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      display: block;
-      pointer-events: none;
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
     }
 
-    /* 🖥️ Desktop-Button – immer sichtbar */
-    #beginButtonDesktop {
-      position: fixed;
-      bottom: 80px;
+    #beginButton {
+      position: absolute;
+      bottom: 100px;
       left: 50%;
       transform: translateX(-50%);
-      padding: 14px 26px;
-      font-size: 22px;
+      padding: 16px 32px;
+      font-size: 24px;
       font-family: 'Mystery Quest', cursive;
-      color: #000;
+      color: black;
       background: linear-gradient(90deg, #ffffaa, #ffffcc);
       border: none;
       border-radius: 12px;
       box-shadow: 0 0 10px #ffffaa, 0 0 25px #ffffaa;
       cursor: pointer;
-      z-index: 5;
+      opacity: 0;
+      transition: opacity 1s ease, transform 0.3s ease;
+      z-index: 10;
     }
-    #beginButtonDesktop:hover {
+
+    #beginButton:hover {
       transform: translateX(-50%) scale(1.05);
-    }
-
-    /* 📱 Mobile-Stack (Katze → Text → Button) */
-    .mobile-stack {
-      position: relative;
-      z-index: 4;
-      width: 100%;
-      height: 100vh;
-      box-sizing: border-box;
-      padding: 24px 18px;
-      display: none;             /* per Media Query ein */
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      text-align: center;
-    }
-    .mobile-cat {
-      width: 56vw;
-      max-width: 300px;
-      height: auto;
-      filter: drop-shadow(0 0 10px rgba(255,255,170,.6));
-    }
-    .mobile-title {
-      font-size: 32px;
-      margin-top: 6px;
-      text-shadow: 0 0 6px rgba(255,255,170,.5);
-    }
-    .mobile-line {
-      font-size: 18px;
-      line-height: 1.4;
-      margin: 2px 0;
-      max-width: 340px;
-      text-shadow: 0 0 4px rgba(255,255,170,.4);
-    }
-    .mobile-button {
-      font-size: 20px;
-      padding: 12px 22px;
-      margin-top: 8px;
-      font-family: 'Mystery Quest', cursive;
-      color: #000;
-      background: linear-gradient(90deg, #ffffaa, #ffffcc);
-      border: none;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(255,255,170,.7);
-      cursor: pointer;
-    }
-    .mobile-button:active { transform: scale(0.98); }
-
-    /* 📱 Umschaltung */
-    @media (max-width: 768px) {
-      #beginButtonDesktop { display: none; }  /* Desktop-Button aus */
-      .mobile-stack { display: flex; }        /* Stack sichtbar */
+      box-shadow: 0 0 20px #ffffaa, 0 0 40px #ffffaa;
     }
   </style>
 </head>
 <body>
-  <!-- 🌌 Sterne -->
   <canvas id="starCanvas"></canvas>
-
-  <!-- 🖥️ Desktop: Button unten -->
-  <button id="beginButtonDesktop">The Beginning</button>
-
-  <!-- 📱 Mobile: Katze → Text → Button -->
-  <div class="mobile-stack" id="mobileStack">
-    <img src="images/cat_on_broom.png" alt="Magic on broom" class="mobile-cat">
-    <div class="mobile-title">MEET MAGIC</div>
-    <div class="mobile-line">The mystical black cat</div>
-    <div class="mobile-line">who guides seekers to extraordinary gains.</div>
-    <div class="mobile-line">Hold Magic, and magic will find you.</div>
-    <button class="mobile-button" id="beginButtonMobile">The Beginning</button>
-  </div>
+  <button id="beginButton">The Beginning</button>
 
   <script>
-    // ===== Canvas Setup (kein DPR-Scaling) =====
     const canvas = document.getElementById('starCanvas');
     const ctx = canvas.getContext('2d');
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
     window.addEventListener('resize', () => {
-      resizeCanvas();
-      // Stern-Positionen nicht neu generieren, nur weiterzeichnen
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     });
 
-    // ===== Sterne =====
     let particles = JSON.parse(localStorage.getItem('particles')) || [];
     if (particles.length === 0) {
       for (let i = 0; i < 300; i++) {
         particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
+          x: Math.random() * width,
+          y: Math.random() * height,
           size: Math.random() * 2 + 1
         });
       }
-      // localStorage.setItem('particles', JSON.stringify(particles));
     }
 
-    // ===== Mobile / Desktop Erkennung =====
-    function isMobile() {
-      return window.matchMedia('(max-width: 768px)').matches;
-    }
-
-    // ===== Desktop: Katzenflug + Text =====
+    // Katze vorbereiten
     const catImg = new Image();
     catImg.src = 'images/cat_on_broom.png';
-
+    const centerX = width / 2;
+    const centerY = height / 2;
     let angle = Math.PI / 4;
-    let radius = Math.min(canvas.width, canvas.height) * 0.6;
+    let radius = Math.min(width, height) * 0.6;
     let scale = 0.02;
     const maxScale = 0.25;
     let reachedCenter = false;
@@ -162,93 +81,101 @@
     let textOpacity = 0;
     let floatAngle = 0;
 
-    function animate() {
-      // Hintergrund
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // Sterne
-      for (const p of particles) {
-        const opacity = 0.5 + Math.random() * 0.5;
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Sterne zeichnen
+      particles.forEach(p => {
+        let opacity = 0.5 + Math.random() * 0.5;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,200,${opacity})`;
+        ctx.arc(p.finalX || p.x, p.finalY || p.y, p.size, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
         ctx.fill();
-      }
+      });
 
-      if (!isMobile()) {
-        // ---- Desktop: Katze + Text auf dem Canvas ----
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        const shiftedCenterX = centerX - 150;
-        const shiftedCenterY = centerY;
+      // Katze bewegen
+      let catX, catY;
+      const shiftedCenterX = centerX - 150;
+      const shiftedCenterY = centerY;
 
-        let catX, catY;
-        if (!reachedCenter) {
-          catX = shiftedCenterX + radius * Math.cos(angle);
-          catY = shiftedCenterY + radius * Math.sin(angle);
-          angle += 0.04;
+      if (!reachedCenter) {
+        catX = shiftedCenterX + radius * Math.cos(angle);
+        catY = shiftedCenterY + radius * Math.sin(angle);
+        angle += 0.04;
 
-          if (angle >= Math.PI / 4 + Math.PI) {
-            radius -= 6;
-            if (radius <= 2) {
-              reachedCenter = true;
-              showText = true;
-            }
+        if (angle >= Math.PI / 4 + Math.PI) {
+          radius -= 6;
+          if (radius <= 2) {
+            reachedCenter = true;
+            showText = true;
           }
-          scale = Math.min(maxScale, scale + 0.002);
-        } else {
-          catX = shiftedCenterX;
-          catY = shiftedCenterY + Math.sin(floatAngle) * 5;
-          floatAngle += 0.05;
         }
 
-        if (catImg.complete) {
-          ctx.save();
-          ctx.filter = 'drop-shadow(0 0 15px rgba(255,255,150,0.8))';
-          ctx.drawImage(
-            catImg,
-            catX - (catImg.width * scale) / 2,
-            catY - (catImg.height * scale) / 2,
-            catImg.width * scale,
-            catImg.height * scale
-          );
-          ctx.restore();
-        }
-
-        if (showText) {
-          if (textOpacity < 1) textOpacity += 0.08;
-          ctx.save();
-          ctx.globalAlpha = textOpacity;
-          ctx.filter = 'drop-shadow(0 0 10px rgba(255,255,150,0.8))';
-          ctx.textAlign = 'center';
-          ctx.fillStyle = '#ffffaa';
-
-          const textX = shiftedCenterX + 350;
-          ctx.font = "50px 'Mystery Quest', cursive";
-          ctx.fillText('MEET MAGIC', textX, shiftedCenterY - 60);
-
-          ctx.font = "28px 'Mystery Quest', cursive";
-          ctx.fillText('The mystical black cat', textX, shiftedCenterY);
-          ctx.fillText('who guides seekers to extraordinary gains.', textX, shiftedCenterY + 40);
-          ctx.fillText('Hold Magic, and magic will find you.', textX, shiftedCenterY + 90);
-
-          ctx.restore();
-        }
+        scale = Math.min(maxScale, scale + 0.002); // wächst während Flug
+      } else {
+        catX = shiftedCenterX;
+        catY = shiftedCenterY + Math.sin(floatAngle) * 5;
+        floatAngle += 0.05;
       }
-      requestAnimationFrame(animate);
+
+      // Katze mit Glow zeichnen
+      ctx.save();
+      ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
+      ctx.drawImage(
+        catImg,
+        catX - (catImg.width * scale) / 2,
+        catY - (catImg.height * scale) / 2,
+        catImg.width * scale,
+        catImg.height * scale
+      );
+      ctx.restore();
+
+      // Text einblenden
+      if (showText) {
+        if (textOpacity < 1) {
+          textOpacity += 0.08; // schneller
+        }
+        checkShowButton();
+
+        ctx.save();
+        ctx.globalAlpha = textOpacity;
+        ctx.filter = 'drop-shadow(0 0 10px rgba(255, 255, 150, 0.8))';
+        ctx.font = "50px 'Mystery Quest', cursive";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "#ffffaa";
+
+        const textX = shiftedCenterX + 350;
+
+        ctx.fillText("MEET MAGIC", textX, shiftedCenterY - 60);
+
+        ctx.font = "28px 'Mystery Quest', cursive";
+        ctx.fillText("The mystical black cat", textX, shiftedCenterY);
+        ctx.fillText("who guides seekers to extraordinary gains.", textX, shiftedCenterY + 40);
+        ctx.fillText("Hold Magic, and magic will find you.", textX, shiftedCenterY + 90);
+
+        ctx.restore();
+      }
+
+      requestAnimationFrame(animateParticles);
     }
-    animate();
 
-    // Buttons (Desktop & Mobile) → Beginning
-    const btnDesktop = document.getElementById('beginButtonDesktop');
-    const btnMobile  = document.getElementById('beginButtonMobile');
-    function goToBeginning() { window.location.href = 'beginning.html'; }
-    if (btnDesktop) btnDesktop.addEventListener('click', goToBeginning);
-    if (btnMobile)  btnMobile.addEventListener('click',  goToBeginning);
+    animateParticles();
 
-    // Bei Resize Desktop-Parameter anpassen
-    window.addEventListener('resize', () => {
-      radius = Math.min(canvas.width, canvas.height) * 0.6;
+    const beginButton = document.getElementById('beginButton');
+    let buttonShown = false;
+
+    // Klickfunktion
+    beginButton.addEventListener('click', () => {
+      window.location.href = 'beginning.html';
     });
+
+    // Button einblenden, wenn Text halb sichtbar
+    function checkShowButton() {
+      if (showText && textOpacity >= 0.5 && !buttonShown) {
+        beginButton.style.opacity = '1';
+        buttonShown = true;
+      }
+    }
   </script>
 </body>
 </html>
