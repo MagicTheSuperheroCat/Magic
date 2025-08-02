@@ -9,13 +9,17 @@
       margin: 0;
       background: black;
       overflow: hidden;
+      font-family: 'Mystery Quest', cursive;
+      color: #ffffaa;
     }
     canvas {
       position: absolute;
       top: 0;
       left: 0;
+      z-index: 0;
     }
 
+    /* Desktop-Button (bleibt wie gehabt) */
     #beginButton {
       position: absolute;
       bottom: 100px;
@@ -34,25 +38,77 @@
       transition: opacity 1s ease, transform 0.3s ease;
       z-index: 10;
     }
-
     #beginButton:hover {
       transform: translateX(-50%) scale(1.05);
       box-shadow: 0 0 20px #ffffaa, 0 0 40px #ffffaa;
     }
 
-    /* 🔹 Nur Mobile: Button größer & näher an den Inhalt */
+    /* 🔹 Mobile-Stack: standardmäßig ausblenden, nur auf Mobile zeigen */
+    .mobile-stack {
+      display: none;
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      height: 100vh;
+      box-sizing: border-box;
+      padding: 80px 18px 40px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 18px;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    .mobile-cat {
+      width: 60vw;              /* responsive */
+      max-width: 320px;
+      height: auto;
+      filter: drop-shadow(0 0 15px rgba(255,255,150,0.8));
+    }
+    .mobile-title {
+      font-size: 42px;
+      margin: 6px 0 0;
+      text-shadow: 0 0 10px #ffffaa, 0 0 20px #ffffaa;
+    }
+    .mobile-line {
+      font-size: 22px;
+      margin: 2px 0;
+      text-shadow: 0 0 8px rgba(255,255,170,0.6);
+    }
+    /* Button im Mobile-Stack: nicht absolut, sondern normaler Flow */
+    .mobile-stack #beginButton {
+      position: static;
+      transform: none;
+      font-size: 24px;
+      padding: 14px 24px;
+      opacity: 1;               /* im Stack direkt sichtbar */
+    }
+
+    /* 🔹 Nur Mobile aktivieren */
     @media (max-width: 768px) {
+      /* Desktop-Button aus dem Flow entfernen (wir nutzen den im Stack) */
       #beginButton {
-        font-size: 28px;
-        padding: 18px 28px;
-        bottom: 60px;
+        display: none;
+      }
+      .mobile-stack {
+        display: flex;
       }
     }
   </style>
 </head>
 <body>
   <canvas id="starCanvas"></canvas>
-  <button id="beginButton">The Beginning</button>
+
+  <!-- 🔹 Mobile-Spalte: Katze → Text → Button (nur auf Mobile sichtbar) -->
+  <div class="mobile-stack" id="mobileStack">
+    <img src="images/cat_on_broom.png" alt="Magic on broom" class="mobile-cat">
+    <div class="mobile-title">MEET MAGIC</div>
+    <div class="mobile-line">The mystical black cat</div>
+    <div class="mobile-line">who guides seekers to extraordinary gains.</div>
+    <div class="mobile-line">Hold Magic, and magic will find you.</div>
+    <button id="beginButton">The Beginning</button>
+  </div>
 
   <script>
     const canvas = document.getElementById('starCanvas');
@@ -60,10 +116,11 @@
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
 
-    window.addEventListener('resize', () => {
+    function onResize(){
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-    });
+    }
+    window.addEventListener('resize', onResize);
 
     let particles = JSON.parse(localStorage.getItem('particles')) || [];
     if (particles.length === 0) {
@@ -76,102 +133,86 @@
       }
     }
 
-    // 🔹 Mobile-Erkennung
     const isMobile = window.innerWidth <= 768;
 
-    // Katze vorbereiten
-    const catImg = new Image();
-    catImg.src = 'images/cat_on_broom.png';
+    // 🔹 Desktop: katzen-Animation / Text auf Canvas
+    // 🔹 Mobile: nur Sterne auf Canvas; Katze/Text/Button als HTML-Stack
     const centerX = width / 2;
     const centerY = height / 2;
+
+    // Nur für Desktop benötigt:
+    const catImg = new Image();
+    catImg.src = 'images/cat_on_broom.png';
     let angle = Math.PI / 4;
     let radius = Math.min(width, height) * 0.6;
     let scale = 0.02;
-    let maxScale = isMobile ? 0.35 : 0.25; // 👉 Mobile: größer
+    const maxScale = 0.25;
     let reachedCenter = false;
     let showText = false;
     let textOpacity = 0;
     let floatAngle = 0;
 
-    function animateParticles() {
+    function animate() {
       ctx.clearRect(0, 0, width, height);
 
-      // Sterne zeichnen (unverändert)
+      // Sterne (immer)
       particles.forEach(p => {
         let opacity = 0.5 + Math.random() * 0.5;
         ctx.beginPath();
-        ctx.arc(p.finalX || p.x, p.finalY || p.y, p.size, 0, 2 * Math.PI);
+        ctx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
         ctx.fillStyle = `rgba(255, 255, 200, ${opacity})`;
         ctx.fill();
       });
 
-      // Katze bewegen – Mobile: mittig, Desktop: leicht nach links
-      let catX, catY;
-      const shiftedCenterX = isMobile ? centerX : centerX - 150;
-      const shiftedCenterY = centerY;
+      if (!isMobile) {
+        // ---- DESKTOP: Katze & Canvas-Text ----
+        const shiftedCenterX = centerX - 150;
+        const shiftedCenterY = centerY;
 
-      if (!reachedCenter) {
-        catX = shiftedCenterX + radius * Math.cos(angle);
-        catY = shiftedCenterY + radius * Math.sin(angle);
-        angle += 0.04;
+        let catX, catY;
+        if (!reachedCenter) {
+          catX = shiftedCenterX + radius * Math.cos(angle);
+          catY = shiftedCenterY + radius * Math.sin(angle);
+          angle += 0.04;
 
-        if (angle >= Math.PI / 4 + Math.PI) {
-          radius -= 6;
-          if (radius <= 2) {
-            reachedCenter = true;
-            showText = true;
+          if (angle >= Math.PI / 4 + Math.PI) {
+            radius -= 6;
+            if (radius <= 2) {
+              reachedCenter = true;
+              showText = true;
+            }
           }
+          scale = Math.min(maxScale, scale + 0.002);
+        } else {
+          catX = shiftedCenterX;
+          catY = shiftedCenterY + Math.sin(floatAngle) * 5;
+          floatAngle += 0.05;
         }
 
-        // Wachstum der Katze während des Flugs
-        scale = Math.min(maxScale, scale + 0.002);
-      } else {
-        // sanftes „Schweben“, wenn zentriert
-        catX = shiftedCenterX;
-        catY = shiftedCenterY + Math.sin(floatAngle) * 5;
-        floatAngle += 0.05;
-      }
+        // Katze zeichnen
+        if (catImg.complete) {
+          ctx.save();
+          ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
+          ctx.drawImage(
+            catImg,
+            catX - (catImg.width * scale) / 2,
+            catY - (catImg.height * scale) / 2,
+            catImg.width * scale,
+            catImg.height * scale
+          );
+          ctx.restore();
+        }
 
-      // Katze mit Glow zeichnen
-      ctx.save();
-      ctx.filter = 'drop-shadow(0 0 15px rgba(255, 255, 150, 0.8))';
-      if (catImg.complete) {
-        ctx.drawImage(
-          catImg,
-          catX - (catImg.width * scale) / 2,
-          catY - (catImg.height * scale) / 2,
-          catImg.width * scale,
-          catImg.height * scale
-        );
-      }
-      ctx.restore();
+        // Text auf Canvas
+        if (showText) {
+          if (textOpacity < 1) textOpacity += 0.08;
 
-      // Text einblenden – Mobile: unter der Katze, Desktop: rechts daneben
-      if (showText) {
-        if (textOpacity < 1) textOpacity += 0.08;
-        checkShowButton();
+          ctx.save();
+          ctx.globalAlpha = textOpacity;
+          ctx.filter = 'drop-shadow(0 0 10px rgba(255, 255, 150, 0.8))';
+          ctx.textAlign = "center";
+          ctx.fillStyle = "#ffffaa";
 
-        ctx.save();
-        ctx.globalAlpha = textOpacity;
-        ctx.filter = 'drop-shadow(0 0 10px rgba(255, 255, 150, 0.8))';
-        ctx.textAlign = "center";
-        ctx.fillStyle = "#ffffaa";
-
-        if (isMobile) {
-          const textX = centerX;
-          let y = shiftedCenterY + Math.max(140, (catImg.height * scale) / 2 + 80);
-
-          ctx.font = "42px 'Mystery Quest', cursive";   // Überschrift größer
-          ctx.fillText("MEET MAGIC", textX, y);
-          y += 46;
-
-          ctx.font = "24px 'Mystery Quest', cursive";   // Fließtext größer
-          ctx.fillText("The mystical black cat", textX, y);
-          y += 34;
-          ctx.fillText("who guides seekers to extraordinary gains.", textX, y);
-          y += 34;
-          ctx.fillText("Hold Magic, and magic will find you.", textX, y);
-        } else {
           const textX = shiftedCenterX + 350;
           ctx.font = "50px 'Mystery Quest', cursive";
           ctx.fillText("MEET MAGIC", textX, shiftedCenterY - 60);
@@ -180,31 +221,31 @@
           ctx.fillText("The mystical black cat", textX, shiftedCenterY);
           ctx.fillText("who guides seekers to extraordinary gains.", textX, shiftedCenterY + 40);
           ctx.fillText("Hold Magic, and magic will find you.", textX, shiftedCenterY + 90);
-        }
 
-        ctx.restore();
+          ctx.restore();
+
+          // Desktop-Button einblenden wie zuvor (falls du ihn nutzen willst)
+          // (Der mobile Button liegt im Stack und ist immer sichtbar)
+          // document.getElementById('beginButton').style.opacity = '1';
+        }
+      } else {
+        // ---- MOBILE: nur Sterne (Katze/Text kommen als HTML-Stack) ----
+        const stack = document.getElementById('mobileStack');
+        // leichte Verzögerung fürs weiche Einblenden
+        if (stack && stack.style.opacity !== '1') {
+          setTimeout(() => { stack.style.opacity = '1'; }, 300);
+        }
       }
 
-      requestAnimationFrame(animateParticles);
+      requestAnimationFrame(animate);
     }
+    animate();
 
-    animateParticles();
-
+    // Button: gleicher Link
     const beginButton = document.getElementById('beginButton');
-    let buttonShown = false;
-
-    // Klickfunktion
     beginButton.addEventListener('click', () => {
       window.location.href = 'beginning.html';
     });
-
-    // Button einblenden, wenn Text halb sichtbar
-    function checkShowButton() {
-      if (showText && textOpacity >= 0.5 && !buttonShown) {
-        beginButton.style.opacity = '1';
-        buttonShown = true;
-      }
-    }
   </script>
 </body>
 </html>
