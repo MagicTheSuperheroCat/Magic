@@ -15,7 +15,7 @@
       overflow: hidden;
     }
 
-    /* 🌌 Sternenhimmel immer im Hintergrund, nicht skaliert (kein DPR) */
+    /* 🌌 Sternenhimmel: fix, im Hintergrund, ohne DPR-Skalierung */
     #starCanvas {
       position: fixed;
       inset: 0;
@@ -122,13 +122,13 @@
     const canvas = document.getElementById('starCanvas');
     const ctx = canvas.getContext('2d');
 
-    function resizeCanvasSimple() {
-      // Keine devicePixelRatio-Skalierung – genau deine Vorgabe
+    function resizeCanvas() {
+      // Keine devicePixelRatio-Skalierung – exakt so gewünscht
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
-    resizeCanvasSimple();
-    window.addEventListener('resize', resizeCanvasSimple);
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
     let particles = JSON.parse(localStorage.getItem('particles')) || [];
     if (particles.length === 0) {
@@ -155,19 +155,21 @@
     }
     drawStars();
 
-    /* ========= Desktop-Animation (Katze + Canvas-Text) ========= */
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    const centerX = () => canvas.width / 2;
-    const centerY = () => canvas.height / 2;
-
+    /* ========= Buttons: gemeinsames Ziel ========= */
     const beginButtonDesktop = document.getElementById('beginButtonDesktop');
     const beginButtonMobile  = document.getElementById('beginButtonMobile');
 
-    function goToBeginning() { window.location.href = 'beginning.html'; }
-    beginButtonDesktop.addEventListener('click', goToBeginning);
-    beginButtonMobile.addEventListener('click', goToBeginning);
+    function goToBeginning(){ window.location.href = 'beginning.html'; }
+    if (beginButtonDesktop) beginButtonDesktop.addEventListener('click', goToBeginning);
+    if (beginButtonMobile)  beginButtonMobile.addEventListener('click',  goToBeginning);
+
+    /* ========= Desktop-Animation (Katze + Canvas-Text) ========= */
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
     if (!isMobile) {
+      const centerX = () => canvas.width / 2;
+      const centerY = () => canvas.height / 2;
+
       const catImg = new Image();
       catImg.src = 'images/cat_on_broom.png';
 
@@ -181,7 +183,7 @@
       let floatAngle = 0;
 
       function animateDesktop() {
-        // Katze bewegt sich über die Sterne (kein Clear, Sterne werden separat gezeichnet)
+        // Katze & Text über die Sterne zeichnen
         const shiftedCenterX = centerX() - 150;
         const shiftedCenterY = centerY();
 
@@ -238,7 +240,7 @@
 
           ctx.restore();
 
-          // Desktop-Button einblenden
+          // Desktop-Button einblenden, wenn Text da ist
           beginButtonDesktop.style.opacity = '1';
         }
 
