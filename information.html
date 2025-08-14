@@ -558,9 +558,21 @@
         height: 35px;
       }
 
-      /* HIDE GHOST IMAGE COMPLETELY ON MOBILE */
+      /* GHOST IMAGE FIXED ON MOBILE - NO SCROLLING */
       .cat-wrapper {
-        display: none !important;
+        position: fixed !important;
+        top: 20px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        z-index: 0 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        pointer-events: none !important;
+        transform: scale(0.8) !important;
+        animation: none !important;
       }
 
       .floating-cat {
@@ -923,7 +935,35 @@
     cat.classList.add("rotate-once");
   });
   
-
+  // ENSURE GHOST IMAGE STAYS FIXED ON MOBILE
+  function ensureGhostFixed() {
+    const catWrapper = document.querySelector(".cat-wrapper");
+    if (window.innerWidth <= 768) {
+      // Force the ghost to stay fixed
+      catWrapper.style.cssText = `
+        position: fixed !important;
+        top: 20px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        z-index: 0 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        pointer-events: none !important;
+        transform: scale(0.8) !important;
+        animation: none !important;
+      `;
+    }
+  }
+  
+  // Apply on load, resize, and scroll
+  window.addEventListener('load', ensureGhostFixed);
+  window.addEventListener('resize', ensureGhostFixed);
+  window.addEventListener('scroll', ensureGhostFixed);
+  // Apply immediately
+  ensureGhostFixed();
 </script>
 
   <script>
