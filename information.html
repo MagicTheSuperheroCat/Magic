@@ -347,7 +347,7 @@
 /* Medienbox für alle Bilder und Videos */
 .video-container .media-box {
   width: 480px !important;
-  height: auto
+  height: auto;
   max-width: 100%;
   border-radius: 12px;
   border: 2px solid var(--gold-soft);
@@ -483,48 +483,118 @@
   animation: cat-rotate 0.4s ease forwards;
 }
 
+    /* Mobile Hamburger Menu */
+    .mobile-menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      padding: 10px;
+      z-index: 1000;
+    }
+
+    .mobile-menu-toggle span {
+      width: 25px;
+      height: 3px;
+      background: var(--gold);
+      margin: 3px 0;
+      transition: 0.3s;
+      box-shadow: 0 0 10px var(--gold);
+    }
+
     @media (max-width: 768px) {
-  
-  .magic-nav {
-    flex-direction: column;
-    padding: 10px 20px;
-    height: auto;
-    display: none; /* Standard: versteckt */
-  }
+      .mobile-menu-toggle {
+        display: flex;
+      }
 
-  .magic-nav.show {
-    display: flex; /* nur ganz oben sichtbar */
-  }
+      .magic-nav {
+        flex-direction: column;
+        padding: 20px;
+        height: auto;
+        min-height: 100vh;
+        justify-content: flex-start;
+        gap: 20px;
+        display: none;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px);
+      }
 
-  .nav-center {
-    flex-direction: column;
-    gap: 10px;
-  }
+      .magic-nav.show {
+        display: flex;
+      }
 
-  .nav-logo {
-    height: 30px;
-  }
+      .nav-left {
+        order: 1;
+        margin-bottom: 20px;
+      }
 
-  .nav-right.buy-button {
-    font-size: 1rem;
-    padding: 8px 16px;
-  }
+      .nav-center {
+        flex-direction: column;
+        gap: 20px;
+        order: 2;
+        margin-bottom: 20px;
+      }
 
-  .magic-nav a, .magic-nav span {
-    font-size: 1.1rem;
-  }
+      .nav-right.buy-button {
+        order: 3;
+        font-size: 1.1rem;
+        padding: 12px 24px;
+        margin: 0;
+        align-self: center;
+      }
+
+      .magic-nav a, .magic-nav span {
+        font-size: 1.2rem;
+        padding: 10px 0;
+        text-align: center;
+      }
+
+      .nav-logo {
+        height: 35px;
+      }
 
   .cat-wrapper {
-  left: -60px;   /* statt 10px */
-  right: auto;
-  top: 10px;
-  transform: scale(0.8);
-}
+    left: -60px;   /* statt 10px */
+    right: auto;
+    top: 10px;
+    transform: scale(0.8);
+  }
 
-.floating-cat {
-  width: 220px;
-  opacity: 0.8;
-}
+  .floating-cat {
+    width: 220px;
+    opacity: 0.8;
+  }
+
+  /* Fix overlapping text on mobile */
+  .tokenomics-section {
+    padding-top: 150px !important;
+    margin-top: 20px;
+  }
+
+  .tokenomics-title {
+    font-size: 32px !important;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .token-address {
+    margin: 30px auto;
+    padding: 15px;
+  }
+
+  .token-address .ca-value {
+    font-size: 14px;
+    word-break: break-all;
+    line-height: 1.4;
+  }
+
+  /* Better mobile body padding */
+  body {
+    padding-top: 80px;
+  }
+
+  .content {
+    padding-top: 100px;
+  }
 
   .tokenomics-cards,
   .powers-grid,
@@ -597,9 +667,15 @@
   </style>
 </head>
 <body>
+  <!-- Mobile Menu Toggle -->
+  <div class="mobile-menu-toggle" id="mobileMenuToggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
   <!-- Magische Navigationsleiste -->
-<!-- Magische Navigationsleiste -->
-<nav class="magic-nav">
+  <nav class="magic-nav" id="magicNav">
   <div class="nav-left">
     <span class="magic-label">Magic</span>
     <img src="images/logo.png" alt="Magic Logo" class="nav-logo">
@@ -797,7 +873,21 @@
 
   <script>
   const nav = document.querySelector(".magic-nav");
+  const mobileMenuToggle = document.getElementById("mobileMenuToggle");
 
+  // Mobile menu toggle
+  mobileMenuToggle.addEventListener("click", () => {
+    nav.classList.toggle("show");
+  });
+
+  // Close mobile menu when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!nav.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+      nav.classList.remove("show");
+    }
+  });
+
+  // Desktop scroll behavior
   window.addEventListener("scroll", () => {
     if (window.scrollY <= 5) {
       nav.classList.add("show");
