@@ -558,32 +558,8 @@
         height: 35px;
       }
 
-      /* FIXED GHOST IMAGE - NO MORE SCROLLING */
+      /* HIDE GHOST IMAGE COMPLETELY ON MOBILE */
       .cat-wrapper {
-        position: fixed !important;
-        top: 20px !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        height: auto !important;
-        z-index: 0 !important;
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        pointer-events: none !important;
-        transform: scale(0.8) !important;
-        animation: none !important;
-        /* Force override desktop styles */
-        position: fixed !important;
-        top: 20px !important;
-        left: 0 !important;
-        right: 0 !important;
-        transform: scale(0.8) !important;
-        animation: none !important;
-      }
-      
-      /* Alternative: Hide ghost image completely on mobile if positioning fails */
-      .cat-wrapper.hide-on-mobile {
         display: none !important;
       }
 
@@ -947,35 +923,7 @@
     cat.classList.add("rotate-once");
   });
   
-  // FORCE GHOST IMAGE TO STAY FIXED ON MOBILE
-  function fixGhostPosition() {
-    const catWrapper = document.querySelector(".cat-wrapper");
-    if (window.innerWidth <= 768) {
-      // Force fixed positioning on mobile
-      catWrapper.style.position = "fixed";
-      catWrapper.style.top = "20px";
-      catWrapper.style.left = "0";
-      catWrapper.style.right = "0";
-      catWrapper.style.width = "100%";
-      catWrapper.style.zIndex = "0";
-      catWrapper.style.display = "flex";
-      catWrapper.style.justifyContent = "center";
-      catWrapper.style.alignItems = "center";
-      catWrapper.style.pointerEvents = "none";
-      catWrapper.style.transform = "scale(0.8)";
-      catWrapper.style.animation = "none";
-      
-      // Remove any conflicting styles
-      catWrapper.style.position = "fixed";
-      catWrapper.style.top = "20px";
-    }
-  }
-  
-  // Apply fix on load and resize
-  window.addEventListener('load', fixGhostPosition);
-  window.addEventListener('resize', fixGhostPosition);
-  // Also apply immediately
-  fixGhostPosition();
+
 </script>
 
   <script>
