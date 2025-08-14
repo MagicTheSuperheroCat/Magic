@@ -419,14 +419,22 @@ setTimeout(() => {
     }
   });
 
-  // Desktop scroll behavior
-  window.addEventListener("scroll", () => {
-    if (window.scrollY <= 5) {
-      nav.classList.add("show");
-    } else {
-      nav.classList.remove("show");
+  // Desktop scroll behavior - only on larger screens
+  function handleScroll() {
+    // Only auto-show/hide menu on desktop (screen width > 768px)
+    if (window.innerWidth > 768) {
+      if (window.scrollY <= 5) {
+        nav.classList.add("show");
+      } else {
+        nav.classList.remove("show");
+      }
     }
-  });
+  }
+
+  window.addEventListener("scroll", handleScroll);
+  
+  // Also handle window resize to update behavior
+  window.addEventListener("resize", handleScroll);
 </script>
 
 </body>
