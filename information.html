@@ -559,15 +559,19 @@
       }
 
   .cat-wrapper {
-    left: -60px;   /* statt 10px */
+    left: 50% !important;   /* Center horizontally */
     right: auto;
-    top: 10px;
-    transform: scale(0.8);
+    top: 20px;
+    transform: translateX(-50%) scale(0.8); /* Center and scale */
+    position: fixed;
+    z-index: 1;
   }
 
   .floating-cat {
     width: 220px;
     opacity: 0.8;
+    display: block;
+    margin: 0 auto;
   }
 
   /* Fix overlapping text on mobile */
