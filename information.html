@@ -564,14 +564,13 @@
     top: 20px !important;
     transform: scale(0.8) !important;
     position: fixed !important;
-    z-index: 1 !important;
+    z-index: 0 !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     width: 100% !important;
     pointer-events: none !important;
     /* Override the absolute positioning from desktop */
-    position: fixed !important;
     animation: none !important;
   }
 
@@ -626,10 +625,7 @@
     backdrop-filter: blur(15px) !important;
   }
 
-  /* Move floating cat behind content on mobile */
-  .cat-wrapper {
-    z-index: 0 !important;
-  }
+
 
   /* Ensure all content sections have proper z-index */
   .powers-section,
