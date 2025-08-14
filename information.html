@@ -506,17 +506,23 @@
         display: flex;
       }
 
-      .magic-nav {
-        flex-direction: column;
-        padding: 20px;
-        height: auto;
-        min-height: 100vh;
-        justify-content: flex-start;
-        gap: 20px;
-        display: none;
-        background: rgba(0, 0, 0, 0.95);
-        backdrop-filter: blur(10px);
-      }
+          .magic-nav {
+      flex-direction: column;
+      padding: 20px;
+      height: auto;
+      min-height: 100vh;
+      justify-content: flex-start;
+      gap: 20px;
+      display: none;
+      background: rgba(0, 0, 0, 0.98) !important;
+      backdrop-filter: blur(15px) !important;
+      z-index: 9999 !important;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+    }
 
       .magic-nav.show {
         display: flex;
@@ -566,19 +572,25 @@
 
   /* Fix overlapping text on mobile */
   .tokenomics-section {
-    padding-top: 150px !important;
-    margin-top: 20px;
+    padding-top: 200px !important;
+    margin-top: 40px;
+    position: relative;
+    z-index: 1;
   }
 
   .tokenomics-title {
-    font-size: 32px !important;
+    font-size: 28px !important;
     margin-bottom: 30px;
     text-align: center;
+    position: relative;
+    z-index: 2;
   }
 
   .token-address {
     margin: 30px auto;
     padding: 15px;
+    position: relative;
+    z-index: 2;
   }
 
   .token-address .ca-value {
@@ -587,13 +599,58 @@
     line-height: 1.4;
   }
 
-  /* Better mobile body padding */
+  /* Better mobile body padding and navigation priority */
   body {
-    padding-top: 80px;
+    padding-top: 120px;
   }
 
   .content {
-    padding-top: 100px;
+    padding-top: 140px;
+  }
+
+  /* Ensure navigation stays above everything on mobile */
+  .magic-nav {
+    z-index: 9999 !important;
+    background: rgba(0, 0, 0, 0.98) !important;
+    backdrop-filter: blur(15px) !important;
+  }
+
+  /* Move floating cat behind content on mobile */
+  .cat-wrapper {
+    z-index: 0 !important;
+  }
+
+  /* Ensure all content sections have proper z-index */
+  .powers-section,
+  .community-section,
+  .buy-section {
+    position: relative;
+    z-index: 2;
+    padding-top: 60px;
+  }
+
+  /* Mobile-specific text positioning to prevent overlap */
+  .tokenomics-title {
+    position: relative !important;
+    z-index: 1 !important;
+    margin-top: 80px !important;
+  }
+
+  /* Ensure navigation menu is always on top */
+  .magic-nav.show {
+    z-index: 9999 !important;
+    background: rgba(0, 0, 0, 0.98) !important;
+  }
+
+  /* Mobile menu toggle positioning */
+  .mobile-menu-toggle {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    z-index: 10000 !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
   }
 
   .tokenomics-cards,
