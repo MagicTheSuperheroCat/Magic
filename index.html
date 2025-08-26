@@ -168,7 +168,15 @@
 
     function spinAnimation() {
       rotation += speed;
-      eyes.style.transform = `translate(-50%, -50%) rotate(${rotation}rad)`;
+      
+      // Check if we're on mobile and adjust transform accordingly
+      if (window.innerWidth <= 768) {
+        // Mobile: just rotate without translate
+        eyes.style.transform = `rotate(${rotation}rad)`;
+      } else {
+        // Desktop: use translate for centering
+        eyes.style.transform = `translate(-50%, -50%) rotate(${rotation}rad)`;
+      }
 
       if (accelerating) {
         speed *= 1.02;
