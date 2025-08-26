@@ -840,7 +840,7 @@
       <h1 style="font-size: 3rem; color: #ffffaa; text-shadow: 0 0 0px #ffffaa, 0 0 0px #ffffaa; margin-bottom: 30px;">
         MEET MAGIC
       </h1>
-      <div style="font-size: 1.5rem; line-height: 1.6; color: #ffc637; max-width: 800px; margin: 0 auto; padding: 15px; font-family: 'Georgia', 'Times New Roman', serif;">
+      <div style="font-size: 1.5rem; line-height: 1.6; color: #ffffff; max-width: 800px; margin: 0 auto; padding: 15px; font-family: 'Georgia', 'Times New Roman', serif;">
         <p style="margin: 0; font-weight: 400;">The mystical black cat who guides seekers to extraordinary gains.</p>
         <p style="margin: 0; font-weight: 400;">Hold Magic, and magic will find you.</p>
       </div>
@@ -857,14 +857,27 @@
       </h2>
       
       <!-- Cat Gallery from beginning.html -->
-      <div id="cat-gallery" style="width: 400px; max-width: 90%; margin: 0 auto 60px auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; opacity: 1; background: rgba(255, 0, 0, 0.1); border: 2px solid red; position: relative; z-index: 999;">
-        <img src="https://magicthesuperherocat.github.io/Magic/images/cat1.png" class="cat-img" style="width: 100%; height: auto; filter: drop-shadow(0 0 15px rgba(255, 255, 150, 0.8)); opacity: 1 !important; transform: scale(1) !important; border-radius: 8px; transition: transform 0.3s ease; animation: fadeIn 1s ease forwards; border: 1px solid blue; display: block !important; visibility: visible !important; max-width: none !important; max-height: none !important;" alt="Magic Cat 1">
-        <img src="https://magicthesuperherocat.github.io/Magic/images/cat2.png" class="cat-img" style="width: 100%; height: auto; filter: drop-shadow(0 0 15px rgba(255, 255, 150, 0.8)); opacity: 1 !important; transform: scale(1) !important; border-radius: 8px; transition: transform 0.3s ease; animation: fadeIn 1s ease forwards; animation-delay: 0.3s; border: 1px solid blue; display: block !important; visibility: visible !important; max-width: none !important; max-height: none !important;" alt="Magic Cat 2">
-        <img src="https://magicthesuperherocat.github.io/Magic/images/cat3.png" class="cat-img" style="width: 100%; height: auto; filter: drop-shadow(0 0 15px rgba(255, 255, 150, 0.8)); opacity: 1 !important; transform: scale(1) !important; border-radius: 8px; transition: transform 0.3s ease; animation: fadeIn 1s ease forwards; animation-delay: 0.6s; border: 1px solid blue; display: block !important; visibility: visible !important; max-width: none !important; max-height: none !important;" alt="Magic Cat 3">
-        <img src="https://magicthesuperherocat.github.io/Magic/images/cat4.png" class="cat-img" style="width: 100%; height: auto; filter: drop-shadow(0 0 15px rgba(255, 255, 150, 0.8)); opacity: 1 !important; transform: scale(1) !important; border-radius: 8px; transition: transform 0.3s ease; animation: fadeIn 1s ease forwards; animation-delay: 0.9s; border: 1px solid blue; display: block !important; visibility: visible !important; max-width: none !important; max-height: none !important;" alt="Magic Cat 4">
-      </div>
+      <div id="cat-gallery" style="width: 400px; max-width: 90%; margin: 0 auto 60px auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; opacity: 1; position: relative; z-index: 999;">
+        <img src="https://magicthesuperherocat.github.io/Magic/images/cat1.png" class="cat-img" style="width: 100%; height: auto; filter: drop-shadow(0 0 15px rgba(255, 255, 150, 0.8)); opacity: 1 !important; transform: scale(1) !important; border-radius: 8px; transition: transform 0.3s ease; animation: fadeIn 1s ease forwards; display: block !important; visibility: visible !important; max-width: none !important; max-height: none !important; cursor: pointer;" alt="Magic Cat 1" onclick="playCatSound('meow')">
+        <img src="https://magicthesuperherocat.github.io/Magic/images/cat2.png" class="cat-img" style="width: 100%; height: auto; filter: drop-shadow(0 0 15px rgba(255, 255, 150, 0.8)); opacity: 1 !important; transform: scale(1) !important; border-radius: 8px; transition: transform 0.3s ease; animation: fadeIn 1s ease forwards; animation-delay: 0.3s; display: block !important; visibility: visible !important; max-width: none !important; max-height: none !important; cursor: pointer;" alt="Magic Cat 2" onclick="playCatSound('purr')">
+        <img src="https://magicthesuperherocat.github.io/Magic/images/cat3.png" class="cat-img" style="width: 100%; height: auto; filter: drop-shadow(0 0 15px rgba(255, 255, 150, 0.8)); opacity: 1 !important; transform: scale(1) !important; border-radius: 8px; transition: transform 0.3s ease; animation: fadeIn 1s ease forwards; animation-delay: 0.6s; display: block !important; visibility: visible !important; max-width: none !important; max-height: none !important; cursor: pointer;" alt="Magic Cat 3" onclick="playCatSound('meow')">
+        <img src="https://magicthesuperherocat.github.io/Magic/images/cat4.png" class="cat-img" style="width: 100%; height: auto; filter: drop-shadow(0 0 15px rgba(255, 255, 150, 0.8)); opacity: 1 !important; transform: scale(1) !important; border-radius: 8px; transition: transform 0.3s ease; animation: fadeIn 1s ease forwards; animation-delay: 0.9s; display: block !important; visibility: visible !important; max-width: none !important; max-height: none !important; cursor: pointer;" alt="Magic Cat 4" onclick="playCatSound('purr')">
+     </div>
       
-      <div style="font-size: 1.5rem; line-height: 1.6; color: #ffc637; max-width: 800px; margin: 0 auto; padding: 15px; font-family: 'Georgia', 'Times New Roman', serif;">
+      <!-- Cat Sound Function -->
+      <script>
+        function playCatSound(soundType) {
+          const audio = new Audio();
+          if (soundType === 'meow') {
+            audio.src = 'https://magicthesuperherocat.github.io/Magic/sounds/meow.mp3';
+          } else if (soundType === 'purr') {
+            audio.src = 'https://magicthesuperherocat.github.io/Magic/sounds/purr.mp3';
+          }
+          audio.play().catch(e => console.log('Audio play failed:', e));
+        }
+      </script>
+      
+      <div style="font-size: 1.5rem; line-height: 1.6; color: #ffffff; max-width: 800px; margin: 0 auto; padding: 15px; font-family: 'Georgia', 'Times New Roman', serif;">
         <p style="margin: 0; font-weight: 400;">
           Magic was Suppo's beloved companion, a mystical black cat with golden eyes that seemed to see beyond the veil of reality. When Magic passed, his spirit chose to remain, becoming Suppo's guardian angel in the world of cryptocurrency.
         </p>
@@ -912,7 +925,7 @@
       <img src="images/suppo_cat.png" alt="Suppo and Magic" style="width: 300px; max-width: 90%; height: auto; margin: 0 auto 40px auto; filter: drop-shadow(0 0 20px rgba(255, 255, 150, 0.8)); border-radius: 15px;">
       
       <!-- Magic Description -->
-      <div style="font-size: 1.5rem; line-height: 1.6; color: #ffc637; max-width: 800px; margin: 0 auto; padding: 15px; font-family: 'Georgia', 'Times New Roman', serif;">
+      <div style="font-size: 1.5rem; line-height: 1.6; color: #ffffff; max-width: 800px; margin: 0 auto; padding: 15px; font-family: 'Georgia', 'Times New Roman', serif;">
         <p style="margin: 0; font-weight: 400;">Through years of guidance, Magic has helped Suppo discover the secrets of 100x+ gains. His mystical energy flows through those who hold MAGIC tokens, bringing fortune and prosperity to believers.</p>
         <p style="margin: 0; font-weight: 400;">Magic's spirit continues to guide traders and investors, sharing the wisdom that led to extraordinary success. Those who believe in Magic and hold his tokens are blessed with enhanced intuition and the ability to spot opportunities that others miss.</p>
       </div>
@@ -925,10 +938,10 @@
 
 <div class="token-address">
   <div class="ca-label">CA</div>
-  <div class="ca-value">2gYkp3damM1fA6D9agCYTRK2pXojebgH3sdoQ2jwpump</div>
+  <div class="ca-value" style="font-size: 1.5rem; line-height: 1.6; color: #ffffff; font-family: 'Georgia', 'Times New Roman', serif; font-weight: 400;">2gYkp3damM1fA6D9agCYTRK2pXojebgH3sdoQ2jwpump</div>
 </div>
 
-<p class="tokenomics-subtitle" style="font-size: 1.5rem; line-height: 1.6; color: #ffc637; font-family: 'Georgia', 'Times New Roman', serif; font-weight: 400;">
+<p class="tokenomics-subtitle" style="font-size: 1.5rem; line-height: 1.6; color: #ffffff; font-family: 'Georgia', 'Times New Roman', serif; font-weight: 400;">
   Designed with mystical precision to reward holders and create sustainable magic
 </p>
 
@@ -953,7 +966,7 @@
     </div>
   </div>
 
-  <div class="magic-formula" style="font-size: 1.5rem; line-height: 1.6; color: #ffc637; font-family: 'Georgia', 'Times New Roman', serif; font-weight: 400; text-align: center; padding: 20px;">
+  <div class="magic-formula" style="font-size: 1.5rem; line-height: 1.6; color: #ffffff; font-family: 'Georgia', 'Times New Roman', serif; font-weight: 400; text-align: center; padding: 20px;">
     🧪 <strong>The Magic Formula</strong><br>
     Hold MAGIC → Earn Reflections → Watch Your Balance Grow → Experience the Magic of 100x+ Potential
   </div>
@@ -961,7 +974,7 @@
 
   <section id="powers" class="powers-section">
   <h2 class="powers-title">MAGIC’S POWERS</h2>
-  <p class="powers-subtitle">
+  <p class="powers-subtitle" style="font-size: 1.5rem; line-height: 1.6; color: #ffffff; font-family: 'Georgia', 'Times New Roman', serif; font-weight: 400;">
     The mystical abilities that flow to MAGIC holders
   </p>
 
@@ -1009,7 +1022,7 @@
 
   <section id="community" class="community-section">
   <h2 class="community-title">Join the Magic Circle</h2>
-  <p class="community-subtitle" style="font-size: 1.5rem; line-height: 1.6; color: #ffc637; font-family: 'Georgia', 'Times New Roman', serif; font-weight: 400;">
+  <p class="community-subtitle" style="font-size: 1.5rem; line-height: 1.6; color: #ffffff; font-family: 'Georgia', 'Times New Roman', serif; font-weight: 400;">
     Connect with fellow believers and experience the collective power of Magic
   </p>
 
@@ -1022,7 +1035,7 @@
 
   <section id="howtobuy" class="buy-section">
   <h2 class="buy-title">How to Buy MAGIC</h2>
-  <p class="buy-subtitle" style="font-size: 1.5rem; line-height: 1.6; color: #ffc637; font-family: 'Georgia', 'Times New Roman', serif; font-weight: 400;">
+  <p class="buy-subtitle" style="font-size: 1.5rem; line-height: 1.6; color: #ffffff; font-family: 'Georgia', 'Times New Roman', serif; font-weight: 400;">
     Getting started is easier than casting your first spell.<br>
     Follow these simple steps to unlock the MAGIC.
   </p>
