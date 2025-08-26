@@ -73,32 +73,34 @@
       #eyes {
         width: 80%;
         max-width: 300px;
-        position: relative;
-        top: auto;
-        left: auto;
-        transform: none;
-        margin: 40px auto 20px auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
         display: block;
       }
 
       h1 {
-        position: relative;
-        bottom: auto;
+        position: absolute;
+        bottom: 120px;
         font-size: 2em;
         text-align: center;
-        margin: 20px 0;
         width: 90%;
         max-width: 400px;
+        left: 50%;
+        transform: translateX(-50%);
       }
 
       #clickHint {
-        position: relative;
-        bottom: auto;
+        position: absolute;
+        bottom: 80px;
         font-size: 1.1em;
         text-align: center;
-        margin: 20px 0;
         width: 90%;
         max-width: 400px;
+        left: 50%;
+        transform: translateX(-50%);
       }
 
       canvas {
@@ -169,14 +171,8 @@
     function spinAnimation() {
       rotation += speed;
       
-      // Check if we're on mobile and adjust transform accordingly
-      if (window.innerWidth <= 768) {
-        // Mobile: just rotate without translate
-        eyes.style.transform = `rotate(${rotation}rad)`;
-      } else {
-        // Desktop: use translate for centering
-        eyes.style.transform = `translate(-50%, -50%) rotate(${rotation}rad)`;
-      }
+      // Always use translate(-50%, -50%) to keep centered, then add rotation
+      eyes.style.transform = `translate(-50%, -50%) rotate(${rotation}rad)`;
 
       if (accelerating) {
         speed *= 1.02;
