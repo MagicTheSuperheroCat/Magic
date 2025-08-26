@@ -21,8 +21,8 @@
       scale: 1;
     }
     50% {
-      box-shadow: 0 0 20px #fff5a0, 0 0 40px #ffeb7a;
-      scale: 1.05;
+      box-shadow: 0 0 15px #fff5a0, 0 0 25px #ffeb7a;
+      scale: 1.02;
     }
     100% {
       box-shadow: 0 0 10px #fff89c, 0 0 20px #fff89c;
@@ -126,11 +126,29 @@
   font-weight: bold;
 }
   
-.nav-logo {
-  height: 40px;
-  width: auto;
-  display: inline-block;
-}
+    .nav-logo {
+      height: 40px;
+      width: auto;
+      display: inline-block;
+    }
+    
+    /* Cat Gallery Animations */
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    .cat-img {
+      opacity: 1;
+      transform: scale(1);
+      transition: transform 0.3s ease;
+    }
+    
+    .cat-img:hover {
+      transform: scale(1.02);
+    }
     .tokenomics-section {
   text-align: center;
   color: var(--gold);
@@ -245,9 +263,12 @@
 }
 
 .powers-subtitle {
-  font-size: 20px;
-  color: var(--gold-soft);
+  font-size: 1.5rem;
+  line-height: 1.6;
+  color: #ffc637;
   margin-bottom: 60px;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: 400;
 }
 
 .powers-grid {
@@ -347,7 +368,7 @@
 /* Medienbox für alle Bilder und Videos */
 .video-container .media-box {
   width: 480px !important;
-  height: auto
+  height: auto;
   max-width: 100%;
   border-radius: 12px;
   border: 2px solid var(--gold-soft);
@@ -483,123 +504,383 @@
   animation: cat-rotate 0.4s ease forwards;
 }
 
+    /* Mobile Hamburger Menu */
+    .mobile-menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      padding: 10px;
+      z-index: 1000;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .mobile-menu-toggle span {
+      width: 25px;
+      height: 3px;
+      background: var(--gold);
+      margin: 3px 0;
+      transition: 0.3s;
+      box-shadow: 0 0 10px var(--gold);
+    }
+
     @media (max-width: 768px) {
-  
-  .magic-nav {
-    flex-direction: column;
-    padding: 10px 20px;
-    height: auto;
-    display: none; /* Standard: versteckt */
-  }
+      .mobile-menu-toggle {
+        display: flex;
+      }
 
-  .magic-nav.show {
-    display: flex; /* nur ganz oben sichtbar */
-  }
+      .magic-nav {
+        flex-direction: column;
+        padding: 20px 20px 30px 20px;
+        height: auto;
+        max-height: 100vh;
+        min-height: auto;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 20px;
+        display: none;
+        background: rgba(0, 0, 0, 0.95) !important;
+        backdrop-filter: blur(20px) !important;
+        z-index: 9999 !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        border-radius: 0 0 25px 25px;
+        overflow-y: auto;
+        box-sizing: border-box;
+      }
 
-  .nav-center {
-    flex-direction: column;
-    gap: 10px;
-  }
+      .magic-nav.show {
+        display: flex;
+      }
 
-  .nav-logo {
-    height: 30px;
-  }
+      .nav-left {
+        order: 1;
+        margin-bottom: 0;
+        text-align: left;
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 20px;
+      }
 
-  .nav-right.buy-button {
-    font-size: 1rem;
-    padding: 8px 16px;
-  }
+      .nav-center {
+        flex-direction: column;
+        gap: 10px;
+        order: 2;
+        margin-bottom: 15px;
+        width: 100%;
+        align-items: flex-start;
+        flex-shrink: 0;
+      }
 
-  .magic-nav a, .magic-nav span {
-    font-size: 1.1rem;
-  }
+      .nav-right.buy-button {
+        order: 3 !important;
+        font-size: 1.2rem !important;
+        padding: 15px 20px !important;
+        margin: 0 !important;
+        align-self: stretch !important;
+        width: calc(100% - 40px) !important;
+        max-width: 100% !important;
+        text-align: center !important;
+        border-radius: 15px !important;
+        background: rgba(0, 0, 0, 0.3) !important;
+        border: 2px solid var(--gold) !important;
+        box-shadow: 0 0 20px var(--gold), 0 0 40px rgba(255, 255, 200, 0.3) !important;
+        transition: all 0.3s ease !important;
+        font-weight: bold !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+        /* Override desktop styles */
+        margin-right: 0 !important;
+        background-color: rgba(0, 0, 0, 0.3) !important;
+        animation: none !important;
+        /* Mobile-specific improvements */
+        min-height: 55px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        position: relative !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+      }
 
-  .cat-wrapper {
-  left: -60px;   /* statt 10px */
-  right: auto;
-  top: 10px;
-  transform: scale(0.8);
-}
+      .nav-right.buy-button:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 0 30px var(--gold), 0 0 60px rgba(255, 255, 200, 0.5) !important;
+        border-color: var(--gold-soft) !important;
+        filter: none !important;
+      }
 
-.floating-cat {
-  width: 220px;
-  opacity: 0.8;
-}
+      .magic-nav a, .magic-nav span {
+        font-size: 1.3rem;
+        padding: 12px 0;
+        text-align: left;
+        display: block;
+        width: 100%;
+        border-radius: 0;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        border-left: 3px solid transparent;
+        padding-left: 20px;
+      }
 
-  .tokenomics-cards,
-  .powers-grid,
-  .video-container,
-  .community-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
+      .magic-nav a:hover {
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateX(5px);
+        border-left-color: var(--gold);
+        color: var(--gold-soft);
+      }
 
-  .tokenomics-card,
-  .power-card,
-  .media-box {
-    width: 90% !important;
-  }
+      .nav-logo {
+        height: 40px;
+        margin-left: 15px;
+      }
 
-  .post0-image {
-    max-width: 90%;
-  }
-  .media-box {
-    max-width: 90% !important;
-    width: 100% !important;
-    height: auto !important;
-  }
+      .magic-label {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--gold-soft);
+        text-shadow: 0 0 15px var(--gold);
+      }
 
+      /* GHOST IMAGE NORMAL POSITIONING ON MOBILE - SCROLLS WITH CONTENT */
+      .cat-wrapper {
+        position: absolute !important;
+        top: 20px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        z-index: 0 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        pointer-events: none !important;
+        transform: scale(0.8) !important;
+        animation: none !important;
+      }
 
-  .buy-steps li {
-    font-size: 1rem;
-    padding: 14px;
-  }
+      .floating-cat {
+        width: 220px;
+        opacity: 0.8;
+        display: block;
+      }
 
-  .magic-formula {
-    font-size: 16px;
-  }
+      /* Fix overlapping text on mobile */
+      .tokenomics-section {
+        padding-top: 200px !important;
+        margin-top: 40px;
+        position: relative;
+        z-index: 1;
+      }
 
-  .tokenomics-title,
-  .powers-title,
-  .community-title,
-  .buy-title {
-    font-size: 36px;
-  }
+      .tokenomics-title {
+        font-size: 28px !important;
+        margin-bottom: 30px;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+      }
 
-  .video-heading {
-    font-size: 24px;
-  }
+      .token-address {
+        margin: 30px auto;
+        padding: 15px;
+        position: relative;
+        z-index: 2;
+      }
 
-  .magic-nav a, .magic-nav span {
-    font-size: 1.1rem;
-  }
-
-  .nav-logo {
-    height: 30px;
-  }
-
-  .nav-right.buy-button {
-    font-size: 1rem;
-    padding: 8px 16px;
-  }
       .token-address .ca-value {
-  font-size: 16px;
-  word-break: break-word;
-  text-align: center;
-  padding: 0 10px;
-}
-.token-address .ca-label {
-  font-size: 18px;
-  text-align: center;
-}
-}
+        font-size: 14px;
+        word-break: break-all;
+        line-height: 1.4;
+      }
+
+      /* Better mobile body padding and navigation priority */
+      body {
+        padding-top: 120px;
+      }
+
+      .content {
+        padding-top: 140px;
+      }
+
+      /* Ensure navigation stays above everything on mobile */
+      .magic-nav {
+        z-index: 9999 !important;
+        background: rgba(0, 0, 0, 0.7) !important;
+        backdrop-filter: blur(15px) !important;
+      }
+
+      /* Ensure all content sections have proper z-index */
+      .powers-section,
+      .community-section,
+      .buy-section {
+        position: relative;
+        z-index: 2;
+        padding-top: 60px;
+      }
+
+      /* Mobile-specific text positioning to prevent overlap */
+      .tokenomics-title {
+        position: relative !important;
+        z-index: 1 !important;
+        margin-top: 80px !important;
+      }
+
+      /* Ensure navigation menu is always on top */
+      .magic-nav.show {
+        z-index: 9999 !important;
+        background: rgba(0, 0, 0, 0.7) !important;
+        backdrop-filter: blur(15px) !important;
+      }
+      
+      /* Force mobile navigation to be semi-transparent */
+      .magic-nav,
+      .magic-nav.show {
+        background: rgba(0, 0, 0, 0.7) !important;
+        backdrop-filter: blur(15px) !important;
+      }
+
+      /* Mobile menu toggle positioning */
+      .mobile-menu-toggle {
+        position: fixed !important;
+        top: 20px !important;
+        right: 20px !important;
+        z-index: 10000 !important;
+        background: rgba(0, 0, 0, 0.7) !important;
+        border-radius: 12px !important;
+        padding: 15px !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        backdrop-filter: blur(10px) !important;
+      }
+
+      .tokenomics-cards,
+      .powers-grid,
+      .video-container,
+      .community-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .tokenomics-card,
+      .power-card,
+      .media-box {
+        width: 90% !important;
+      }
+
+      .post0-image {
+        max-width: 90%;
+      }
+      
+      .media-box {
+        max-width: 90% !important;
+        width: 100% !important;
+        height: auto !important;
+      }
+
+      .buy-steps li {
+        font-size: 1rem;
+        padding: 14px;
+      }
+
+      .magic-formula {
+        font-size: 16px;
+      }
+
+      .tokenomics-title,
+      .powers-title,
+      .community-title,
+      .buy-title {
+        font-size: 36px;
+      }
+
+      .video-heading {
+        font-size: 24px;
+      }
+
+      .magic-nav a, .magic-nav span {
+        font-size: 1.1rem;
+      }
+
+      .nav-logo {
+        height: 30px;
+      }
+
+      .nav-right.buy-button {
+        font-size: 1rem;
+        padding: 8px 16px;
+      }
+      
+      .token-address .ca-value {
+        font-size: 16px;
+        word-break: break-word;
+        text-align: center;
+        padding: 0 10px;
+      }
+      
+      .token-address .ca-label {
+        font-size: 18px;
+        text-align: center;
+      }
+    } /* END OF MOBILE MEDIA QUERY */
     
   </style>
 </head>
 <body>
+  <!-- NEXTPAGE.HTML CONTENT START -->
+  <div id="nextpage-content" style="position: relative; z-index: 3; margin-bottom: 50px; padding-top: 80px;">
+    <div style="text-align: center; padding: 40px 20px;">
+      <h1 style="font-size: 3rem; color: #ffffaa; text-shadow: 0 0 0px #ffffaa, 0 0 0px #ffffaa; margin-bottom: 30px;">
+        MEET MAGIC
+      </h1>
+      <div style="font-size: 1.5rem; line-height: 1.6; color: #ffc637; max-width: 800px; margin: 0 auto; padding: 15px; font-family: 'Georgia', 'Times New Roman', serif;">
+        <p style="margin: 0; font-weight: 400;">The mystical black cat who guides seekers to extraordinary gains.</p>
+        <p style="margin: 0; font-weight: 400;">Hold Magic, and magic will find you.</p>
+      </div>
+    </div>
+  </div>
+  
+
+
+  <!-- BEGINNING.HTML CONTENT START -->
+  <div id="beginning-content" style="position: relative; z-index: 3; margin-bottom: 50px;">
+    <div style="text-align: center; padding: 40px 20px;">
+      <h2 style="font-size: 2.5rem; color: #ffffaa; text-shadow: 0 0 0px #ffffaa, 0 0 0px #ffffaa; margin-bottom: 30px;">
+        🌙 The Beginning
+      </h2>
+      
+      <!-- Cat Gallery from beginning.html -->
+      <div id="cat-gallery" style="width: 400px; max-width: 90%; margin: 0 auto 60px auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; opacity: 1; background: rgba(255, 0, 0, 0.1); border: 2px solid red; position: relative; z-index: 999;">
+        <img src="/Users/sayf/magiccopy/images/cat1.png" class="cat-img" style="width: 100%; height: auto; filter: drop-shadow(0 0 15px rgba(255, 255, 150, 0.8)); opacity: 1 !important; transform: scale(1) !important; border-radius: 8px; transition: transform 0.3s ease; animation: fadeIn 1s ease forwards; border: 1px solid blue; display: block !important; visibility: visible !important; max-width: none !important; max-height: none !important;" alt="Magic Cat 1">
+        <img src="/Users/sayf/magiccopy/images/cat2.png" class="cat-img" style="width: 100%; height: auto; filter: drop-shadow(0 0 15px rgba(255, 255, 150, 0.8)); opacity: 1 !important; transform: scale(1) !important; border-radius: 8px; transition: transform 0.3s ease; animation: fadeIn 1s ease forwards; animation-delay: 0.3s; border: 1px solid blue; display: block !important; visibility: visible !important; max-width: none !important; max-height: none !important;" alt="Magic Cat 2">
+        <img src="/Users/sayf/magiccopy/images/cat3.png" class="cat-img" style="width: 100%; height: auto; filter: drop-shadow(0 0 15px rgba(255, 255, 150, 0.8)); opacity: 1 !important; transform: scale(1) !important; border-radius: 8px; transition: transform 0.3s ease; animation: fadeIn 1s ease forwards; animation-delay: 0.6s; border: 1px solid blue; display: block !important; visibility: visible !important; max-width: none !important; max-height: none !important;" alt="Magic Cat 3">
+        <img src="/Users/sayf/magiccopy/images/cat4.png" class="cat-img" style="width: 100%; height: auto; filter: drop-shadow(0 0 15px rgba(255, 255, 150, 0.8)); opacity: 1 !important; transform: scale(1) !important; border-radius: 8px; transition: transform 0.3s ease; animation: fadeIn 1s ease forwards; animation-delay: 0.9s; border: 1px solid blue; display: block !important; visibility: visible !important; max-width: none !important; max-height: none !important;" alt="Magic Cat 4">
+      </div>
+      
+      <div style="font-size: 1.5rem; line-height: 1.6; color: #ffc637; max-width: 800px; margin: 0 auto; padding: 15px; font-family: 'Georgia', 'Times New Roman', serif;">
+        <p style="margin: 0; font-weight: 400;">
+          Magic was Suppo's beloved companion, a mystical black cat with golden eyes that seemed to see beyond the veil of reality. When Magic passed, his spirit chose to remain, becoming Suppo's guardian angel in the world of cryptocurrency.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Toggle -->
+  <div class="mobile-menu-toggle" id="mobileMenuToggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
   <!-- Magische Navigationsleiste -->
-<!-- Magische Navigationsleiste -->
-<nav class="magic-nav">
+  <nav class="magic-nav" id="magicNav">
   <div class="nav-left">
     <span class="magic-label">Magic</span>
     <img src="images/logo.png" alt="Magic Logo" class="nav-logo">
@@ -619,6 +900,25 @@
   <!-- Sternenhimmel -->
   <canvas id="starCanvas"></canvas>
 
+  <!-- MAGIC PARAGRAPH SECTION -->
+  <section id="magic-paragraph" style="position: relative; z-index: 3; margin-bottom: 80px; padding-top: 60px;">
+    <div style="text-align: center; padding: 40px 20px;">
+      <!-- Magic Title -->
+      <div style="font-size: 3.5rem; margin-bottom: 30px; color: #ffffaa; text-shadow: 0 0 0px #ffffaa, 0 0 0px #ffffaa;">
+        ⭐ The Magic
+      </div>
+      
+      <!-- Hero Image -->
+      <img src="images/suppo_cat.png" alt="Suppo and Magic" style="width: 300px; max-width: 90%; height: auto; margin: 0 auto 40px auto; filter: drop-shadow(0 0 20px rgba(255, 255, 150, 0.8)); border-radius: 15px;">
+      
+      <!-- Magic Description -->
+      <div style="font-size: 1.5rem; line-height: 1.6; color: #ffc637; max-width: 800px; margin: 0 auto; padding: 15px; font-family: 'Georgia', 'Times New Roman', serif;">
+        <p style="margin: 0; font-weight: 400;">Through years of guidance, Magic has helped Suppo discover the secrets of 100x+ gains. His mystical energy flows through those who hold MAGIC tokens, bringing fortune and prosperity to believers.</p>
+        <p style="margin: 0; font-weight: 400;">Magic's spirit continues to guide traders and investors, sharing the wisdom that led to extraordinary success. Those who believe in Magic and hold his tokens are blessed with enhanced intuition and the ability to spot opportunities that others miss.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- Inhalt -->
   <section id="tokenomics" class="tokenomics-section">
   <h2 class="tokenomics-title">MAGICAL TOKENOMICS</h2>
@@ -628,7 +928,7 @@
   <div class="ca-value">2gYkp3damM1fA6D9agCYTRK2pXojebgH3sdoQ2jwpump</div>
 </div>
 
-<p class="tokenomics-subtitle">
+<p class="tokenomics-subtitle" style="font-size: 1.5rem; line-height: 1.6; color: #ffc637; font-family: 'Georgia', 'Times New Roman', serif; font-weight: 400;">
   Designed with mystical precision to reward holders and create sustainable magic
 </p>
 
@@ -653,7 +953,7 @@
     </div>
   </div>
 
-  <div class="magic-formula">
+  <div class="magic-formula" style="font-size: 1.5rem; line-height: 1.6; color: #ffc637; font-family: 'Georgia', 'Times New Roman', serif; font-weight: 400; text-align: center; padding: 20px;">
     🧪 <strong>The Magic Formula</strong><br>
     Hold MAGIC → Earn Reflections → Watch Your Balance Grow → Experience the Magic of 100x+ Potential
   </div>
@@ -709,7 +1009,7 @@
 
   <section id="community" class="community-section">
   <h2 class="community-title">Join the Magic Circle</h2>
-  <p class="community-subtitle">
+  <p class="community-subtitle" style="font-size: 1.5rem; line-height: 1.6; color: #ffc637; font-family: 'Georgia', 'Times New Roman', serif; font-weight: 400;">
     Connect with fellow believers and experience the collective power of Magic
   </p>
 
@@ -722,7 +1022,7 @@
 
   <section id="howtobuy" class="buy-section">
   <h2 class="buy-title">How to Buy MAGIC</h2>
-  <p class="buy-subtitle">
+  <p class="buy-subtitle" style="font-size: 1.5rem; line-height: 1.6; color: #ffc637; font-family: 'Georgia', 'Times New Roman', serif; font-weight: 400;">
     Getting started is easier than casting your first spell.<br>
     Follow these simple steps to unlock the MAGIC.
   </p>
@@ -782,7 +1082,7 @@
   <img src="images/ghost.png" alt="Magic Cat" class="floating-cat">
 </div>
   
-<script>
+  <script>
   const cat = document.querySelector(".floating-cat");
 
   cat.addEventListener("mouseenter", () => {
@@ -793,18 +1093,80 @@
 
     cat.classList.add("rotate-once");
   });
+  
+  // ENSURE GHOST IMAGE HAS NORMAL POSITIONING ON MOBILE
+  function ensureGhostNormal() {
+    const catWrapper = document.querySelector(".cat-wrapper");
+    if (window.innerWidth <= 768) {
+      // Force the ghost to have normal positioning (scrolls with content)
+      catWrapper.style.cssText = `
+        position: absolute !important;
+        top: 20px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        z-index: 0 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        pointer-events: none !important;
+        transform: scale(0.8) !important;
+        animation: none !important;
+      `;
+    }
+  }
+  
+  // Apply on load, resize, and scroll
+  window.addEventListener('load', ensureGhostNormal);
+  window.addEventListener('resize', ensureGhostNormal);
+  window.addEventListener('scroll', ensureGhostNormal);
+  // Apply immediately
+  ensureGhostNormal();
 </script>
 
   <script>
   const nav = document.querySelector(".magic-nav");
+  const mobileMenuToggle = document.getElementById("mobileMenuToggle");
 
-  window.addEventListener("scroll", () => {
-    if (window.scrollY <= 5) {
-      nav.classList.add("show");
-    } else {
+  // Mobile menu toggle
+  mobileMenuToggle.addEventListener("click", () => {
+    nav.classList.toggle("show");
+  });
+
+  // Close mobile menu when clicking on navigation links
+  const navLinks = nav.querySelectorAll("a");
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      if (window.innerWidth <= 768) {
+        nav.classList.remove("show");
+      }
+    });
+  });
+
+  // Close mobile menu when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!nav.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
       nav.classList.remove("show");
     }
   });
+
+  // Desktop scroll behavior - only on larger screens
+  function handleScroll() {
+    // Only auto-show/hide menu on desktop (screen width > 768px)
+    if (window.innerWidth > 768) {
+      if (window.scrollY <= 5) {
+        nav.classList.add("show");
+      } else {
+        nav.classList.remove("show");
+      }
+    }
+  }
+
+  window.addEventListener("scroll", handleScroll);
+  
+  // Also handle window resize to update behavior
+  window.addEventListener("resize", handleScroll);
 </script>
 
 </body>
